@@ -5,12 +5,45 @@ from tkinter import PhotoImage
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
-def open_login_window():
-    root.destroy()
+# Function to open the start page
+def open_start_page():
+    # Create the main window (Start page)
+    global root
+    root = customtkinter.CTk()
+    root.geometry('800x600')
+    root.title("Game Enter Page")
 
-    # Creating a root window for login
+    # Create a frame to organize the logo, welcome text, and the button
+    frame = customtkinter.CTkFrame(master=root)
+    frame.pack(pady=20, padx=20, fill="both", expand=True)
+
+    # Load the logo image using tkinter's PhotoImage
+    logo = PhotoImage(file="logo.png")  # Ensure the path to the image is correct
+
+    # Create a label for the logo image
+    label_logo = customtkinter.CTkLabel(master=frame, image=logo, text="")  # Show the image without text
+    label_logo.image = logo  # Keep a reference to avoid garbage collection
+    label_logo.pack(pady=10)  # Padding for logo
+
+    # Add the welcome message between the logo and the button
+    welcome_label = customtkinter.CTkLabel(master=frame, text="WELCOME TO WORD TREE", font=("Roboto", 24))
+    welcome_label.pack(pady=10)  # Padding for welcome message
+
+    # Create a Start button that opens the login window
+    start_button = customtkinter.CTkButton(master=frame, text="Start", font=("Roboto", 24), command=open_login_window)
+    start_button.pack(pady=10)  # Padding for Start button
+
+    # Start the main loop for the Start page
+    root.mainloop()
+
+
+# Function to open the login window
+def open_login_window():
+    root.destroy()  # Close the start window
+
+    # Create a new root window for login
     login_root = customtkinter.CTk()
-    login_root.geometry("500x350")
+    login_root.geometry("800x600")
     login_root.title('Login to the game')
 
     def login():
@@ -39,32 +72,21 @@ def open_login_window():
     checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
     checkbox.pack(pady=12, padx=10)
 
-    login_root.mainloop()
+    # "Go Back" button to go back to the start page
+    back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=lambda: go_back_to_start_page(login_root))
+    back_button.pack(pady=12, padx=10)
+
+    login_root.mainloop()  # Starting the login window loop
 
 
-# Create the main window (Start page)
-root = customtkinter.CTk()
-root.geometry('800x600')
-root.title("Game Enter Page")
-
-# Create a frame to organize the logo and the button
-frame = customtkinter.CTkFrame(master=root)
-frame.pack(pady=20, padx=20, fill="both", expand=True)
-
-# Load the logo image using tkinter's PhotoImage
-logo = PhotoImage(file="logo.png")  # Ensure the path to the image is correct
-
-# Create a label for the logo image
-label_logo = customtkinter.CTkLabel(master=frame, image=logo, text="")  # Show the image without text
-label_logo.image = logo  # Keep a reference to avoid garbage collection
-label_logo.pack(pady=20)  # Add some padding around the image
-
-# Create a Start button that opens the login window
-start_button = customtkinter.CTkButton(master=frame, text="Start", font=("Roboto", 24), command=open_login_window)
-start_button.pack(pady=20)  # Add padding to separate the button from the image
+# Function to go back to the start page
+def go_back_to_start_page(login_root):
+    login_root.destroy()  # Close the login window
+    open_start_page()     # Reopen the start page
 
 
-root.mainloop()
+# Open the start page when the app launches
+open_start_page()
 
 
 
