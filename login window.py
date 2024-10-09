@@ -85,7 +85,7 @@ def go_back_to_start_page(login_root):
     open_start_page()     # Reopen the start page
 
 
-# Open the start page when the app launches
+
 open_start_page()
 
 
