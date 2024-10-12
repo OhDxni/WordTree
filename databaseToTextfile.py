@@ -34,6 +34,23 @@ def words_len_4(input_file, output_file):
             outfile.write(word.strip() + "\n")      # Write each word to the new file
 
 
-sort_words_by_length_6("databases/370k_Word_File.csv", "databases/6_letter_valid_guesses.txt")
-words_len_4("databases/4letterwords.txt", "databases/4_letter_valid_guesses.txt")
+# sort_words_by_length_6("databases/370k_Word_File.csv", "databases/6_letter_valid_guesses.txt")
+# words_len_4("databases/4letterwords.txt", "databases/4_letter_valid_guesses.txt")
 
+# Merges all 4-, 5- and 6-letter words into one file (namely all_words.txt)
+def merge_files(four, five, six):
+    with open(four, "r") as txt4, \
+    open(five, "r") as txt5, \
+    open(six, "r") as txt6, \
+    open("databases/all_words.txt", "w") as txtall:
+
+        for file in (txt4, txt5, txt6):
+            for line in file:
+                txtall.write(line)
+    txt4.close(), txt5.close(), txt6.close(), txtall.close()
+
+### Generate all_words.txt
+four = "databases/4_letter_valid_guesses.txt"
+five = "databases/5_letter_valid_guesses.txt"
+six = "databases/6_letter_valid_guesses.txt"
+# merge_files(four, five, six)
