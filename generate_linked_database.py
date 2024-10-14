@@ -1,9 +1,10 @@
 import string
+import csv
 
 """
-You start with a database with all four-letter words.
-You want to create and adjacency list (gather all the neighbours) of a certain word; where
-in this case the neighbours will be the words with a one-letter difference.
+You start with a database with all four-letter words. You want to create and adjacency list 
+(gather all the neighbours) of a certain word; where in this case the neighbours will be the 
+words with a one-letter difference.
 
 To create an adjacency list, you iterate through each word in the x-letter valid guesses file.
 You then take each charachter, and replace it with every single letter in the alphabet. If
@@ -12,12 +13,12 @@ one of them matches the word in the x-letter guesses file, you add the word in t
 This file contains three functions:
 - process_words: processes words to be used in create_adj_list.
 - create_adj_list: creates the adjaceny list.
-- create_linked_databse: writes adjacency list to .txt file.
+- create_linked_databse: writes adjacency list to .csv file.
 """
 def create_linked_database(words_filepath):
     """
     Creates adjacency list ("database") where all neighbouring words are linked to each other
-    using a dictionary. Results are stored in a .txt file named "linked_databse.txt".
+    using a dictionary. Results are stored in a .csv file named "linked_databse.csv".
 
     :param words_filepath: Filepath to file with ALL 4-, 5- and 6- letter words.
     :type: str
@@ -28,10 +29,15 @@ def create_linked_database(words_filepath):
     # Use create_adj_list() to create the adjacency list
     adj_list = create_adj_list(words)
 
-    # Write results to text file
-    with open(f"databases/linked_database.txt", "w") as txt:
-        txt.write(str(adj_list))
-    txt.close()
+    # Write results to csv file
+    with open("databases/linked_database.csv", "w", newline="") as file:
+        file.write("Word,Adjacent Words\n")
+
+        # Goes through all the keys and their values and writes each of them to a row
+        # Here a csv.writer object is created to be able to use "writerow()"
+        for word, neighbours in adj_list.items():
+            all_neighbours = ", ".join(neighbours) # Add all the values as a string together
+            csv.writer(file).writerow([word, all_neighbours]) # Write the word to col1 and neighbours to col2
 
 def process_words(words_filepath):
     """
@@ -49,7 +55,6 @@ def process_words(words_filepath):
         for word in txt:
             word = word.replace("\n", "").upper()
             words.add(word)
-    txt.close()
     return words
 
 def create_adj_list(words):
@@ -78,6 +83,6 @@ def create_adj_list(words):
                     adj_list[word].append(neighbour)
     return adj_list
 
-### Generate linked_database.txt
+### Generate linked_database.csv
 all_words = "databases/all_words.txt"
 create_linked_database(all_words)

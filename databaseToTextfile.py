@@ -47,7 +47,6 @@ def merge_files(four, five, six):
         for file in (txt4, txt5, txt6):
             for line in file:
                 txtall.write(line)
-    txt4.close(), txt5.close(), txt6.close(), txtall.close()
 
 ### Generate all_words.txt
 four = "databases/4_letter_valid_guesses.txt"
