@@ -14,6 +14,7 @@ def login():
     print("login prototype")
 
 def registerWindow():
+    root.destroy()
     root2.mainloop()
 
 #This is a frame for the login window, I can later change the size

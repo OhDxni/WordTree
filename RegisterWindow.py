@@ -21,7 +21,7 @@ frame.pack(pady=20, padx=60, fill="both", expand=True)
 # adding additional elements to the frame, so the login window
 
 # Adding a text at the top that says "Login to the game"
-label = customtkinter.CTkLabel(master=frame, text="Register in the system to later access your statistics", font=("Roboto", 12))
+label = customtkinter.CTkLabel(master=frame, text="Register in the system to later access your statistics", font=("Roboto", 15))
 label.pack(pady=12, padx=10)
 
 #Adding username and password entries
