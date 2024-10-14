@@ -43,7 +43,7 @@ def open_login_window():
 
     # Create a new root window for login
     login_root = customtkinter.CTk()
-    login_root.geometry("800x600")
+    login_root.geometry("500x400")
     login_root.title('Login to the game')
 
     def login():

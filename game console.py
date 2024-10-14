@@ -3,6 +3,7 @@ import sys
 import tkinter as tk
 
 
+
 pygame.init()
 
 
@@ -30,7 +31,12 @@ font_very_small = pygame.font.SysFont('Arial', 12)
 font_small = pygame.font.SysFont('Arial', 16)
 font_default = pygame.font.SysFont('Arial', 20)
 
+
+
+
 def open_instructions_window():
+    pygame.quit()
+
     def switchframe(frame):
         frame.tkraise()
 
@@ -174,6 +180,8 @@ buttons = [
     Button(500, 440, 50, "6-WORDS", font_default)
 ]
 
+
+
 # Main loop
 running = True
 while running:
@@ -198,6 +206,7 @@ while running:
             if button.is_clicked(event):
                 if button.text == "INSTRUCTIONS":
                     open_instructions_window()
+
                 else:
                     print(f"{button.text} clicked!")
 
