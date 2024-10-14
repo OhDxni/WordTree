@@ -201,7 +201,7 @@ while running:
                 else:
                     print(f"{button.text} clicked!")
 
-    # Update the display
+
     pygame.display.update()
 
 
