@@ -81,6 +81,10 @@ def create_adj_list(words):
                 neighbour = word[:index_char] + letter + word[index_char+1:]
                 if neighbour in words and neighbour != word:
                     adj_list[word].append(neighbour)
+
+        if not adj_list[word]:                     # if there are any connecting words, add them to the dictionary
+            del adj_list[word]
+
     return adj_list
 
 ### Generate linked_database.csv
