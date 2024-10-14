@@ -77,4 +77,4 @@ def merge_files(four, five, six):
 four = "databases/4_letter_valid_words.txt"
 five = "databases/5_letter_valid_words.txt"
 six = "databases/6_letter_valid_words.txt"
-# merge_files(four, five, six)
+merge_files(four, five, six)
