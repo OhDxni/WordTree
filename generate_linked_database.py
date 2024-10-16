@@ -31,12 +31,12 @@ def create_linked_database(words_filepath):
 
     # Write results to csv file
     with open("databases/linked_database.csv", "w", newline="") as file:
-        file.write("Word,Adjacent Words\n")
+        file.write("Word,Neighbours\n")
 
         # Goes through all the keys and their values and writes each of them to a row
         # Here a csv.writer object is created to be able to use "writerow()"
         for word, neighbours in adj_list.items():
-            all_neighbours = ", ".join(neighbours) # Add all the values as a string together
+            all_neighbours = ",".join(neighbours) # Add all the values as a string together
             csv.writer(file).writerow([word, all_neighbours]) # Write the word to col1 and neighbours to col2
 
 def process_words(words_filepath):
