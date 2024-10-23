@@ -41,4 +41,4 @@ def open_register_window():
     button = customtkinter.CTkButton(master=frame2, text="Register", command=register()) #command connects it to the function login that we will later implement
     button.pack(pady=12, padx=10)
 
-    # root2.mainloop()
+    root2.mainloop()

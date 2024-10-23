@@ -1,7 +1,7 @@
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
-from myloginWindow import *
+from myloginWindow import open_login_window
 
 
 customtkinter.set_appearance_mode("system")
