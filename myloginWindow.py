@@ -14,42 +14,46 @@ def login():
     print("login prototype")
 
 def registerWindow():
-    root_login.destroy()
-    root2.mainloop()
+    # root_login.destroy()
+    open_register_window()
 
 #This is a frame for the login window, I can later change the size
-frame = customtkinter.CTkFrame(master=root_login)
-frame.pack(pady=20, padx=60, fill="both", expand=True)
+frame1 = customtkinter.CTkFrame(master=root_login)
+frame1.pack(pady=20, padx=60, fill="both", expand=True)
 
 
 # adding additional elements to the frame, so the login window
 
 # Adding a text at the top that says "Login to the game"
-label = customtkinter.CTkLabel(master=frame, text="Login to the game", font=("Roboto", 24))
+label = customtkinter.CTkLabel(master=frame1, text="Login to the game", font=("Roboto", 24))
 label.pack(pady=12, padx=10)
 
 #Adding username and password entries
 #Setting username
-entry1 = customtkinter.CTkEntry(master=frame, placeholder_text="Username")
+entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Username")
 entry1.pack(pady=12, padx=10)
 #Setting password
-entry2 = customtkinter.CTkEntry(master=frame, placeholder_text="Password", show="*") #Encoding the password so it doesn't show it, instead star symbols
+entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Password", show="*") #Encoding the password so it doesn't show it, instead star symbols
 entry2.pack(pady=12, padx=10)
 
 #designing the login button
-button = customtkinter.CTkButton(master=frame, text="Login", command=login) #command connects it to the function login that we will later implement
+button = customtkinter.CTkButton(master=frame1, text="Login", command=login) #command connects it to the function login that we will later implement
 button.pack(pady=12, padx=10)
 
 #designing the "Remember me" check box
-checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
+checkbox = customtkinter.CTkCheckBox(master=frame1, text="Remember me")
 checkbox.pack(pady=12, padx=10)
 
 #label asking the user if they do not have an account yet
-label = customtkinter.CTkLabel(master=frame, text="Do you not have an account yet? Then register below:", font=("Roboto", 12))
+label = customtkinter.CTkLabel(master=frame1, text="Do you not have an account yet? Then register below:", font=("Roboto", 12))
 label.pack(pady=12, padx=10)
 
 #button redirecting the user tothe register window
-button = customtkinter.CTkButton(master=frame, text="Register here", command=registerWindow)
+button = customtkinter.CTkButton(master=frame1, text="Register here", command=registerWindow)
 button.pack(pady=0, padx=10)
 
-root_login.mainloop() #calling the function
+# root_login.mainloop() #calling the function
+def open_login_window():
+    root_login.mainloop()
+
+open_login_window()

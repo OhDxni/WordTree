@@ -7,9 +7,6 @@ from myloginWindow import *
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
-def open_login_window():
-    root_login.mainloop()
-
 # Function to open the start page
 def open_start_page():
     # Create the main window (Start page)
@@ -51,3 +48,4 @@ def open_start_page():
     #     open_start_page()  # Reopen the start page
 
 open_start_page()
+
