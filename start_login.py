@@ -2,8 +2,9 @@ import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
 # from game_console import *
-# from RegisterWindow import open_register_window
+from RegisterWindow import open_register_window, create_root2
 
+root = customtkinter.CTk()
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
@@ -13,10 +14,10 @@ logo_image = None
 # Function to open the start page
 def open_start_page():
     # Create the main window (Start page)
-    global root, logo_image
-    root = customtkinter.CTk()
+    global logo_image
     root.geometry('800x600')
     root.title("Game Enter Page")
+
 
     # Create a frame to organize the logo, welcome text, and the button
     frame = customtkinter.CTkFrame(master=root)
@@ -51,7 +52,7 @@ def open_start_page():
 
 # Function to open the login window
 def open_login_window():
-    root.destroy()  # Close the start window
+    root.withdraw()  # Close the start window
 
     # Create a new root window for login
     login_root = customtkinter.CTkToplevel()
@@ -63,7 +64,7 @@ def open_login_window():
         print("login prototype")
 
     def register_window():
-        login_root.destroy()
+        login_root.withdraw()
         open_register_window()
 
     # This is a frame for the login window
@@ -109,11 +110,11 @@ def open_login_window():
 
 
 def go_back_to_start_page(login_root):
-    login_root.destroy()  # Close the login window
+    login_root.withdraw()  # Close the login window
     open_start_page()     # Reopen the start page
 
 
-
+create_root2()
 open_start_page()
 
 

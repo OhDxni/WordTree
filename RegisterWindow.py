@@ -3,9 +3,11 @@ import customtkinter
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
-#Creating a root window
-root2 = customtkinter.CTk()
-root2.geometry("500x400")
+def create_root2():
+    global root2
+    root2 = customtkinter.CTkToplevel()
+    root2.geometry("500x400")
+    root2.withdraw()
 
 def register():
     #here we can implement the login function
@@ -14,6 +16,8 @@ def register():
 
 
 def open_register_window():
+    root2.deiconify()
+
     # print("Register window opened")
     #This is a frame for the login window, I can later change the size
     frame2 = customtkinter.CTkFrame(master=root2)
@@ -38,7 +42,9 @@ def open_register_window():
     entry3.pack(pady=12, padx=10)
 
     #designing the login button
-    button = customtkinter.CTkButton(master=frame2, text="Register", command=register()) #command connects it to the function login that we will later implement
+    button = customtkinter.CTkButton(master=frame2, text="Register", command=register) #command connects it to the function login that we will later implement
     button.pack(pady=12, padx=10)
 
     root2.mainloop()
+
+# open_register_window()
