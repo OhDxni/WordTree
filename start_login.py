@@ -1,13 +1,24 @@
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
-# from game_console import *
+from game_console import run_game_console
 from RegisterWindow import open_register_window, create_root2
 
 root = customtkinter.CTk()
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
+
+def create_toplevel_roots():
+    # Create a new root window for login
+    global login_root
+    login_root = customtkinter.CTkToplevel()
+    # login_root = customtkinter.CTk()
+    login_root.geometry("500x500")
+    login_root.title('Login to the game')
+    login_root.withdraw()
+
+create_toplevel_roots()
 
 logo_image = None
 
@@ -43,7 +54,7 @@ def open_start_page():
     welcome_label.pack(pady=10)  # Padding for welcome message
 
     # Create a Start button that opens the login window
-    start_button = customtkinter.CTkButton(master=frame, text="Start", font=("Roboto", 24), command=open_login_window)
+    start_button = customtkinter.CTkButton(master=frame, text="Start", font=("Roboto", 24), command=run_game_console)
     start_button.pack(pady=10)  # Padding for Start button
 
     # Start the main loop for the Start page
@@ -53,12 +64,11 @@ def open_start_page():
 # Function to open the login window
 def open_login_window():
     root.withdraw()  # Close the start window
-
-    # Create a new root window for login
-    login_root = customtkinter.CTkToplevel()
-    # login_root = customtkinter.CTk()
-    login_root.geometry("500x500")
-    login_root.title('Login to the game')
+    # # Create a new root window for login
+    # login_root = customtkinter.CTkToplevel()
+    # # login_root = customtkinter.CTk()
+    # login_root.geometry("500x500")
+    # login_root.title('Login to the game')
 
     def login():
         print("login prototype")
@@ -104,15 +114,15 @@ def open_login_window():
     back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=lambda: go_back_to_start_page(login_root))
     # back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=go_back(login_root, open_start_page()))
     back_button.pack(pady=12, padx=10)
+    login_root.deiconify()
 
-    login_root.mainloop()  # Starting the login window loop
+    # login_root.mainloop()  # Starting the login window loop
 
 
 
 def go_back_to_start_page(login_root):
     login_root.withdraw()  # Close the login window
-    open_start_page()     # Reopen the start page
-
+    root.deiconify()    # Reopen the start page
 
 create_root2()
 open_start_page()

@@ -45,6 +45,16 @@ def open_register_window():
     button = customtkinter.CTkButton(master=frame2, text="Register", command=register) #command connects it to the function login that we will later implement
     button.pack(pady=12, padx=10)
 
+    # "Go Back" button to go back to the login page
+    back_button = customtkinter.CTkButton(master=frame2, text="Go Back",
+                                          command=lambda: go_back_to_login_page(root2))
+    # back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=go_back(login_root, open_start_page()))
+    back_button.pack(pady=12, padx=10)
+
     root2.mainloop()
+
+def go_back_to_login_page(root2):
+    root2.withdraw()  # Close the login window
+    login_root.deiconify()  # Reopen the start page
 
 # open_register_window()
