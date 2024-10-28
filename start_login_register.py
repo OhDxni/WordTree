@@ -23,7 +23,6 @@ customtkinter.set_default_color_theme("green")
 #     login_root.title('Login to the game')
 #     login_root.withdraw()
 
-# create_toplevel_roots()
 
 logo_image = None
 
