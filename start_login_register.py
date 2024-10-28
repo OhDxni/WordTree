@@ -1,7 +1,7 @@
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
-from game_console import run_game_console
+# from game_console import run_game_console
 # from RegisterWindow import open_register_window, create_root2
 from hashlib import sha256
 # h = sha256()
@@ -22,6 +22,7 @@ customtkinter.set_default_color_theme("green")
 #     login_root.geometry("500x500")
 #     login_root.title('Login to the game')
 #     login_root.withdraw()
+
 
 
 logo_image = None
@@ -64,6 +65,10 @@ def open_start_page():
     # Start the main loop for the Start page
     root.mainloop()
 
+def quit_all_roots():
+    root2.quit()
+    login_root.quit()
+    root.quit()
 
 # Function to open the login window
 def open_login_window():
@@ -75,6 +80,12 @@ def open_login_window():
     login_root.geometry("500x500")
     login_root.title('Login to the game')
 
+
+
+    login_root.protocol("WM_DELETE_WINDOW", quit_all_roots)
+
+    # def close():
+    #     login_root.destroy()
     def login():
         print("login prototype")
     #open database
@@ -128,6 +139,10 @@ def open_login_window():
     back_button.pack(pady=12, padx=10)
     login_root.deiconify()
 
+    # button redirecting the user tothe register window
+    # button = customtkinter.CTkButton(master=frame, text="Quit", command=close)
+    # button.pack(pady=0, padx=10)
+
     login_root.mainloop()  # Starting the login window loop
 
 
@@ -158,8 +173,12 @@ def register():
 def open_register_window():
     login_root.withdraw()
     # root2.deiconify()
+    global root2
     root2 = customtkinter.CTkToplevel()
     root2.geometry("500x400")
+
+    # root2.protocol("WM_DELETE_WINDOW", quit_all_roots)
+
     # print("Register window opened")
     # This is a frame for the login window, I can later change the size
     frame2 = customtkinter.CTkFrame(master=root2)
@@ -195,6 +214,8 @@ def open_register_window():
                                           command=lambda: go_back_to_login_page(root2))
     # back_button = customtkinter.CTkButton(master=frame2, text="Go Back", command=go_back(root2, login_root))
     back_button.pack(pady=12, padx=10)
+
+    # root2.deiconify()
 
     root2.mainloop()
 
