@@ -1,7 +1,7 @@
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
-# from game_console import run_game_console
+from game_console import run_game_console
 # from RegisterWindow import open_register_window, create_root2
 from hashlib import sha256
 # h = sha256()
