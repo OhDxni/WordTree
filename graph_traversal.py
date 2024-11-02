@@ -1,11 +1,12 @@
 from collections import deque # BFS
+from generate_linked_database import create_adj_list
 import heapq # A*
 import sqlite3 # Needed to read in the database
+import time
 
 # Connects sqlite3 package to the database file, and creates a cursor object based on it
 database = sqlite3.connect("databases/linked_database.db")
 cursor_obj = database.cursor()
-
 def find_neighbours(word):
     """
     Finds all neighbours of a certain word.
@@ -100,7 +101,52 @@ def a_pain_algorith(start_word, end_word):
                 heapq.heappush(priority_queue, (expected_cost, neighbour, new_cost, temp_path))
     return "Sorry, a path between the starting and end word wasn't found."
 
-print(a_pain_algorith("FLOSS", "TEETH"))
+# print(a_pain_algorith("FLOSS", "TEETH"))
+
+def bfs_traversal(adj):
+    """
+    Uses BFS traversal to find all the different partitions in an adjacency list
+    :param adj: adjacency list of which partitions will be found
+    :type adj: dictionary
+    :return: partitions: set of partitions
+    :rtype: partitions: set
+    """
+    visited = set()
+    partitions = []
+    for word in adj: # Go through words in adjacency list
+        if word not in visited:
+            partition = set() # creates a new partition for every new non visited element
+            q = deque([word])
+
+            while q: # fully explores a partition
+                curr_word = q.popleft()
+                if curr_word not in visited: # checks if the word is visited
+                    visited.add(curr_word) # adds to visited list
+                    partition.add(curr_word) # adds to current partition
+                    if curr_word in adj.keys():
+                        for neighbour in adj[curr_word]:
+                            q.append(neighbour) #appends all connections of the current word to the queue
+            partitions.append(partition) # when current partition is fully explored append it to list of partitions
+    with open("databases/partitions.txt", "w", newline= "\n") as file:
+        file.write(str(partitions)) # writes the partitions into a file
+    return partitions
+
+words_filepath = "databases/all_words.txt" # gets the filepath for use in adjlist
+words = set() # creates a set to use in adjlist
+
+# writes the words in file to words (set)
+with open(words_filepath, "r") as txt:
+    for word in txt:
+        word = word.replace("\n", "").upper()
+        words.add(word)
+
+adj = create_adj_list(words) # gets the adj list
+start_time = time.time() # start timer
+bfs_traversal(adj) #excecution of the partitioning
+end_time = time.time()  # End the timer
+elapsed_time = end_time - start_time
+
+print(f"Elapsed time: {elapsed_time} seconds")
 
 # def bfs_algorith(start_word, end_word):
 #     iteratable = (start_word, [start_word])
@@ -116,7 +162,7 @@ print(a_pain_algorith("FLOSS", "TEETH"))
 #
 #         visited.add(curr_word)
 #         neighbours = find_neighbours(curr_word) # Uses find_neighbours function to find neighbours
-#         print("curr", curr_word, "neighbours", neighbours)
+#         # print("curr", curr_word, "neighbours", neighbours)
 #
 #         # If neighbour has not been visited yet, add it to the path and continue exploring
 #         for neighbour in neighbours:
@@ -125,4 +171,5 @@ print(a_pain_algorith("FLOSS", "TEETH"))
 #                 queue.append((neighbour, path))
 #
 #     return "Sorry, a path between the starting and end word wasn't found."
-# print(bfs_algorith("COWS", "MILK"))
+# bfs_algorith("COWS", "MILK")
+
