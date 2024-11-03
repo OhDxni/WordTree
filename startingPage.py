@@ -1,3 +1,13 @@
+
+"""
+Initialize and display the main start page- logo, a welcome message, and a button to
+navigate to the login window.
+
+Functions:
+- open_start_page(): Initializes and opens the main start page of the game.
+                     Sets up the application window with a logo, a welcome
+                     message, and a Start button that opens the login window.
+"""
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
@@ -9,6 +19,15 @@ customtkinter.set_default_color_theme("green")
 
 # Function to open the start page
 def open_start_page():
+    """
+    Initializes and opens the main start page of the game.
+
+    This function sets up the main application window, including
+    the logo, welcome message, and a Start button that opens
+    the login window.
+
+    :return: None
+    """
     # Create the main window (Start page)
     global root
     root = customtkinter.CTk()

@@ -1,8 +1,29 @@
+"""
+Pygame Tree with Buttons Application
+
+This application creates a graphical interface using Pygame to display a tree scene with buttons.
+When buttons are clicked, it opens a Tkinter window showing instructions on how to play a word game.
+
+Function:
+- run_game_console: Initializes and runs the Pygame application to display a tree with buttons
+  and manage user interactions through a graphical interface.
+
+Nested Functions:
+- open_instructions_window: Opens a Tkinter window that displays game instructions.
+- draw_tree: Draws a stylized tree on the given Pygame surface.
+- draw_clouds: Draws clouds on the given Pygame surface.
+- Button (Class): Represents a clickable button in the game, handling drawing, hovering, and clicking functionality.
+"""
+
 import pygame
 import sys
 import tkinter as tk
 
 def run_game_console():
+    """
+    Initializes and runs the Pygame application to display a tree with buttons
+    and manage user interactions through a graphical interface.
+    """
     pygame.init()
 
 
@@ -31,7 +52,14 @@ def run_game_console():
     font_default = pygame.font.SysFont('Arial', 20)
 
     def open_instructions_window():
+        """
+        Opens a Tkinter window that displays game instructions.
+        The window has multiple frames to navigate through instructions.
+        """
         def switchframe(frame):
+            """
+            Switches to the specified frame.
+            """
             frame.tkraise()
 
         first = tk.Tk()
@@ -85,6 +113,17 @@ def run_game_console():
 
     # Button class to handle drawing and interaction
     class Button:
+        """
+       Represents a clickable button in the game.
+
+       Attributes:
+           x (int): X coordinate of the button's center.
+           y (int): Y coordinate of the button's center.
+           radius (int): Radius of the button.
+           text (str): Text displayed on the button.
+           font: Font object used to render the button's text.
+           clicked (bool): State of the button (clicked or not).
+       """
         def __init__(self, x, y, radius, text, font):
             self.x = x
             self.y = y
@@ -94,6 +133,11 @@ def run_game_console():
             self.clicked = False
 
         def draw(self, screen):
+            """
+            Draws the button on the screen with the appropriate color and text.
+
+            :param screen: The Pygame surface on which to draw the button.
+            """
             mouse_pos = pygame.mouse.get_pos()
             color = button_hover_color if self.is_hovered(mouse_pos) else button_color
             pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
@@ -103,10 +147,22 @@ def run_game_console():
             screen.blit(text_surface, text_rect)
 
         def is_hovered(self, mouse_pos):
+            """
+            Checks if the mouse is hovering over the button.
+
+            :param mouse_pos: Current position of the mouse.
+            :return: True if the mouse is over the button, False otherwise.
+            """
             return pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius).collidepoint(
                 mouse_pos)
 
         def is_clicked(self, event):
+            """
+            Checks if the button has been clicked.
+
+            :param event: The event to check.
+            :return: True if the button is clicked, False otherwise.
+            """
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.is_hovered(event.pos):
                     self.clicked = True
@@ -116,6 +172,11 @@ def run_game_console():
 
     # Function to draw the tree
     def draw_tree(screen):
+        """
+       Draws a stylized tree on the given screen.
+
+       :param screen: The Pygame surface on which to draw the tree.
+       """
         # Draw the trunk with shading for a 3D effect
         pygame.draw.rect(screen, BROWN, (390, 350, 20, 200))  # Center trunk
         pygame.draw.rect(screen, (80, 50, 30), (400, 350, 10, 200))  # Darker side for depth
@@ -151,6 +212,11 @@ def run_game_console():
 
     # Function to draw clouds
     def draw_clouds(screen):
+        """
+        Draws clouds on the given screen using circles.
+
+        :param screen: The Pygame surface on which to draw the clouds.
+        """
         # Draw clouds using circles
         pygame.draw.circle(screen, CLOUD_COLOR, (150, 100), 30)
         pygame.draw.circle(screen, CLOUD_COLOR, (180, 100), 40)

@@ -1,7 +1,27 @@
+"""
+This creates a login window for the word game using CustomTkinter.
+It allows users to enter their credentials to log in or navigate to a registration
+window if they do not have an account. The GUI is designed for user-friendly interaction
+with clear prompts and buttons.
+
+Functions:
+- open_login_window(): Initializes and displays the login window where users can enter
+                      their username and password.
+- login(): Placeholder function to handle the authentication logic when the user clicks
+           the login button. It retrieves the credentials and should connect to the
+           database for user verification.
+- registerWindow(): Opens the registration window by invoking the function from the
+                    RegisterWindow module, allowing users to create a new account.
+"""
 import customtkinter
 from RegisterWindow import *
 
 def open_login_window():
+    """
+    Opens a login window where users can enter their credentials to log into the game.
+    This function sets up the user interface, handles user inputs, and connects to the
+    registration window if needed.
+    """
 
     customtkinter.set_appearance_mode("system")
     customtkinter.set_default_color_theme("green")
@@ -11,11 +31,20 @@ def open_login_window():
     root_login.geometry("500x400")
 
     def login():
+        """
+        Handles the login action when the user clicks the login button.
+        Retrieves the username and password, and here you can implement
+        the logic to connect to the database and authenticate the user.
+        """
         #here we can implement the login function
         #connecting data to the database
         print("login prototype")
 
     def registerWindow():
+        """
+        Opens the registration window by calling the function defined in
+        the RegisterWindow module.
+        """
         # root_login.destroy()
         open_register_window()
 
