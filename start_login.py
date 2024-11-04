@@ -1,3 +1,20 @@
+"""
+Implementing the main graphical user interface (GUI) for the game .
+It provides the user with a start page, a login page, and a
+registration page
+
+Functions:
+- create_toplevel_roots(): Initializes a new top-level window for the login interface,
+                           which is hidden by default until needed.
+- open_start_page(): Sets up and displays the main start page for the game, featuring
+                     the game logo, a welcome message, and a button to start the game.
+- open_login_window(): Displays the login window where users can enter their credentials
+                       to access the game. It also provides navigation to the registration page.
+- go_back_to_start_page(login_root): Hides the login window and displays the main start
+                                      page again, allowing users to return to the game start.
+- run_game_console(): (Imported function) Initiates the game console when the user clicks
+                      the Start button on the main pag
+"""
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
@@ -10,6 +27,12 @@ customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
 def create_toplevel_roots():
+    """
+    Creates a new top-level window for the login interface.
+    The window is hidden by default until explicitly shown.
+
+    :return: None
+    """
     # Create a new root window for login
     global login_root
     login_root = customtkinter.CTkToplevel()
@@ -24,6 +47,12 @@ logo_image = None
 
 # Function to open the start page
 def open_start_page():
+    """
+    Opens the main start page for the game, displaying the logo,
+    welcome message, and a button to start the game.
+
+    :return: None
+    """
     # Create the main window (Start page)
     global logo_image
     root.geometry('800x600')
@@ -63,6 +92,12 @@ def open_start_page():
 
 # Function to open the login window
 def open_login_window():
+    """
+    Opens the login window where users can enter their credentials.
+    The main start window is hidden while this window is open.
+
+    :return: None
+    """
     root.withdraw()  # Close the start window
     # # Create a new root window for login
     # login_root = customtkinter.CTkToplevel()
@@ -121,6 +156,12 @@ def open_login_window():
 
 
 def go_back_to_start_page(login_root):
+    """
+    Hides the login window and shows the start page again.
+
+    :param login_root: The login window that will be hidden.
+    :return: None
+    """
     login_root.withdraw()  # Close the login window
     root.deiconify()    # Reopen the start page
 

@@ -1,21 +1,59 @@
+"""
+Implementing GUI. It includes functionalities for the start page, login page,
+and registration page, allowing users to interact with the game.
+
+Functions:
+- open_start_page(): Initializes and displays the start page of the application,
+                     featuring the game logo, a welcome message, and a Start button.
+- open_login_window(): Creates and displays the login window for user authentication,
+                       allowing users to input their credentials to access the game.
+- login(): Prototype function for handling user login, including user credential
+           verification and database interactions (currently a placeholder).
+- open_register_window(): Opens the registration window for new users to create an
+                          account, allowing them to input their desired username and password.
+- register(): Prototype function for handling user registration, including validation
+              of inputs and storing new user credentials in the database (currently a placeholder).
+- go_back_to_login_page(root2): Hides the registration window and reopens the login window,
+                                 enabling users to navigate back.
+- go_back_to_start_page(login_root): Hides the login window and reopens the start page,
+                                      allowing users to return to the main menu.
+"""
+
 import customtkinter
 import tkinter as tk
-from tkinter import PhotoImage, messagebox
+from tkinter import PhotoImage
 from game_console import run_game_console
+# from RegisterWindow import open_register_window, create_root2
 from hashlib import sha256
-from users_database import *
-
+# h = sha256()
+# h.update(b'python1990K00L')
+# hash = h.hexdigest()
+# print(hash)
 
 root = customtkinter.CTk()
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
+# def create_toplevel_roots():
+#     # Create a new root window for login
+#     global login_root
+#     login_root = customtkinter.CTkToplevel()
+#     # login_root = customtkinter.CTk()
+#     login_root.geometry("500x500")
+#     login_root.title('Login to the game')
+#     login_root.withdraw()
+
 
 logo_image = None
 
 # Function to open the start page
 def open_start_page():
+    """
+    Creates and displays the start page of the application.
+
+    :return: None
+    """
     # Create the main window (Start page)
     global logo_image
     root.geometry('800x600')
@@ -52,17 +90,14 @@ def open_start_page():
     # Start the main loop for the Start page
     root.mainloop()
 
-# def quit_all_roots():
-#     try:
-#         root2.quit()
-#     except:
-#         pass
-#     login_root.quit()
-#     root.quit()
-
 
 # Function to open the login window
 def open_login_window():
+    """
+    Creates and displays the login window for user authentication.
+
+    :return: None
+    """
     root.withdraw()  # Close the start window
     # Create a new root window for login
     global login_root
@@ -71,8 +106,19 @@ def open_login_window():
     login_root.geometry("500x500")
     login_root.title('Login to the game')
 
-    # login_root.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    def login():
+        print("login prototype")
+    #open database
+    #check if the username is in the database
+        #if it is not throw an exception with a message "Username not found. If you do not have an account yet, register to the system"
+    #if found, check if the hash of the typed passwored is the same as the hash saved
+        #if not the same, give error "Wrong password"
+    #if everything correct, go to run_game_console
 
+
+    # def register_window():
+    #     login_root.withdraw()
+    #     open_register_window()
 
     # This is a frame for the login window
     frame = customtkinter.CTkFrame(master=login_root)
@@ -83,32 +129,32 @@ def open_login_window():
     label.pack(pady=12, padx=10)
 
     # Adding username and password entries
-    username_entry = customtkinter.CTkEntry(master=frame, placeholder_text="Username")
-    username_entry.pack(pady=12, padx=10)
+    entry1 = customtkinter.CTkEntry(master=frame, placeholder_text="Username")
+    entry1.pack(pady=12, padx=10)
 
-    password_entry = customtkinter.CTkEntry(master=frame, placeholder_text="Password", show="*")  # Hide the password
-    password_entry.pack(pady=12, padx=10)
+    entry2 = customtkinter.CTkEntry(master=frame, placeholder_text="Password", show="*")  # Encode the password
+    entry2.pack(pady=12, padx=10)
 
     # Designing the login button
-    button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: login(username_entry.get(), password_entry.get()))  # lambda ensures that the function does not get executed when creating a button, get() get the actual imput of the fields
+    button = customtkinter.CTkButton(master=frame, text="Login", command=login)
     button.pack(pady=12, padx=10)
 
-    # # Designing the "Remember me" check box
-    # checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
-    # checkbox.pack(pady=12, padx=10)
+    # Designing the "Remember me" check box
+    checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
+    checkbox.pack(pady=12, padx=10)
 
     # label asking the user if they do not have an account yet
     label = customtkinter.CTkLabel(master=frame, text="Do you not have an account yet? Then register below:",
                                    font=("Roboto", 12))
     label.pack(pady=12, padx=10)
 
-    # button redirecting the user to the register window
+    # button redirecting the user tothe register window
     button = customtkinter.CTkButton(master=frame, text="Register here", command=open_register_window)
     button.pack(pady=0, padx=10)
 
 
     # "Go Back" button to go back to the start page
-    back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=lambda: [login_root.withdraw(), root.deiconify()])  # Executes two functions at once
+    back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=lambda: go_back_to_start_page(login_root))
     # back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=go_back(login_root, open_start_page()))
     back_button.pack(pady=12, padx=10)
     login_root.deiconify()
@@ -116,119 +162,109 @@ def open_login_window():
     login_root.mainloop()  # Starting the login window loop
 
 
-def login(username, password):
-    print("login prototype")
-    #open database
-    conn = sqlite3.connect('users_db.db')
-    cursor = conn.cursor()
+    # def create_root2():
+    #     global root2
+    #     root2 = customtkinter.CTkToplevel()
+    #     root2.geometry("500x400")
+    #     root2.withdraw()
 
-    #check if the username is in the database
-    cursor.execute("SELECT password FROM users WHERE username = ?", (username,))
-    user_data = cursor.fetchone()    # fetches the tuple containing the encoded password of the user
-    if user_data:
-        # if found, check if the hash of the typed password is the same as the hash saved
-        stored_password = user_data[0]
-        if sha256(password.encode()).hexdigest() == stored_password:
-            print("Login successful!")
-            login_root.withdraw()
-            # if everything correct, go to run_game_console
-            run_game_console()
+def register():
+    """
+    Handles user registration, including username and password checks.
 
-            print("it executed")
-        else:
-            # if not the same, give error "Wrong password"
-            messagebox.showerror("Error", "Wrong password")
-
-
-    # if username not found, show an error with a message "Username not found"
-    else:
-        messagebox.showerror("Error", "Username not found")
-    # while logged_in == True:
-    #     run_game_console()
-
-    # close the connection
-    conn.close()
-
+    :return: None
+    """
+    # connecting data to the database
+    print("new user registered prototype")
+    #check if the username already exists
+        #if yes give an error "This username is already taken"
+    #check if the input is correct for the username (not too short/long, does not use ',', etc.)
+        #if incorrect give an error
+    #Check if the first password is correct (not too short/long, does not use ',', etc.)
+        #if incorrect give an error
+    #check if the first and second passwords are the same
+        # if not give an error
+    #create a hash for the password
+    #open the database
+        #save the username and hash of password in the database
+    #close the database
+    #go to run_game_console
 
 
 def open_register_window():
+    """
+    Creates and displays the registration window for new users.
+
+    :return: None
+    """
     login_root.withdraw()
     # root2.deiconify()
-    global register_root
-    register_root = customtkinter.CTkToplevel()
-    register_root.geometry("500x400")
-
-    # root2.protocol("WM_DELETE_WINDOW", quit_all_roots)
-
+    root2 = customtkinter.CTkToplevel()
+    root2.geometry("500x400")
+    # print("Register window opened")
     # This is a frame for the login window, I can later change the size
-    frame2 = customtkinter.CTkFrame(master=register_root)
+    frame2 = customtkinter.CTkFrame(master=root2)
     frame2.pack(pady=20, padx=60, fill="both", expand=True)
 
-    # Adding a text at the top
+    # adding additional elements to the frame, so the login window
+
+    # Adding a text at the top that says "Login to the game"
     label = customtkinter.CTkLabel(master=frame2, text="Register in the system to later access your statistics",
                                    font=("Roboto", 15))
     label.pack(pady=12, padx=10)
 
-    # Adding username and two password entries
+    # Adding username and password entries
     # Setting username
-    username_entry = customtkinter.CTkEntry(master=frame2, placeholder_text="Username")
-    username_entry.pack(pady=12, padx=10)
+    entry1 = customtkinter.CTkEntry(master=frame2, placeholder_text="Username")
+    entry1.pack(pady=12, padx=10)
     # Setting password
-    password_entry = customtkinter.CTkEntry(master=frame2, placeholder_text="Password",
+    entry2 = customtkinter.CTkEntry(master=frame2, placeholder_text="Password",
                                     show="*")  # Encoding the password so it doesn't show it, instead star symbols
-    password_entry.pack(pady=12, padx=10)
+    entry2.pack(pady=12, padx=10)
     # Confirming password
-    password_confirm = customtkinter.CTkEntry(master=frame2, placeholder_text="Confirm password",
+    entry3 = customtkinter.CTkEntry(master=frame2, placeholder_text="Confirm password",
                                     show="*")  # Encoding the password so it doesn't show it, instead star symbols
-    password_confirm.pack(pady=12, padx=10)
+    entry3.pack(pady=12, padx=10)
 
     # designing the login button
     button = customtkinter.CTkButton(master=frame2, text="Register",
-                                     command=lambda: register(username_entry.get(), password_entry.get(), password_confirm.get()))
+                                     command=register)  # command connects it to the function login that we will later implement
     button.pack(pady=12, padx=10)
 
     # "Go Back" button to go back to the login page
     back_button = customtkinter.CTkButton(master=frame2, text="Back to login",
-                                          command=lambda: [register_root.withdraw(), login_root.deiconify()])
+                                          command=lambda: go_back_to_login_page(root2))
+    # back_button = customtkinter.CTkButton(master=frame2, text="Go Back", command=go_back(root2, login_root))
     back_button.pack(pady=12, padx=10)
 
-    register_root.mainloop()
-
-def register(username, password, password_confirmation):
-    # connecting data to the database
-    print("new user registered prototype")
-    conn = sqlite3.connect('users_db.db')    # opening a connection with the database
-    cursor = conn.cursor()
-
-    #check if the username already exists
-    cursor.execute('SELECT username FROM users WHERE username = ?;', (username,))
-
-    if cursor.fetchone():
-        #if yes give an error "Username already exists"
-        messagebox.showerror("Error", "Username already exists")
-
-    # check if the input is correct for the username (not too short/long)
-    elif len(username) < 5 or len(username) > 15:
-        messagebox.showerror("Register Error", "Username too short or too long")
-
-    # check if the passwords match
-    elif password != password_confirmation:
-        messagebox.showerror("Error", "Passwords do not match")
-
-    else:
-        # create a hash for the password
-        hashed_password = sha256(password.encode()).hexdigest()
-        #save the username and hash of password in the database
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
-        conn.commit()
-        #go to run_game_console
-        register_root.withdraw()
-        run_game_console()
-
-    # close the connection
-    conn.close()
+    root2.mainloop()
 
 
+# def go_back(origin_root, destination_root):
+#     origin_root.withdraw()
+#     destination_root.deiconify()
+def go_back_to_login_page(root2):
+    """
+    Hides the registration window and shows the login window again.
+
+    :param root2: The registration window that will be hidden.
+    :return: None
+    """
+    root2.withdraw()  # Close the login window
+    login_root.deiconify()  # Reopen the start page
+
+    # open_register_window()
+
+
+def go_back_to_start_page(login_root):
+    """
+    Hides the login window and shows the start page again.
+
+    :param login_root: The login window that will be hidden.
+    :return: None
+    """
+    login_root.withdraw()  # Close the login window
+    root.deiconify()    # Reopen the start page
+
+# create_root2()
 open_start_page()
-
-

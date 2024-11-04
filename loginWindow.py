@@ -1,3 +1,17 @@
+"""
+This application uses CustomTkinter to create a graphical user interface (GUI) . The GUI is designed to provide
+a smooth transition between pages, allowing users to either log in or register seamlessly.
+
+Functions:
+- open_start_page(): Initializes and displays the start page with a logo, welcome message,
+                     and a button to open the login window.
+- open_login_window(): Closes the start page and opens the login window for user authentication.
+- open_register_window(): Creates and displays the registration window for new users to sign up.
+- go_back_to_start_page(login_root): Closes the login window and returns to the start page.
+- login(): A placeholder function for future login logic.
+- register(): A placeholder function for future registration logic.
+"""
+
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
@@ -12,6 +26,16 @@ logo_image = None
 
 # Function to open the start page
 def open_start_page():
+    """
+       Creates and displays the start page with a logo and a start button.
+
+       This function initializes the main application window where users can see the game logo,
+       a welcome message, and a button to start the login process.
+
+       :param: None
+       :type: None
+    """
+
     # Create the main window (Start page)
     global root, logo_image
     root = customtkinter.CTk()
@@ -51,6 +75,15 @@ def open_start_page():
 
 # Function to open the login window
 def open_login_window():
+    """
+    Closes the start page and opens the login window.
+
+    This function transitions the user from the start page to the login page,
+    allowing them to enter their username and password for game access.
+
+    :param: None
+    :type: None
+    """
     root.destroy()  # Close the start window
 
     # Create a new root window for login
@@ -60,9 +93,27 @@ def open_login_window():
     login_root.title('Login to the game')
 
     def login():
+      """
+      Prototype function for login logic.
+
+      This function should handle the user authentication process,
+      verifying the username and password against stored credentials.
+
+      :param: None
+      :type: None
+      """
         print("login prototype")
 
     def register_window():
+        """
+        Closes the login window and opens the registration window.
+
+        This function allows users who do not have an account to navigate
+        to the registration page.
+
+        :param: None
+        :type: None
+        """
         login_root.destroy()
         open_register_window()
 
@@ -111,6 +162,15 @@ def open_login_window():
 
 
 def open_register_window():
+    """
+    Creates and displays the registration window.
+
+    This function presents a form for new users to create an account
+    by providing a username and password, which will later be used for login.
+
+    :param: None
+    :type: None
+    """
     customtkinter.set_appearance_mode("system")
     customtkinter.set_default_color_theme("green")
 
@@ -119,6 +179,15 @@ def open_register_window():
     root2.geometry("500x400")
 
     def register():
+        """
+        Function for registration logic.
+
+        This function handles the user registration process,
+        storing the new user's credentials securely.
+
+        :param: None
+        :type: None
+        """
         # here we can implement the login function
         # connecting data to the database
         print("new user registered prototype")
@@ -159,6 +228,15 @@ def open_register_window():
 #     destination()
 
 def go_back_to_start_page(login_root):
+    """
+    Closes the login window and opens the start page again.
+
+    This function transitions the user back to the start page,
+    allowing them to restart the process or log in again.
+
+    :param login_root: The login window to be closed.
+    :type login_root: customtkinter.CTk
+    """
     login_root.destroy()  # Close the login window
     open_start_page()     # Reopen the start page
 
