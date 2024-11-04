@@ -1,9 +1,10 @@
 import sqlite3
 
 # creating a connection between python and database
-conn = sqlite3.connect('users_db.db') #if the file does not exist, it will be created
+conn = sqlite3.connect('users_db.db')  #if the file does not exist, it will be created
 cursor = conn.cursor()
 
+# creating a table that will store usernames and hashed passwords
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     username TEXT PRIMARY KEY,
