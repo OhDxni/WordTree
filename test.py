@@ -1,24 +1,7 @@
-"""
-Implementing GUI. It includes functionalities for the start page, login page,
-and registration page, allowing users to interact with the game.
-
-Functions:
-- open_start_page(): Initializes and displays the start page of the application,
-                     featuring the game logo, a welcome message, and a Start button.
-- open_login_window(): Creates and displays the login window for user authentication,
-                       allowing users to input their credentials to access the game.
-- login(): Prototype function for handling user login, including user credential
-           verification and database interactions (currently a placeholder).
-- open_register_window(): Opens the registration window for new users to create an
-                          account, allowing them to input their desired username and password.
-- register(): Prototype function for handling user registration, including validation
-              of inputs and storing new user credentials in the database (currently a placeholder).
-"""
-
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage, messagebox
-from run_game_console import run_game_console
+from game_console import run_game_console
 from hashlib import sha256
 from users_database import *
 
@@ -33,11 +16,7 @@ logo_image = None
 
 # Function to open the start page
 def open_start_page():
-    """
-    Creates and displays the start page of the application.
-
-    :return: None
-    """
+    # Create the main window (Start page)
     global logo_image
     root.geometry('800x600')
     root.title("Game Enter Page")
@@ -82,13 +61,8 @@ def open_start_page():
 #     root.quit()
 
 
-
+# Function to open the login window
 def open_login_window():
-    """
-    Creates and displays the login window for user authentication.
-
-    :return: None
-    """
     root.withdraw()  # Close the start window
     # Create a new root window for login
     global login_root
@@ -159,18 +133,13 @@ def login(username, password):
             login_root.withdraw()
             # if everything correct, go to run_game_console
             run_game_console()
-
-            print("it executed")
         else:
             # if not the same, give error "Wrong password"
             messagebox.showerror("Error", "Wrong password")
 
-
     # if username not found, show an error with a message "Username not found"
     else:
         messagebox.showerror("Error", "Username not found")
-    # while logged_in == True:
-    #     run_game_console()
 
     # close the connection
     conn.close()
@@ -178,11 +147,6 @@ def login(username, password):
 
 
 def open_register_window():
-    """
-    Creates and displays the registration window for new users.
-
-    :return: None
-    """
     login_root.withdraw()
     # root2.deiconify()
     global register_root
@@ -226,11 +190,6 @@ def open_register_window():
     register_root.mainloop()
 
 def register(username, password, password_confirmation):
-    """
-    Handles user registration, including username and password checks.
-
-    :return: None
-    """
     # connecting data to the database
     print("new user registered prototype")
     conn = sqlite3.connect('users_db.db')    # opening a connection with the database
@@ -258,7 +217,6 @@ def register(username, password, password_confirmation):
         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
         conn.commit()
         #go to run_game_console
-        register_root.withdraw()
         run_game_console()
 
     # close the connection
@@ -266,6 +224,5 @@ def register(username, password, password_confirmation):
 
 
 open_start_page()
-
 
 
