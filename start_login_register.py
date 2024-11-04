@@ -18,6 +18,7 @@ Functions:
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage, messagebox
+# from testing_game_console import run_game_console
 from game_console import run_game_console
 from hashlib import sha256
 from users_database import *

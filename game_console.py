@@ -28,6 +28,7 @@ def run_game_console():
     """
     pygame.init()
 
+    # pygame.protocol("WM_DELETE_WINDOW", pygame.quit())
 
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('Tree with Buttons')
@@ -82,7 +83,7 @@ def run_game_console():
         for frame in (frame1, frame2, frame3):
             frame.grid(row=0, column=0, sticky='nsew')
 
-        # first page of the instructiosn
+        # first page of the instructions
         label1 = tk.CTkLabel(frame1, text="Here is how to play:\n\n"
                                           "You are given a starting word of four five or six letters\n\n" "depending on your choice\n\n"
     
@@ -95,7 +96,7 @@ def run_game_console():
         nextbutton1.pack(side=tk.RIGHT, padx=50, pady=20)
 
         backbutton1 = tk.CTkButton(frame1, text="Back", font=('Roboto', 12),
-                                   command=lambda: [first.withdraw(), run_game_console])
+                                   command=lambda: [first.withdraw(), run_game_console()])
         backbutton1.pack(side=tk.LEFT, padx=50, pady=20)
 
         # second page
@@ -289,4 +290,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-# run_game_console()
+run_game_console()
