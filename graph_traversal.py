@@ -141,12 +141,7 @@ with open(words_filepath, "r") as txt:
         words.add(word)
 
 adj = create_adj_list(words) # gets the adj list
-start_time = time.time() # start timer
 bfs_traversal(adj) #excecution of the partitioning
-end_time = time.time()  # End the timer
-elapsed_time = end_time - start_time
-
-print(f"Elapsed time: {elapsed_time} seconds")
 
 # def bfs_algorith(start_word, end_word):
 #     iteratable = (start_word, [start_word])
