@@ -1,3 +1,24 @@
+"""
+Implementing GUI. It includes functionalities for the start page, login page,
+and registration page, allowing users to interact with the game.
+
+Functions:
+- open_start_page(): Initializes and displays the start page of the application,
+                     featuring the game logo, a welcome message, and a Start button.
+- open_login_window(): Creates and displays the login window for user authentication,
+                       allowing users to input their credentials to access the game.
+- login(): Prototype function for handling user login, including user credential
+           verification and database interactions (currently a placeholder).
+- open_register_window(): Opens the registration window for new users to create an
+                          account, allowing them to input their desired username and password.
+- register(): Prototype function for handling user registration, including validation
+              of inputs and storing new user credentials in the database (currently a placeholder).
+- go_back_to_login_page(root2): Hides the registration window and reopens the login window,
+                                 enabling users to navigate back.
+- go_back_to_start_page(login_root): Hides the login window and reopens the start page,
+                                      allowing users to return to the main menu.
+"""
+
 import customtkinter
 import tkinter as tk
 from tkinter import PhotoImage
@@ -28,6 +49,11 @@ logo_image = None
 
 # Function to open the start page
 def open_start_page():
+    """
+    Creates and displays the start page of the application.
+
+    :return: None
+    """
     # Create the main window (Start page)
     global logo_image
     root.geometry('800x600')
@@ -67,6 +93,11 @@ def open_start_page():
 
 # Function to open the login window
 def open_login_window():
+    """
+    Creates and displays the login window for user authentication.
+
+    :return: None
+    """
     root.withdraw()  # Close the start window
     # Create a new root window for login
     global login_root
@@ -138,6 +169,11 @@ def open_login_window():
     #     root2.withdraw()
 
 def register():
+    """
+    Handles user registration, including username and password checks.
+
+    :return: None
+    """
     # connecting data to the database
     print("new user registered prototype")
     #check if the username already exists
@@ -156,6 +192,11 @@ def register():
 
 
 def open_register_window():
+    """
+    Creates and displays the registration window for new users.
+
+    :return: None
+    """
     login_root.withdraw()
     # root2.deiconify()
     root2 = customtkinter.CTkToplevel()
@@ -203,6 +244,12 @@ def open_register_window():
 #     origin_root.withdraw()
 #     destination_root.deiconify()
 def go_back_to_login_page(root2):
+    """
+    Hides the registration window and shows the login window again.
+
+    :param root2: The registration window that will be hidden.
+    :return: None
+    """
     root2.withdraw()  # Close the login window
     login_root.deiconify()  # Reopen the start page
 
@@ -210,6 +257,12 @@ def go_back_to_login_page(root2):
 
 
 def go_back_to_start_page(login_root):
+    """
+    Hides the login window and shows the start page again.
+
+    :param login_root: The login window that will be hidden.
+    :return: None
+    """
     login_root.withdraw()  # Close the login window
     root.deiconify()    # Reopen the start page
 

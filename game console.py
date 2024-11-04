@@ -1,3 +1,18 @@
+"""
+Pygame Tree with Buttons Application
+
+This application creates a graphical interface using Pygame to display a tree scene with buttons.
+When buttons are clicked, it opens a Tkinter window showing instructions on how to play a word game.
+
+Functions:
+- open_instructions_window: Opens a Tkinter window with instructions for the game.
+- draw_tree: Draws a tree with a trunk, branches, and foliage on the specified Pygame surface.
+- draw_clouds: Draws fluffy clouds on the specified screen using overlapping circles.
+
+Classes:
+- Button: Represents a button on the Pygame screen, handling drawing, hovering, and clicking functionality.
+"""
+
 import pygame
 import sys
 import tkinter as tk
@@ -35,6 +50,14 @@ font_default = pygame.font.SysFont('Arial', 20)
 
 
 def open_instructions_window():
+    """
+    Opens a Tkinter window with instructions for the game.
+
+    This function quits the Pygame window and creates a new Tkinter window
+    that displays multiple frames with instructions on how to play the game.
+
+    :return: None
+    """
     pygame.quit()
 
     def switchframe(frame):
@@ -91,6 +114,21 @@ def open_instructions_window():
 
 # Button class to handle drawing and interaction
 class Button:
+    """
+    Class representing a button on the Pygame screen.
+    This class handles drawing the button and detecting interactions with it.
+
+    :param x: The x-coordinate of the button's center.
+    :type x: int
+    :param y: The y-coordinate of the button's center.
+    :type y: int
+    :param radius: The radius of the button.
+    :type radius: int
+    :param text: The text displayed on the button.
+    :type text: str
+    :param font: The font object used for the button's text.
+    :type font: pygame.font.Font
+    """
     def __init__(self, x, y, radius, text, font):
         self.x = x
         self.y = y
@@ -100,6 +138,15 @@ class Button:
         self.clicked = False
 
     def draw(self, screen):
+        """
+        Draws the button on the specified screen.
+
+        Changes the button's color based on whether it is hovered over or not.
+
+        :param screen: The Pygame surface to draw on.
+        :type screen: pygame.Surface
+        :return: None
+        """
         mouse_pos = pygame.mouse.get_pos()
         color = button_hover_color if self.is_hovered(mouse_pos) else button_color
         pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
@@ -109,10 +156,26 @@ class Button:
         screen.blit(text_surface, text_rect)
 
     def is_hovered(self, mouse_pos):
+        """
+        Checks if the mouse is hovering over the button.
+
+        :param mouse_pos: The current position of the mouse.
+        :type mouse_pos: tuple
+        :return: True if the mouse is hovering over the button, else False.
+        :rtype: bool
+        """
         return pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius).collidepoint(
             mouse_pos)
 
     def is_clicked(self, event):
+        """
+       Checks if the button is clicked.
+
+       :param event: The Pygame event to check.
+       :type event: pygame.event.Event
+       :return: True if the button is clicked, else False.
+       :rtype: bool
+       """
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.is_hovered(event.pos):
                 self.clicked = True
@@ -122,6 +185,14 @@ class Button:
 
 # Function to draw the tree
 def draw_tree(screen):
+    """
+    Draws a tree on the screen.
+    This function creates a trunk and branches for the tree, as well as grass.
+
+    :param screen: The Pygame surface to draw on.
+    :type screen: pygame.Surface
+    :return: None
+    """
     # Draw the trunk with shading for a 3D effect
     pygame.draw.rect(screen, BROWN, (390, 350, 20, 200))  # Center trunk
     pygame.draw.rect(screen, (80, 50, 30), (400, 350, 10, 200))  # Darker side for depth
@@ -157,6 +228,17 @@ def draw_tree(screen):
 
 # Function to draw clouds
 def draw_clouds(screen):
+    """
+    Draws clouds on the specified screen using circles.
+
+    The function creates clouds by drawing multiple overlapping circles
+    in a specific color to give the appearance of fluffy clouds in the sky.
+    The clouds are positioned at different coordinates to create a natural look.
+
+    :param screen: The Pygame surface on which the clouds will be drawn.
+    :type screen: pygame.Surface
+    :return: None
+    """
     # Draw clouds using circles
     pygame.draw.circle(screen, CLOUD_COLOR, (150, 100), 30)
     pygame.draw.circle(screen, CLOUD_COLOR, (180, 100), 40)

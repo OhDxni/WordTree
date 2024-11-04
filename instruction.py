@@ -1,7 +1,23 @@
+"""
+This Tkinter application provides a multi-page instruction guide for a word game.
+Users are introduced to the game's rules and objectives, transitioning between pages
+using "Next" buttons. The final page includes options to see an example or start
+the game. The application is designed to enhance user understanding and engagement
+before gameplay begins.
+
+Functions:
+- switchframe(frame): Raises the specified frame to the top, making it visible to the user.
+"""
+
 import tkinter as tk
 
 
 def switchframe(frame):
+    """
+    Raises the given frame to the top, making it visible.
+
+    :param frame: The frame to be raised.
+    """
     frame.tkraise()
 
 

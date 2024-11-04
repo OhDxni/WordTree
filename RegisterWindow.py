@@ -1,21 +1,58 @@
+"""
+This module handles the registration process for the game using CustomTkinter.
+It allows new users to register by providing their credentials and navigating back
+to the login page if needed.
+
+Functions:
+- create_root2(): Creates a secondary root window for the registration process,
+                  which is hidden by default and shown when needed.
+- register(): Placeholder function for handling user registration. This function
+              is where the logic for connecting to a database and storing new user
+              credentials should be implemented.
+- open_register_window(): Opens the registration window by displaying the hidden
+                          root2 window and setting up the necessary user interface
+                          elements for registration.
+- go_back_to_login_page(root2): Hides the registration window and displays the
+                                login window again, allowing the user to return
+                                to the login process.
+"""
 import customtkinter
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
 def create_root2():
+    """
+    Creates a secondary root window for the registration process.
+    This window is hidden by default and will be shown when needed.
+
+    :return: None
+    """
     global root2
     root2 = customtkinter.CTkToplevel()
     root2.geometry("500x400")
     root2.withdraw()
 
 def register():
+    """
+    Placeholder function for handling user registration.
+    This is where you can implement the logic for connecting
+    to a database and storing new user credentials.
+
+    :return: None
+    """
     #here we can implement the login function
     #connecting data to the database
     print("new user registered prototype")
 
 
 def open_register_window():
+    """
+    Opens the registration window by showing the hidden root2 window.
+    Sets up the user interface elements for the registration process.
+
+    :return: None
+    """
     root2.deiconify()
 
     # print("Register window opened")
@@ -54,6 +91,12 @@ def open_register_window():
     root2.mainloop()
 
 def go_back_to_login_page(root2):
+    """
+    Hides the registration window and shows the login window again.
+
+    :param root2: The registration window that will be hidden.
+    :return: None
+    """
     root2.withdraw()  # Close the login window
     login_root.deiconify()  # Reopen the start page
 
