@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 
 ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
+ctk.set_default_color_theme("green")
 ctk.set_widget_scaling(1.2)
 
 def create_word_grid(root, word_list, rows, columns, title):
