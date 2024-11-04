@@ -133,13 +133,18 @@ def login(username, password):
             login_root.withdraw()
             # if everything correct, go to run_game_console
             run_game_console()
+
+            print("it executed")
         else:
             # if not the same, give error "Wrong password"
             messagebox.showerror("Error", "Wrong password")
 
+
     # if username not found, show an error with a message "Username not found"
     else:
         messagebox.showerror("Error", "Username not found")
+    # while logged_in == True:
+    #     run_game_console()
 
     # close the connection
     conn.close()
@@ -217,6 +222,7 @@ def register(username, password, password_confirmation):
         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
         conn.commit()
         #go to run_game_console
+        register_root.withdraw()
         run_game_console()
 
     # close the connection
