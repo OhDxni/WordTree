@@ -121,7 +121,7 @@ def run_game_console():
         see_example = tk.CTkButton(frame3, text="See an Example", font=('Roboto', 12))
         see_example.pack(side=tk.LEFT, padx=50, pady=20)
 
-        get_started = tk.CTkButton(frame3, text="Get Started", font=('Roboto', 12))
+        get_started = tk.CTkButton(frame3, text="Get Started", font=('Roboto', 12), command=lambda: [first.withdraw(), run_game_console()])
         get_started.pack(side=tk.RIGHT, padx=50, pady=20)
 
         switchframe(frame1)
@@ -279,6 +279,7 @@ def run_game_console():
             for button in buttons:
                 if button.is_clicked(event):
                     if button.text == "INSTRUCTIONS":
+                        pygame.quit()
                         open_instructions_window()
                     else:
                         print(f"{button.text} clicked!")
@@ -290,4 +291,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-run_game_console()
+# run_game_console()
