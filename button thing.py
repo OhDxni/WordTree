@@ -5,12 +5,12 @@ using the CustomTkinter library. It consists of the following key functions:
 - create_word_grid: Generates a grid of buttons for the provided words.
 - main: Initializes the application window and displays word grids for 4-, 5-, and 6-letter words.
 """
-import customtkinter as ctk
+import customtkinter as tk
 
 
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("green")
-ctk.set_widget_scaling(1.2)
+tk.set_appearance_mode("dark")
+tk.set_default_color_theme("green")
+tk.set_widget_scaling(1.2)
 
 def create_word_grid(root, word_list, rows, columns, title):
     """
@@ -30,12 +30,12 @@ def create_word_grid(root, word_list, rows, columns, title):
     :param title: The title to be displayed above the grid.
     :type title: str
     """
-    frame = ctk.CTkFrame(root)
+    frame = tk.CTkFrame(root)
     frame.pack(pady=10)
-    ctk.CTkLabel(frame, text=title, font=("Roboto", 14)).pack()
+    tk.CTkLabel(frame, text=title, font=("Roboto", 14)).pack()
 
 
-    grid_frame = ctk.CTkFrame(frame)
+    grid_frame = tk.CTkFrame(frame)
     grid_frame.pack()
 
 
@@ -53,7 +53,7 @@ def create_word_grid(root, word_list, rows, columns, title):
 
     for r, row_words in enumerate(grid_words):
         for c, word in enumerate(row_words):
-            button = ctk.CTkButton(grid_frame, text=word, width=100, height=40,
+            button = tk.CTkButton(grid_frame, text=word, width=100, height=40,
                                    font=("Roboto", 12),
                                    command=lambda w=word: on_button_click(w))
             button.grid(row=r, column=c, padx=5, pady=5)
@@ -68,7 +68,7 @@ def main():
     :param: None
     :type: None
     """
-    root = ctk.CTk()
+    root = tk.CTk()
     root.title("Wordle-like Button Grids")
     root.geometry("600x400")
 
