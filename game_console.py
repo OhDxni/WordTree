@@ -54,6 +54,49 @@ def run_game_console():
     font_small = pygame.font.SysFont('Arial', 16)
     font_default = pygame.font.SysFont('Arial', 20)
 
+    words_4 = ["tree", "love", "bird", "blue", "ship", "fire", "rock", "snow"]
+    words_5 = ["apple", "grape", "peach", "lemon", "plumb", "berry", "melon", "olive"]
+    words_6 = ["banana", "cherry", "orange", "apricot", "guava", "papaya", "quince", "figtree"]
+
+    def open_word_grid(word_list, title):
+
+        root = tk.CTk()
+        root.title(title)
+        root.geometry("600x400")
+
+        def create_word_grid(root, word_list, rows, columns):
+
+            frame = tk.CTkFrame(root)
+            frame.pack(pady=10)
+
+            grid_frame = tk.CTkFrame(frame)
+            grid_frame.pack()
+
+            grid_words = [word_list[i:i + columns] for i in range(0, len(word_list), columns)]
+
+            def on_button_click(word):
+                print(f"You clicked: {word}")
+
+            for r, row_words in enumerate(grid_words):
+                for c, word in enumerate(row_words):
+                    button = tk.CTkButton(
+                        grid_frame, text=word, width=100, height=40,
+                        font=("Roboto", 12),
+                        command=lambda w=word: on_button_click(w)
+                    )
+                    button.grid(row=r, column=c, padx=5, pady=5)
+
+        create_word_grid(root, word_list, rows=2, columns=4)
+
+        def go_back():
+            root.destroy()
+            run_game_console()
+
+        back_button = tk.CTkButton(root, text="← Go Back", width=100, height=40,
+                                   font=("Roboto", 12), command=go_back)
+        back_button.pack(pady=20)
+        root.mainloop()
+
     def open_instructions_window():
         """
         Opens a Tkinter window that displays game instructions.
@@ -281,6 +324,15 @@ def run_game_console():
                     if button.text == "INSTRUCTIONS":
                         pygame.quit()
                         open_instructions_window()
+                    elif button.text == "4-WORDS":
+                        pygame.quit()
+                        open_word_grid(words_4, "4-Letter Words")
+                    elif button.text == "5-WORDS":
+                        pygame.quit()
+                        open_word_grid(words_5, "5-Letter Words")
+                    elif button.text == "6-WORDS":
+                        pygame.quit()
+                        open_word_grid(words_6, "6-Letter Words")
                     else:
                         print(f"{button.text} clicked!")
 
