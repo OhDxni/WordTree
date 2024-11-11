@@ -154,11 +154,19 @@ def partition_filter(set):
             partitions.append(partition)
     return partitions
 
+# The following function should be in databaseToTextfile.py
+def partition_to_file(partition, filename):
+    with open(filename, 'w') as outfile:
+        for word in partition:
+            outfile.write(word.lower().strip()+ "\n")
+
 adj = create_adj_list(words) # gets the adj list
 partitions = bfs_traversal(adj) #excecution of the partitioning
 print(len(partitions)) # Prints the length of the unfiltered partitions
 partitions = partition_filter(partitions) # Filters the partitions
 print(len(partitions)) # Prints the length of the filtered partitions
+partition_6 = partitions[0]
+partition_to_file(partition_6, "databases/parition_6.txt")
 
 # def bfs_algorith(start_word, end_word):
 #     iteratable = (start_word, [start_word])
