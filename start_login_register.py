@@ -116,7 +116,6 @@ def open_start_page():
 #     root.quit()
 
 
-
 def open_login_window():
     """
     Creates and displays the login window for user authentication.
