@@ -30,30 +30,6 @@ customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 logo_image = None
 
-# def center_window(window):
-#     screen_width = window.winfo_screenwidth()
-#     screen_height = window.winfo_screenheight()
-#     x = (screen_width - window.winfo_reqwidth()) // 2
-#     # y = ((screen_height - window.winfo_reqheight()) // 2) #- window.geometry()//2
-#     window.geometry(f"+{x}")
-#     # window.geometry(f"+{x}+{y}")
-
-# def center(win):
-#     """
-#     centers a tkinter window
-#     :param win: the main window or Toplevel window to center
-#     """
-#     win.update_idletasks()
-#     width = win.winfo_width()
-#     frm_width = win.winfo_rootx() - win.winfo_x()
-#     win_width = width + 2 * frm_width
-#     height = win.winfo_height()
-#     titlebar_height = win.winfo_rooty() - win.winfo_y()
-#     win_height = height + titlebar_height + frm_width
-#     x = win.winfo_screenwidth() // 2 - win_width // 2
-#     y = win.winfo_screenheight() // 2 - win_height // 2
-#     win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
-#     win.deiconify()
 
 # Function to open the start page
 def open_start_page():
@@ -63,19 +39,8 @@ def open_start_page():
     :return: None
     """
     global logo_image
-    # root.geometry('800x600')
-    # root.geometry('1920x1080')
-    # root.geometry('750x250')
     root.title("Game Enter Page")
-    x = root.winfo_screenwidth() // 2
-    y = int(root.winfo_screenheight() * 0.1)
-    root.geometry('800x600+' + str(x) + '+' + str(y))
-    # center_window(root)
-    # root.eval('tk::PlaceWindow . center')
-    # center(root)
-    # root.attributes('-fullscreen', True)
-    # print(root.winfo_reqwidth())
-    # print(root.winfo_screenwidth())
+    root.geometry('1920x1080+0+0')
 
     # Create a frame to organize the logo, welcome text, and the button
     frame = customtkinter.CTkFrame(master=root)
@@ -107,14 +72,6 @@ def open_start_page():
     # Start the main loop for the Start page
     root.mainloop()
 
-# def quit_all_roots():
-#     try:
-#         root2.quit()
-#     except:
-#         pass
-#     login_root.quit()
-#     root.quit()
-
 
 def open_login_window():
     """
@@ -126,12 +83,10 @@ def open_login_window():
     # Create a new root window for login
     global login_root
     login_root = customtkinter.CTkToplevel()
-    # login_root = customtkinter.CTk()
-    login_root.geometry("500x500")
+    login_root.geometry("500x500+575+100")
     login_root.title('Login to the game')
-    # center_window(login_root)
 
-    # login_root.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    login_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
 
     # This is a frame for the login window
@@ -203,8 +158,6 @@ def login(username, password):
     # if username not found, show an error with a message "Username not found"
     else:
         messagebox.showerror("Error", "Username not found")
-    # while logged_in == True:
-    #     run_game_console()
 
     # close the connection
     conn.close()
@@ -221,9 +174,9 @@ def open_register_window():
     # root2.deiconify()
     global register_root
     register_root = customtkinter.CTkToplevel()
-    register_root.geometry("500x400")
+    register_root.geometry("500x400+575+140")
 
-    # root2.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    register_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
     # This is a frame for the login window, I can later change the size
     frame2 = customtkinter.CTkFrame(master=register_root)
