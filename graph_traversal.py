@@ -140,8 +140,25 @@ with open(words_filepath, "r") as txt:
         word = word.replace("\n", "").upper()
         words.add(word)
 
+def partition_filter(set):
+    """
+    Loops through all partitions and only returns sizeable ones
+    :param set: set of partitions which will be filtered
+    :type set: set
+    :return: filtered list of partitions
+    :rtype: list
+    """
+    partitions = [] # Creates a list for the partitions
+    for partition in set: # Loops through the partitions
+        if len(partition) > 40: # Checks if the partitions are large enough and appends them to the list if so
+            partitions.append(partition)
+    return partitions
+
 adj = create_adj_list(words) # gets the adj list
-bfs_traversal(adj) #excecution of the partitioning
+partitions = bfs_traversal(adj) #excecution of the partitioning
+print(len(partitions)) # Prints the length of the unfiltered partitions
+partitions = partition_filter(partitions) # Filters the partitions
+print(len(partitions)) # Prints the length of the filtered partitions
 
 # def bfs_algorith(start_word, end_word):
 #     iteratable = (start_word, [start_word])
