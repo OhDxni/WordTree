@@ -63,6 +63,7 @@ def run_game_console():
         root = tk.CTk()
         root.title(title)
         root.geometry("600x400")
+        tk.set_default_color_theme("green")
 
         def create_word_grid(root, word_list, rows, columns):
 
@@ -343,4 +344,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-# run_game_console()
+run_game_console()
