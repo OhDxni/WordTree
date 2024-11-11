@@ -165,9 +165,12 @@ partitions = bfs_traversal(adj) #excecution of the partitioning
 print(len(partitions)) # Prints the length of the unfiltered partitions
 partitions = partition_filter(partitions) # Filters the partitions
 print(len(partitions)) # Prints the length of the filtered partitions
-partition_6 = partitions[0]
-partition_to_file(partition_6, "databases/parition_6.txt")
-
+partition = partitions[0]
+partition_to_file(partition, "databases/partition_6.txt")
+partition = partitions[1]
+partition_to_file(partition, "databases/partition_5.txt")
+partition = partitions[2]
+partition_to_file(partition, "databases/partition_4.txt")
 # def bfs_algorith(start_word, end_word):
 #     iteratable = (start_word, [start_word])
 #     queue = deque([iteratable]) # Initialises queue with starting word and path
