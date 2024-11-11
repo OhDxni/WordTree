@@ -78,3 +78,66 @@ four = "databases/4_letter_valid_words.txt"
 five = "databases/5_letter_valid_words.txt"
 six = "databases/6_letter_valid_words.txt"
 merge_files(four, five, six)
+
+# --------------------------------------------------------------------------------------------------------------
+
+def load_partitions_from_file(filename):
+    """
+    This function loads partitions from partition.txt to a list of sets,
+    that have a length of over 40 words in a partition.
+    :param filename: the partitions.txt file with the partitions
+    :return: return the partitions as lists to further process
+    """
+    with open(filename, "r") as file:
+        partitions = eval(file.read())              # evaluate string to Pythong object (list of sets)
+
+    partitions_sets = []                            # list to store the partitions
+    for partition in partitions:
+        if len(partition) > 40:                     # make sure length iof partition is over 40
+            partitions_sets.append(set(partition))  # turn each partition into a set and append to list
+
+    return partitions_sets                          # return all the partitioned sets
+
+
+def filter_partitions_by_word_length(partitions):
+    """
+    This function filters the partition sets of already over len 40 into a dictionary
+    dependnig on the word_lengths it has
+    :param partitions: the partitions of len > 40
+    :return: dictionary with keys 4,5,6 for each word len with their partition
+    """
+    filtered_partitions = {4:[],                # making keys for each word length to store their partitions
+                           5:[],
+                           6:[]}
+
+    for partition in partitions:                # loop through partitions
+        first_word = next(iter(partition))      # get the first element of the partition
+        word_len = len(first_word)              # find the length of that word
+
+        if word_len in filtered_partitions:     # make sure that length is already as a key in dictionary
+            filtered_partitions[word_len].append(partition) # append the partition to the correct key/word length
+
+    return filtered_partitions
+
+
+def write_partition_to_file(filtered_partitions):
+    """
+    This function creates 3 new files with partitions for 4,5,6- letter words
+    :param filtered_partitions: the dictionary including the 3 partitions
+    :return: new txt files for each of the partitions
+    """
+    for length in [4,5,6]:                                  # loop through neccesaary word lengths
+        #if filtered_partitions[length]:                     # access the dictionary keys by neccessary word_len value
+        filename = f"databases/partitions_{length}.txt"     # create a filename based on length
+
+        with open(filename, "w") as output_file:            # open new file
+            for partition in filtered_partitions[length]:   # loop through partitions for x-letter words
+                for word in partition:                      # write every word in partition to a new line
+                    output_file.write(word.upper().strip() + "\n")
+
+
+partitions = load_partitions_from_file("databases/partitions.txt")    # get the partitions over length 40
+filtered_partition = filter_partitions_by_word_length(partitions)     # filter them into dictionary of 3,4,5- letter word partitions
+write_partition_to_file(filtered_partition)                           # create 3 new files based on word length including its partition over length 40
+
+
