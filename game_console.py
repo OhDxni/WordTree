@@ -344,4 +344,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-# run_game_console()
+run_game_console()
