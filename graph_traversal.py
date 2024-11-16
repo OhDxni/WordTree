@@ -139,26 +139,24 @@ def bfs_traversal(adj):
         file.write(str(partitions))             # writes the partitions into a file
     return partitions
 
-
-words_filepath = "databases/all_words.txt"      # gets the filepath for use in adjlist
-words = set()                                   # creates a set to use in adjlist
-
-# writes the words in file to words (set)
-with open(words_filepath, "r") as txt:
-    for word in txt:
-        word = word.replace("\n", "").upper()
-        words.add(word)
+### Needs to go into function or main file
+# words_filepath = "databases/all_words.txt"      # gets the filepath for use in adjlist
+# words = set()                                   # creates a set to use in adjlist
+#
+# # writes the words in file to words (set)
+# with open(words_filepath, "r") as txt:
+#     for word in txt:
+#         word = word.replace("\n", "").upper()
+#         words.add(word)
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-
 # function to select 2 words from a selected partition file and make sure they are at least
 def choose_words(word_len):
     """
     This function chooses 2 words from a partitioning depending on word length chosen
     and makes sure the words are different enough, meaning at maximum 1 similar letter in the word
-    :param word_len: the chosen word length
-    :type word_len:
+    :param word_len: the chosen word length; either 4, 5 or 6
+    :type word_len: int
     :return: list of 2 words that will be used as start and end of the game
     :rtype: lst
     """
@@ -189,9 +187,7 @@ def choose_words(word_len):
             start_and_end.append(end_word)
 
             return start_and_end                          # return start and end word as a list
-
-
-#print(choose_words(6))
+# print(choose_words(6))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Connects sqlite3 package to the database file, and creates a cursor object based on it
@@ -211,15 +207,47 @@ def all_possible_next_words(word):
     cursor_obj.execute("SELECT Neighbours FROM linked_database WHERE Word = ?", (word,))
     neighbours = cursor_obj.fetchone()                  # Gets neighbours in the form of a tuple
 
-    return neighbours
-
-
-#print(all_possible_next_words("mind"))
-
+    if neighbours is not None:
+        neighbours_list = neighbours[0].split(",")
+        return neighbours_list
 # ----------------------------------------------------------------------------------------------------------------------
+# Note that the print statements in this function should be replaced with/work alongside the buttons!
+def game(word_len):
+    """
+    Function which allows the actual game to be played. Makes use of choose_words() to select
+    a random beginning and starting word, and uses all_possible_next_words() to get all neighbours
+    from the current word.
+    :param word_len: the chosen word length; either 4, 5 or 6
+    :type word_len: int
+    :return: boolean value to indicate the traversal was succesful
+    """
+    # start_and_end = choose_words(word_len)
+    # start_word, end_word = start_and_end
+    start_word, end_word = "BOAT", "BOOK"
 
+    curr_word = start_word
+    while curr_word != end_word:
+        neighbours = all_possible_next_words(curr_word)
+        print("\ncurr", curr_word)
+        print("neighbours",  neighbours)
+        print("end", end_word)
+        user_input = input("Pick word from neighbours: ").strip().upper()
 
+        # Check to make sure chosen word is valid; note this is REDUDANT assuming the buttons work properly
+        # it is not possible for the user to pick a word which isn't in the adj_list
+        if user_input not in neighbours:
+            print("!!!!! Neighbour not in adj_list !!!!!")
+            continue
 
+        curr_word = user_input
+
+    # Check to make sure end word has been reached (redundant, but used for now to return True in case of win
+    if curr_word == end_word:
+        print("Yippieee! You got to the end word!")
+        return True
+
+game(4)
+# ----------------------------------------------------------------------------------------------------------------------
 
 #
 # def partition_filter(set):
