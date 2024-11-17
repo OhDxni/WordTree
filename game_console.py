@@ -29,7 +29,7 @@ def run_game_console():
     pygame.init()
 
 
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1920, 1080))
     pygame.display.set_caption('Tree with Buttons')
 
     # Define colors
@@ -49,9 +49,9 @@ def run_game_console():
     button_text_color = (255, 255, 255)
 
     # Font for button text
-    font_very_small = pygame.font.SysFont('Arial', 12)
-    font_small = pygame.font.SysFont('Arial', 16)
-    font_default = pygame.font.SysFont('Arial', 20)
+    font_very_small = pygame.font.SysFont('Arial', 18)
+    font_small = pygame.font.SysFont('Arial', 24)
+    font_default = pygame.font.SysFont('Arial', 28)
 
     words_4 = ["tree", "love", "bird", "blue", "ship", "fire", "rock", "snow"]
     words_5 = ["apple", "grape", "peach", "lemon", "plumb", "berry", "melon", "olive"]
@@ -254,37 +254,29 @@ def run_game_console():
        :param screen: The Pygame surface on which to draw the tree.
        """
         # Draw the trunk with shading for a 3D effect
-        pygame.draw.rect(screen, BROWN, (390, 350, 20, 200))  # Center trunk
-        pygame.draw.rect(screen, (80, 50, 30), (400, 350, 10, 200))  # Darker side for depth
+        pygame.draw.rect(screen, BROWN, (930, 550, 60, 400))  # Trunk
+        pygame.draw.rect(screen, (80, 50, 30), (960, 550, 30, 400))  # Shading
 
-        # Draw branches, more spaced out
-        pygame.draw.line(screen, BROWN, (400, 350), (150, 300), 15)  # Leftmost branch
-        pygame.draw.line(screen, BROWN, (400, 350), (650, 300), 15)  # Rightmost branch
-        pygame.draw.line(screen, BROWN, (400, 300), (220, 230), 10)  # Middle-left branch
-        pygame.draw.line(screen, BROWN, (400, 300), (580, 230), 10)  # Middle-right branch
-        pygame.draw.line(screen, BROWN, (400, 270), (400, 170), 10)  # Top branch
+        # Branches
+        pygame.draw.line(screen, BROWN, (960, 550), (400, 450), 30)  # Left
+        pygame.draw.line(screen, BROWN, (960, 550), (1520, 450), 30)  # Right
+        pygame.draw.line(screen, BROWN, (960, 450), (600, 350), 20)  # Middle-left
+        pygame.draw.line(screen, BROWN, (960, 450), (1320, 350), 20)  # Middle-right
+        pygame.draw.line(screen, BROWN, (960, 400), (960, 200), 20)  # Top
 
-        # Draw some foliage on the branches
-        pygame.draw.circle(screen, GREEN, (150, 300), 50)  # Leftmost foliage
-        pygame.draw.circle(screen, DARK_GREEN, (150, 300), 30)  # Darker inner foliage
+        # Foliage
+        foliage_positions = [
+            (400, 450, 120), (1520, 450, 120), (600, 350, 100),
+            (1320, 350, 100), (960, 200, 120)
+        ]
+        for x, y, size in foliage_positions:
+            pygame.draw.circle(screen, GREEN, (x, y), size)
+            pygame.draw.circle(screen, DARK_GREEN, (x, y), size - 40)
 
-        pygame.draw.circle(screen, GREEN, (650, 300), 50)  # Rightmost foliage
-        pygame.draw.circle(screen, DARK_GREEN, (650, 300), 30)  # Darker inner foliage
-
-        pygame.draw.circle(screen, GREEN, (220, 230), 40)  # Left middle foliage
-        pygame.draw.circle(screen, DARK_GREEN, (220, 230), 20)  # Darker inner foliage
-
-        pygame.draw.circle(screen, GREEN, (580, 230), 40)  # Right middle foliage
-        pygame.draw.circle(screen, DARK_GREEN, (580, 230), 20)  # Darker inner foliage
-
-        pygame.draw.circle(screen, GREEN, (400, 170), 50)  # Top foliage
-        pygame.draw.circle(screen, DARK_GREEN, (400, 170), 30)  # Darker inner foliage
-
-        # Add dark green grass at the bottom of the tree
-        pygame.draw.rect(screen, GRASS_GREEN, (0, 550, 800, 50))
-        for i in range(0, 800, 40):
-            pygame.draw.circle(screen, GRASS_GREEN, (i, 550), 30)
-
+        # Grass
+        pygame.draw.rect(screen, GRASS_GREEN, (0, 950, 1920, 130))
+        for i in range(0, 1920, 80):
+            pygame.draw.circle(screen, GRASS_GREEN, (i, 960), 50)
 
     # Function to draw clouds
     def draw_clouds(screen):
@@ -294,26 +286,20 @@ def run_game_console():
         :param screen: The Pygame surface on which to draw the clouds.
         """
         # Draw clouds using circles
-        pygame.draw.circle(screen, CLOUD_COLOR, (150, 100), 30)
-        pygame.draw.circle(screen, CLOUD_COLOR, (180, 100), 40)
-        pygame.draw.circle(screen, CLOUD_COLOR, (220, 100), 30)
+        cloud_positions = [
+            (400, 150, 50), (450, 150, 70), (510, 150, 50),
+            (1300, 200, 50), (1350, 200, 70), (1410, 200, 50),
+            (900, 100, 40), (960, 100, 60), (1020, 100, 40)
+        ]
+        for x, y, radius in cloud_positions:
+            pygame.draw.circle(screen, CLOUD_COLOR, (x, y), radius)
 
-        pygame.draw.circle(screen, CLOUD_COLOR, (600, 150), 30)
-        pygame.draw.circle(screen, CLOUD_COLOR, (630, 150), 40)
-        pygame.draw.circle(screen, CLOUD_COLOR, (670, 150), 30)
-
-        pygame.draw.circle(screen, CLOUD_COLOR, (400, 80), 25)
-        pygame.draw.circle(screen, CLOUD_COLOR, (430, 80), 35)
-        pygame.draw.circle(screen, CLOUD_COLOR, (470, 80), 25)
-
-
-    # Create round buttons
     buttons = [
-        Button(200, 500, 50, "DEMO", font_default),
-        Button(400, 500, 50, "4-WORDS", font_default),
-        Button(600, 500, 50, "INSTRUCTIONS", font_very_small),
-        Button(300, 440, 50, "5-WORDS", font_default),
-        Button(500, 440, 50, "6-WORDS", font_default)
+        Button(500, 850, 80, "DEMO", font_default),
+        Button(960, 850, 80, "4-WORDS", font_default),
+        Button(1420, 850, 80, "INSTRUCTIONS", font_small),
+        Button(730, 750, 80, "5-WORDS", font_default),
+        Button(1190, 750, 80, "6-WORDS", font_default)
     ]
 
     # Main loop
