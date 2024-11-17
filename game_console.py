@@ -28,7 +28,6 @@ def run_game_console():
     """
     pygame.init()
 
-    # pygame.protocol("WM_DELETE_WINDOW", pygame.quit())
 
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('Tree with Buttons')
@@ -58,15 +57,29 @@ def run_game_console():
     words_5 = ["apple", "grape", "peach", "lemon", "plumb", "berry", "melon", "olive"]
     words_6 = ["banana", "cherry", "orange", "apricot", "guava", "papaya", "quince", "figtree"]
 
+    def quit_game(window):
+        """
+        Closes all windows and halts the program when X is clicked
+        """
+        window.destroy()
+        try:
+            pygame.quit()    # uncomment if we want to keep the game console in the background
+        except pygame.error:
+            pass
+
     def open_word_grid(word_list, title):
 
-        root = tk.CTk()
-        root.title(title)
-        root.geometry("600x400")
+        word_root = tk.CTk()
+        word_root.title(title)
+        word_root.geometry("1920x1080+0+0")
+        # word_root.geometry("600x400+500+150")
+        tk.set_default_color_theme("green")
+
+        word_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(word_root))
 
         def create_word_grid(root, word_list, rows, columns):
 
-            frame = tk.CTkFrame(root)
+            frame = tk.CTkFrame(word_root)
             frame.pack(pady=10)
 
             grid_frame = tk.CTkFrame(frame)
@@ -86,16 +99,16 @@ def run_game_console():
                     )
                     button.grid(row=r, column=c, padx=5, pady=5)
 
-        create_word_grid(root, word_list, rows=2, columns=4)
+        create_word_grid(word_root, word_list, rows=2, columns=4)
 
         def go_back():
-            root.destroy()
+            word_root.destroy()
             run_game_console()
 
-        back_button = tk.CTkButton(root, text="← Go Back", width=100, height=40,
+        back_button = tk.CTkButton(word_root, text="← Go Back", width=100, height=40,
                                    font=("Roboto", 12), command=go_back)
         back_button.pack(pady=20)
-        root.mainloop()
+        word_root.mainloop()
 
     def open_instructions_window():
         """
@@ -117,7 +130,10 @@ def run_game_console():
 
         first = tk.CTk()
         first.title("Instructions")
-        first.geometry("500x500")
+        first.geometry("470x320+600+170")
+
+
+        first.protocol("WM_DELETE_WINDOW", lambda: quit_game(first))
 
         frame1 = tk.CTkFrame(first)
         frame2 = tk.CTkFrame(first)
@@ -125,6 +141,7 @@ def run_game_console():
 
         for frame in (frame1, frame2, frame3):
             frame.grid(row=0, column=0, sticky='nsew')
+            # frame.pack(expand=True)
 
         # first page of the instructions
         label1 = tk.CTkLabel(frame1, text="Here is how to play:\n\n"
@@ -138,8 +155,8 @@ def run_game_console():
                                    font=('Roboto', 12))
         nextbutton1.pack(side=tk.RIGHT, padx=50, pady=20)
 
-        backbutton1 = tk.CTkButton(frame1, text="Back", font=('Roboto', 12),
-                                   command=lambda: [first.withdraw(), run_game_console()])
+        backbutton1 = tk.CTkButton(frame1, text="<- Back", font=('Roboto', 12),
+                                   command=lambda: [first.destroy(), run_game_console()])
         backbutton1.pack(side=tk.LEFT, padx=50, pady=20)
 
         # second page
@@ -152,7 +169,7 @@ def run_game_console():
         nextbutton2 = tk.CTkButton(frame2, text="Next", command=lambda: switchframe(frame3),
                                    font=('Roboto', 12))
         nextbutton2.pack(side=tk.RIGHT, padx=50, pady=20)
-        backbutton2 = tk.CTkButton(frame2, text="Back", font=('Roboto', 12), command=lambda: switchframe(frame1))
+        backbutton2 = tk.CTkButton(frame2, text="<- Back", font=('Roboto', 12), command=lambda: switchframe(frame1))
         backbutton2.pack(side=tk.LEFT, padx=50, pady=20)
 
         # third page
