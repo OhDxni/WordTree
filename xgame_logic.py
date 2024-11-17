@@ -98,46 +98,11 @@ def choose_words(word_len):
             return start_and_end                          # return start and end word as a list
 # print(choose_words(6))
 # ----------------------------------------------------------------------------------------------------------------------
-# Note that the print statements in this function should be replaced with/work alongside the buttons!
-def game(word_len):
-    """
-    Function which allows the actual game to be played. Makes use of choose_words() to select
-    a random beginning and starting word, and uses all_possible_next_words() to get all neighbours
-    from the current word.
-    :param word_len: the chosen word length; either 4, 5 or 6
-    :type word_len: int
-    :return: boolean value to indicate the traversal was succesful
-    """
-    start_and_end = choose_words(word_len)
-    start_word, end_word = start_and_end
-    # start_word, end_word = "BOAT", "BOOK"
-
-    curr_word = start_word
-    while curr_word != end_word:
-        neighbours = all_possible_next_words(curr_word)
-        print("\ncurr", curr_word)
-        print("neighbours",  neighbours)
-        print("end", end_word)
-        user_input = input("Pick word from neighbours: ").strip().upper()
-
-        # Check to make sure chosen word is valid; note this is REDUDANT assuming the buttons work properly
-        # it is not possible for the user to pick a word which isn't in the adj_list
-        if user_input not in neighbours:
-            print("!!!!! Neighbour not in adj_list !!!!!")
-            continue
-
-        curr_word = user_input
-
-    # Check to make sure end word has been reached (redundant, but used for now to return True in case of win
-    if curr_word == end_word:
-        return True
-
-# game(4)
-# ----------------------------------------------------------------------------------------------------------------------
 class Game:
     def __init__(self, mode):
         """
         Initialises all variables; changes after each step in the game
+
         :param mode: the chosen word length; either 4, 5 or 6
         :type mode: int
         """
@@ -148,8 +113,10 @@ class Game:
 
     def current_move(self):
         """
-        Returns the current word, its neighbours and the final word of the last move
-        :return: dictionary
+        Retrieves information of the last played move
+
+        :return: dictionary containing the current word, its neighbours and the final word of the last move
+        :rtype: dict
         """
         curr_info = {}
         curr_info["curr_word"] = self.curr_word
@@ -158,6 +125,12 @@ class Game:
         return curr_info
 
     def make_move(self, user_input):
+        """
+        xxx
+
+        :param user_input:
+        :return:
+        """
         user_input = user_input.strip().upper()
 
         # REDUNDANT FOR FRONT END

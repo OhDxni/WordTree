@@ -1,7 +1,7 @@
 from xword_processing import words_len4, words_len5, words_len6, merge_files
 from xdatabase_management import create_adj_list, create_linked_database
 from xpartioning import bfs_traversal, filter_partitions_by_word_length, write_partition_to_file
-from xgame_logic import game, Game
+from xgame_logic import Game
 from xhelper_functions import load_words_from_file
 
 def main():
@@ -36,16 +36,6 @@ def main():
         filtered_partitions = filter_partitions_by_word_length(partitions)
         write_partition_to_file(filtered_partitions)
         print("Partitions generated :)\n")
-
-    # Start game (old game file)
-    # if start_game:
-    #     word_length = int(input("Which mode (4, 5, 6)? "))
-    #     activating_game = game(word_length)
-    #
-    #     if activating_game is True:
-    #         print("Yippieee! You got to the end word!")
-    #     else:
-    #         print("You lost")
 
     # Start game (class)
     if start_game:
