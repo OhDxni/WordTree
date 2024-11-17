@@ -1,14 +1,14 @@
 from xword_processing import words_len4, words_len5, words_len6, merge_files
 from xdatabase_management import create_adj_list, create_linked_database
 from xpartioning import bfs_traversal, filter_partitions_by_word_length, write_partition_to_file
-from xgame_logic import game
+from xgame_logic import game, Game
 from xhelper_functions import load_words_from_file
 
 def main():
-    create_all_words = True
+    create_all_words = False
     create_database = False
     generate_partitions = False
-    start_game = False
+    start_game = True
 
     # All words file creation
     if create_all_words:
@@ -37,13 +37,31 @@ def main():
         write_partition_to_file(filtered_partitions)
         print("Partitions generated :)\n")
 
-    # Start game
+    # Start game (old game file)
+    # if start_game:
+    #     word_length = int(input("Which mode (4, 5, 6)? "))
+    #     activating_game = game(word_length)
+    #
+    #     if activating_game is True:
+    #         print("Yippieee! You got to the end word!")
+    #     else:
+    #         print("You lost")
+
+    # Start game (class)
     if start_game:
-        word_length = int(input("Which mode (4, 5, 6)? "))
-        activating_game = game(word_length)
-        if activating_game is True:
-            print("Yippieee! You got to the end word!")
-        else: print("You lost")
+        mode = int(input("Which mode (4, 5, 6)? "))
+        game = Game(mode)
+
+        while game.curr_word != game.end_word:
+            print("\ncurr", game.curr_word)
+            print("neighbours", game.curr_neighbours)
+            print("end", game.end_word)
+            user_input = input("Pick word from neighbours: ").strip().upper()
+
+            # REDUNDANT FOR FRONT END
+            boolean = game.make_move(user_input)
+            if boolean is False:
+                continue
 
 if __name__ == "__main__":
     main()

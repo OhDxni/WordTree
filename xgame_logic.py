@@ -55,7 +55,7 @@ def a_pain_algorith(start_word, end_word):
                 heapq.heappush(priority_queue, (expected_cost, neighbour, new_cost, temp_path))
     return "Sorry, a path between the starting and end word wasn't found."
 
-#print(a_pain_algorith("DEEK", "JOWS"))
+# print(a_pain_algorith("GOATEE", "KAYOES"))
 # ----------------------------------------------------------------------------------------------------------------------
 def choose_words(word_len):
     """
@@ -68,16 +68,20 @@ def choose_words(word_len):
     """
     filename = f"databases\partitions_{word_len}.txt"     # access the correct partitioning set from the right file
     with open(filename, "r") as file:                     # open the file, get the set
-        words = eval(file.read().strip())
+        words = []  # Initialize an empty list to hold the words
+        for line in file:  # Loop through each line in the file
+            stripped_line = line.strip()  # Remove leading and trailing whitespace from the line
+            if stripped_line:  # Check if the line is not empty after stripping
+                words.append(stripped_line)  # Add the stripped line to the words list
 
     words_list = list(words)                              # convert set to list
 
     while True:
         start_word = random.choice(words_list)            # choose a random word for start
         end_word = random.choice(words_list)              # random word as end
+
         if start_word == end_word:                        # making sure the words are not the same
             continue                                      # if same word, do while loop again, generating new start, end
-
         # checking that there is only one letter in common
         count = 0                                         # counter to make sure common letters not over 1
         for let1 in start_word:                           # loop through the words of start
@@ -104,9 +108,9 @@ def game(word_len):
     :type word_len: int
     :return: boolean value to indicate the traversal was succesful
     """
-    # start_and_end = choose_words(word_len)
-    # start_word, end_word = start_and_end
-    start_word, end_word = "BOAT", "BOOK"
+    start_and_end = choose_words(word_len)
+    start_word, end_word = start_and_end
+    # start_word, end_word = "BOAT", "BOOK"
 
     curr_word = start_word
     while curr_word != end_word:
@@ -129,4 +133,43 @@ def game(word_len):
         return True
 
 # game(4)
+# ----------------------------------------------------------------------------------------------------------------------
+class Game:
+    def __init__(self, mode):
+        """
+        Initialises all variables; changes after each step in the game
+        :param mode: the chosen word length; either 4, 5 or 6
+        :type mode: int
+        """
+        self.mode = mode
+        self.start_word, self.end_word = choose_words(mode)
+        self.curr_word = self.start_word
+        self.curr_neighbours = all_possible_next_words(self.curr_word)
+
+    def current_move(self):
+        """
+        Returns the current word, its neighbours and the final word of the last move
+        :return: dictionary
+        """
+        curr_info = {}
+        curr_info["curr_word"] = self.curr_word
+        curr_info["curr_neighbours"] = self.curr_neighbours
+        curr_info["end_word"] = self.end_word
+        return curr_info
+
+    def make_move(self, user_input):
+        user_input = user_input.strip().upper()
+
+        # REDUNDANT FOR FRONT END
+        if user_input not in self.curr_neighbours:
+            print("!!!!! Neighbour not in adj_list !!!!!")
+            return False
+
+        self.curr_word = user_input
+
+        if self.curr_word == self.end_word:
+            print("Yippieee! You got to the end word!")
+            return True
+        else:
+            self.curr_neighbours = all_possible_next_words(self.curr_word)
 # ----------------------------------------------------------------------------------------------------------------------
