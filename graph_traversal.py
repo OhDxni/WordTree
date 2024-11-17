@@ -160,10 +160,13 @@ def choose_words(word_len):
     :return: list of 2 words that will be used as start and end of the game
     :rtype: lst
     """
-
     filename = f"databases\partitions_{word_len}.txt"     # access the correct partitioning set from the right file
     with open(filename, "r") as file:                     # open the file, get the set
-        words = eval(file.read().strip())
+        words = []  # Initialize an empty list to hold the words
+        for line in file:  # Loop through each line in the file
+            stripped_line = line.strip()  # Remove leading and trailing whitespace from the line
+            if stripped_line:  # Check if the line is not empty after stripping
+                words.append(stripped_line)  # Add the stripped line to the words list
 
     words_list = list(words)                              # convert set to list
 
@@ -187,7 +190,7 @@ def choose_words(word_len):
             start_and_end.append(end_word)
 
             return start_and_end                          # return start and end word as a list
-# print(choose_words(6))
+print(choose_words(6))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Connects sqlite3 package to the database file, and creates a cursor object based on it
@@ -209,7 +212,12 @@ def all_possible_next_words(word):
 
     if neighbours is not None:
         neighbours_list = neighbours[0].split(",")
-        return neighbours_list
+        return tuple(neighbours_list)
+    else:
+        return ()
+
+
+print(all_possible_next_words("MIND"))
 # ----------------------------------------------------------------------------------------------------------------------
 # Note that the print statements in this function should be replaced with/work alongside the buttons!
 def game(word_len):
@@ -232,6 +240,7 @@ def game(word_len):
         print("neighbours",  neighbours)
         print("end", end_word)
         user_input = input("Pick word from neighbours: ").strip().upper()
+        user_input.upper()
 
         # Check to make sure chosen word is valid; note this is REDUDANT assuming the buttons work properly
         # it is not possible for the user to pick a word which isn't in the adj_list
@@ -244,6 +253,7 @@ def game(word_len):
     # Check to make sure end word has been reached (redundant, but used for now to return True in case of win
     if curr_word == end_word:
         print("Yippieee! You got to the end word!")
+        #print(f"The shortest path wouldve been {len(a_pain_algorith(start_word, end_word))}")
         return True
 
 game(4)

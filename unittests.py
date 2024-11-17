@@ -13,9 +13,9 @@ This file includes the unittests for our functions and code.
 class TestGraphTraversal(unittest.TestCase):
     def test_all_possible_next_words_mind(self):  # testing so see if it finds correct neighbours
         word = "MIND"
-        expected_neighbours = ('BIND,FIND,HIND,KIND,LIND,RIND,SIND,TIND,WIND,MAND,MEND,MILD,MINA,MINE,MING,MINI,MINK,MINO,MINT,MINX,MINY',)
+        expected_neighbours = ('BIND', 'FIND', 'HIND', 'KIND', 'LIND', 'RIND', 'SIND', 'TIND', 'WIND', 'MAND', 'MEND', 'MILD', 'MINA', 'MINE', 'MING', 'MINI', 'MINK', 'MINO', 'MINT', 'MINX', 'MINY')
         result = all_possible_next_words(word)
-        self.assertEqual(result,expected_neighbours)      # check to see if result matches expected
+        self.assertEqual(result, expected_neighbours)      # check to see if result matches expected
 
     def invalid_word(self):  # testing for a word  not from database
         word = "ZXYS"

@@ -127,5 +127,6 @@ def game(word_len):
     # Check to make sure end word has been reached (redundant, but used for now to return True in case of win
     if curr_word == end_word:
         return True
+
 # game(4)
 # ----------------------------------------------------------------------------------------------------------------------
