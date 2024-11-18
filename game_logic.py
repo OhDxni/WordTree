@@ -1,7 +1,7 @@
 import random
 import heapq
-from xhelper_functions import letter_difference
-from xdatabase_management import find_neighbours, all_possible_next_words
+from helper_functions import letter_difference, depth_selector
+from database_management import find_neighbours, all_possible_next_words
 # ----------------------------------------------------------------------------------------------------------------------
 def a_pain_algorith(start_word, end_word):
     """
@@ -57,6 +57,35 @@ def a_pain_algorith(start_word, end_word):
 
 # print(a_pain_algorith("GOATEE", "KAYOES"))
 # ----------------------------------------------------------------------------------------------------------------------
+def end_word_selector(start_word, depth):
+    """
+    xxx
+
+    :param start_word:
+    :param depth:
+    :return:
+    """
+    curr_word = start_word
+    visited = set()
+    previous_neighbours = []
+
+    for i in range(depth+1):
+        valid_neighbours = []
+
+        neighbours = find_neighbours(curr_word)
+
+        if curr_word not in visited and curr_word not in previous_neighbours:
+            for neighbour in neighbours:
+                valid_neighbours.append(neighbour)
+
+        next_word = random.choice(valid_neighbours)
+
+        visited.add(curr_word)
+        previous_neighbours.append(neighbours)
+
+        curr_word = next_word
+    return curr_word
+# ----------------------------------------------------------------------------------------------------------------------
 def choose_words(word_len):
     """
     This function chooses 2 words from a partitioning depending on word length chosen
@@ -75,27 +104,11 @@ def choose_words(word_len):
                 words.append(stripped_line)  # Add the stripped line to the words list
 
     words_list = list(words)                              # convert set to list
+    chosen_depth = depth_selector(word_len)
+    start_word = random.choice(words_list)                # choose a random word for start
+    end_word = end_word_selector(start_word, chosen_depth)
 
-    while True:
-        start_word = random.choice(words_list)            # choose a random word for start
-        end_word = random.choice(words_list)              # random word as end
-
-        if start_word == end_word:                        # making sure the words are not the same
-            continue                                      # if same word, do while loop again, generating new start, end
-        # checking that there is only one letter in common
-        count = 0                                         # counter to make sure common letters not over 1
-        for let1 in start_word:                           # loop through the words of start
-            for let2 in end_word:                         # loop thrpugh words of end
-                if let1 == let2:
-                    count += 1                            # if they have same letters, up the count
-                    if count > 1:                         # if more than one common letter, regenerate 2 words
-                        break                             # exit let1 for loop, start again by generating new start and end
-        else:
-            start_and_end = []
-            start_and_end.append(start_word)
-            start_and_end.append(end_word)
-
-            return start_and_end                          # return start and end word as a list
+    return start_word, end_word                           # return start and end word
 # print(choose_words(6))
 # ----------------------------------------------------------------------------------------------------------------------
 class Game:
@@ -142,7 +155,6 @@ class Game:
         self.curr_word = user_input
 
         if self.curr_word == self.end_word:
-            print("Yippieee! You got to the end word!")
             return True
         else:
             self.curr_neighbours = all_possible_next_words(self.curr_word)

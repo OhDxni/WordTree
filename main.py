@@ -1,8 +1,8 @@
-from xword_processing import words_len4, words_len5, words_len6, merge_files
-from xdatabase_management import create_adj_list, create_linked_database
-from xpartioning import bfs_traversal, filter_partitions_by_word_length, write_partition_to_file
-from xgame_logic import Game
-from xhelper_functions import load_words_from_file
+from word_processing import words_len4, words_len5, words_len6, merge_files
+from database_management import create_adj_list, create_linked_database
+from partioning import bfs_traversal, filter_partitions_by_word_length, write_partition_to_file
+from game_logic import Game
+from helper_functions import load_words_from_file
 
 def main():
     create_all_words = False
@@ -43,7 +43,9 @@ def main():
         mode = int(input("Which mode (4, 5, 6)? "))
         game = Game(mode)
 
+        steps = 0
         while game.curr_word != game.end_word:
+            steps += 1
             print("\ncurr", game.curr_word)
             print("neighbours", game.curr_neighbours)
             print("end", game.end_word)
@@ -53,6 +55,7 @@ def main():
             if move is False:
                 continue
             if move is True:
+                print(f"Yippieee! You got to the end word in {steps} steps!")
                 break
 
 if __name__ == "__main__":
