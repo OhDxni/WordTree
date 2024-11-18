@@ -25,7 +25,8 @@ from users_database import *
 
 
 root = customtkinter.CTk()
-
+print(root.winfo_screenwidth())
+print(root.winfo_screenheight())
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 logo_image = None

@@ -28,9 +28,13 @@ def run_game_console():
     """
     pygame.init()
 
+    print(pygame.display.Info())
 
-    screen = pygame.display.set_mode((1920, 1080))
+    # screen = pygame.display.set_mode((1920, 1080))
+    screen = pygame.display.set_mode((1220, 1080), pygame.FULLSCREEN)
     pygame.display.set_caption('Tree with Buttons')
+
+    # pygame.bind('<Escape>', pygame.quit())
 
     # Define colors
     WHITE = (255, 255, 255)
