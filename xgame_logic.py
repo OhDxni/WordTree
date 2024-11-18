@@ -126,10 +126,11 @@ class Game:
 
     def make_move(self, user_input):
         """
-        xxx
+        Equals one move in the game, based on the given user input. Also contains check for win condition.
 
-        :param user_input:
-        :return:
+        :param user_input: user input selecting a word from the list of current neighbours
+        :type user_input: str
+        :return: bool
         """
         user_input = user_input.strip().upper()
 

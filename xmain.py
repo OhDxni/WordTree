@@ -19,6 +19,7 @@ def main():
         words_len5("databases/370k_Word_File.csv", output_5)
         words_len6("databases/370k_Word_File.csv", output_6)
         merge_files(output_4, output_5, output_6)  # Outputs in all_words.txt
+        print("Files merged; all_words.txt created :)")
 
     # Initialising all_words.txt
     all_words_filepath = "databases/all_words.txt"
@@ -48,10 +49,11 @@ def main():
             print("end", game.end_word)
             user_input = input("Pick word from neighbours: ").strip().upper()
 
-            # REDUNDANT FOR FRONT END
-            boolean = game.make_move(user_input)
-            if boolean is False:
+            move = game.make_move(user_input)
+            if move is False:
                 continue
+            if move is True:
+                break
 
 if __name__ == "__main__":
     main()
