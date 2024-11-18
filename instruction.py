@@ -26,7 +26,7 @@ def switchframe(frame):
 
 first = tk.CTk()
 first.title("Instructions")
-first.geometry("500x500")
+first.geometry("500x330")
 
 frame1 = tk.CTkFrame(first)
 frame2 = tk.CTkFrame(first)

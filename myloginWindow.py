@@ -70,6 +70,7 @@ def open_login_window():
     #designing the login button
     button = customtkinter.CTkButton(master=frame1, text="Login", command=login) #command connects it to the function login that we will later implement
     button.pack(pady=12, padx=10)
+    button.bind('<Return>', command=login)
 
     #designing the "Remember me" check box
     checkbox = customtkinter.CTkCheckBox(master=frame1, text="Remember me")
