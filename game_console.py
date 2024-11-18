@@ -29,7 +29,7 @@ def run_game_console():
     pygame.init()
 
 
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1920, 1080))
     pygame.display.set_caption('Tree with Buttons')
 
     # Define colors
