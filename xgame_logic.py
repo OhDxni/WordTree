@@ -41,7 +41,7 @@ def a_pain_algorith(start_word, end_word):
 
         visited.add(curr_word)
         neighbours = find_neighbours(curr_word)
-        print("curr", curr_word, "cost", curr_cost, "neighbours", neighbours)
+        #print("curr", curr_word, "cost", curr_cost, "neighbours", neighbours)
 
         # Iterate over each neighbour, check if it's in visited, and if not determine cost and push
         for neighbour in neighbours:

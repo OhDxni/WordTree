@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
-from graph_traversal import all_possible_next_words
-from graph_traversal import choose_words
+from xdatabase_management import all_possible_next_words
+from xgame_logic import choose_words
 from graph_traversal import find_neighbours
 
 """
