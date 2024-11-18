@@ -28,9 +28,8 @@ root = customtkinter.CTk()
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
-
-
 logo_image = None
+
 
 # Function to open the start page
 def open_start_page():
@@ -40,9 +39,8 @@ def open_start_page():
     :return: None
     """
     global logo_image
-    root.geometry('800x600')
     root.title("Game Enter Page")
-
+    root.geometry('1920x1080+0+0')
 
     # Create a frame to organize the logo, welcome text, and the button
     frame = customtkinter.CTkFrame(master=root)
@@ -74,15 +72,6 @@ def open_start_page():
     # Start the main loop for the Start page
     root.mainloop()
 
-# def quit_all_roots():
-#     try:
-#         root2.quit()
-#     except:
-#         pass
-#     login_root.quit()
-#     root.quit()
-
-
 
 def open_login_window():
     """
@@ -94,11 +83,10 @@ def open_login_window():
     # Create a new root window for login
     global login_root
     login_root = customtkinter.CTkToplevel()
-    # login_root = customtkinter.CTk()
-    login_root.geometry("500x500")
+    login_root.geometry("500x500+575+100")
     login_root.title('Login to the game')
 
-    # login_root.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    login_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
 
     # This is a frame for the login window
@@ -171,8 +159,6 @@ def login(username, password):
     # if username not found, show an error with a message "Username not found"
     else:
         messagebox.showerror("Error", "Username not found")
-    # while logged_in == True:
-    #     run_game_console()
 
     # close the connection
     conn.close()
@@ -189,9 +175,9 @@ def open_register_window():
     # root2.deiconify()
     global register_root
     register_root = customtkinter.CTkToplevel()
-    register_root.geometry("500x400")
+    register_root.geometry("500x400+575+140")
 
-    # root2.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    register_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
     # This is a frame for the login window, I can later change the size
     frame2 = customtkinter.CTkFrame(master=register_root)
