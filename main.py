@@ -1,11 +1,12 @@
 from word_processing import words_len4, words_len5, words_len6, merge_files
-from database_management import create_adj_list, create_linked_database
+from database_management import create_adj_list, create_linked_database, save_adj_list
 from partioning import bfs_traversal, filter_partitions_by_word_length, write_partition_to_file
 from game_logic import Game
 from helper_functions import load_words_from_file
 
 def main():
     create_all_words = False
+    create_adj_lists = False
     create_database = False
     generate_partitions = False
     start_game = True
@@ -24,6 +25,11 @@ def main():
     # Initialising all_words.txt
     all_words_filepath = "databases/all_words.txt"
     all_words = load_words_from_file(all_words_filepath)
+
+    # Adjaceny list creation
+    if create_adj_lists:
+        save_adj_list(all_words_filepath)
+        print("Adjecency lists created :)\n")
 
     # Database creation
     if create_database:

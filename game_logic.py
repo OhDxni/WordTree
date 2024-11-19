@@ -1,7 +1,8 @@
 import random
 import heapq
+from collections import deque
 from helper_functions import letter_difference, depth_selector
-from database_management import find_neighbours, all_possible_next_words
+from database_management import load_adj_list
 # ----------------------------------------------------------------------------------------------------------------------
 def a_pain_algorith(start_word, end_word):
     """
@@ -21,6 +22,7 @@ def a_pain_algorith(start_word, end_word):
     expected_cost = 0 + letter_difference(start_word, end_word)
     start_cost = 0
     path = [start_word]
+    adj_list = load_adj_list()
 
     # First, the priority queue is constructed using above defined variables. Here it is
     # important to have the expected_cost at the FRONT of the tuple, because that's what
@@ -40,7 +42,7 @@ def a_pain_algorith(start_word, end_word):
             return path, len(path)-1        # -1 to not include starting word in path length
 
         visited.add(curr_word)
-        neighbours = find_neighbours(curr_word)
+        neighbours = adj_list[curr_word]
         #print("curr", curr_word, "cost", curr_cost, "neighbours", neighbours)
 
         # Iterate over each neighbour, check if it's in visited, and if not determine cost and push
@@ -65,26 +67,23 @@ def end_word_selector(start_word, depth):
     :param depth:
     :return:
     """
-    curr_word = start_word
+    adj_list = load_adj_list()
+
+    curr_depth = 0
+    queue = deque([(start_word, curr_depth)])
     visited = set()
-    previous_neighbours = []
 
-    for i in range(depth+1):
-        valid_neighbours = []
+    while queue:
+        curr_word, curr_depth = queue.popleft()
+        # print(curr_word, curr_depth)
 
-        neighbours = find_neighbours(curr_word)
+        if curr_depth == depth:
+            return curr_word
 
-        if curr_word not in visited and curr_word not in previous_neighbours:
-            for neighbour in neighbours:
-                valid_neighbours.append(neighbour)
-
-        next_word = random.choice(valid_neighbours)
-
-        visited.add(curr_word)
-        previous_neighbours.append(neighbours)
-
-        curr_word = next_word
-    return curr_word
+        for neighbour in adj_list[curr_word]:
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append((neighbour, curr_depth + 1))
 # ----------------------------------------------------------------------------------------------------------------------
 def choose_words(word_len):
     """
@@ -108,7 +107,7 @@ def choose_words(word_len):
     start_word = random.choice(words_list)                # choose a random word for start
     end_word = end_word_selector(start_word, chosen_depth)
 
-    return start_word, end_word                           # return start and end word
+    return start_word, end_word                         # return start and end word
 # print(choose_words(6))
 # ----------------------------------------------------------------------------------------------------------------------
 class Game:
@@ -122,7 +121,8 @@ class Game:
         self.mode = mode
         self.start_word, self.end_word = choose_words(mode)
         self.curr_word = self.start_word
-        self.curr_neighbours = all_possible_next_words(self.curr_word)
+        self.curr_neighbours = load_adj_list()[self.curr_word]
+        # self.curr_neighbours = all_possible_next_words(self.curr_word)
 
     def current_move(self):
         """
@@ -157,5 +157,5 @@ class Game:
         if self.curr_word == self.end_word:
             return True
         else:
-            self.curr_neighbours = all_possible_next_words(self.curr_word)
+            self.curr_neighbours = load_adj_list()[self.curr_word]
 # ----------------------------------------------------------------------------------------------------------------------

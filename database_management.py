@@ -1,34 +1,12 @@
 import sqlite3  # Needed to read in the database
 import string
+import json
 import csv
+from helper_functions import load_words_from_file
 
 # Connects sqlite3 package to the database file, and creates a cursor object based on it
 database = sqlite3.connect("databases/linked_database.db")
 cursor_obj = database.cursor()
-
-# ----------------------------------------------------------------------------------------------------------------------
-def find_neighbours(word):
-    """
-    Finds all neighbours of a certain word.
-
-    :param word: Word from which you want to know all neighbours
-    :type word: str
-    :return neighbours_list: A list with all neighbours from "word"
-    :rtype words: lst
-    """
-    # Execute on the cursor object is just a database query, where the parameter "word" gets used as "?"
-    cursor_obj.execute("SELECT Neighbours FROM linked_database WHERE Word = ?", (word,))
-    neighbours = cursor_obj.fetchone() # Gets neighbours in the form of a tuple
-
-    # The query returns a tuple, so this converts it to a list
-    if neighbours is not None:
-        neighbours_list = neighbours[0].split(",")
-        return neighbours_list
-
-    # Needs to return an empty list in case the base case of the algorithm is triggerd
-    else:
-        return []
-# print(find_neighbours("BOAT"))
 # ----------------------------------------------------------------------------------------------------------------------
 def all_possible_next_words(word):
     """
@@ -57,7 +35,7 @@ def create_linked_database(words_filepath):
     :type: str
     """
     # Use process_words() to process words to prepare them for create_adj_list()
-    words = process_words(words_filepath)
+    words = load_words_from_file(words_filepath)
 
     # Use create_adj_list() to create the adjacency list
     adj_list = create_adj_list(words)
@@ -71,24 +49,6 @@ def create_linked_database(words_filepath):
         for word, neighbours in adj_list.items():
             all_neighbours = ",".join(neighbours) # Add all the values as a string together
             csv.writer(file).writerow([word, all_neighbours]) # Write the word to col1 and neighbours to col2
-# ----------------------------------------------------------------------------------------------------------------------
-def process_words(words_filepath):
-    """
-    Converts the x-letter word databases into a format that can be used with the
-    create_adj_list function.
-
-    :param words_filepath: Filepath to file with ALL 4-, 5- and 6- letter words.
-    :type words_filepath: str
-
-    :return words: A list with all uppercase x-letter words and "\n" removed
-    :rtype words: lst
-    """
-    words = set()
-    with open(words_filepath, "r") as txt:
-        for word in txt:
-            word = word.replace("\n", "").upper()
-            words.add(word)
-    return words
 # ----------------------------------------------------------------------------------------------------------------------
 def create_adj_list(words):
     """
@@ -120,7 +80,18 @@ def create_adj_list(words):
 
     return adj_list
 # ----------------------------------------------------------------------------------------------------------------------
-### Generate linked_database.csv
-# all_words = "databases/all_words.txt"
-# create_linked_database(all_words)
+def save_adj_list(words_filepath):
+    words = load_words_from_file(words_filepath)
+    adj_list = create_adj_list(words)
+    with open(f"databases/adj_list_all_words.json", "w") as file:
+        json.dump(adj_list, file)
+# ----------------------------------------------------------------------------------------------------------------------
+def load_adj_list():
+    """
+    xxx
+
+    :return:
+    """
+    with open("databases/adj_list_all_words.json", "r") as file:
+        return json.load(file)
 # ----------------------------------------------------------------------------------------------------------------------

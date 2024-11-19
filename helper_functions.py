@@ -1,4 +1,5 @@
 import random
+import json
 # ----------------------------------------------------------------------------------------------------------------------
 def letter_difference(curr_word, neighbour):
     """
@@ -18,16 +19,21 @@ def letter_difference(curr_word, neighbour):
             difference += 1
     return difference
 # ----------------------------------------------------------------------------------------------------------------------
-def load_words_from_file(filepath):
+def load_words_from_file(words_filepath):
     """
-    xxx
-    :param filepath:
-    :return:
+    Converts the x-letter word databases into a format that can be used with the
+    create_adj_list function.
+
+    :param words_filepath: Filepath to file with ALL 4-, 5- and 6- letter words.
+    :type words_filepath: str
+
+    :return words: A list with all uppercase x-letter words and "\n" removed
+    :rtype words: lst
     """
     words = set()
 
     # writes the words in file to words (set)
-    with open(filepath, "r") as txt:
+    with open(words_filepath, "r") as txt:
         for word in txt:
             word = word.replace("\n", "").upper()
             words.add(word)
@@ -58,7 +64,4 @@ def depth_selector(word_len):
     chosen_depth = random.choices(picked_word_length, weights=picked_probabilities)
     return chosen_depth[0]
 # print(depth_selecter(4))
-# ----------------------------------------------------------------------------------------------------------------------
-
-
 # ----------------------------------------------------------------------------------------------------------------------
