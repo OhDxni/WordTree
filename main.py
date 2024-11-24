@@ -1,68 +1,46 @@
-from word_processing import words_len4, words_len5, words_len6, merge_files
-from database_management import create_adj_list, create_linked_database, save_adj_list
-from partioning import bfs_traversal, filter_partitions_by_word_length, write_partition_to_file
+from graph import Graph
+from word_processing import WordProcessing
 from game_logic import Game
-from helper_functions import load_words_from_file
+import time
 
-def main():
-    create_all_words = False
-    create_adj_lists = False
-    create_database = False
-    generate_partitions = False
-    start_game = True
+wp = WordProcessing()
+wp.load_all_words()  # Sets wp.all_words; if all_words has not been created it does so automatically
 
-    # All words file creation
-    if create_all_words:
-        output_4 = "databases/4_letter_valid_words.txt"
-        output_5 = "databases/5_letter_valid_words.txt"
-        output_6 = "databases/6_letter_valid_words.txt"
-        words_len4("databases/4letterwords.txt", output_4)
-        words_len5("databases/370k_Word_File.csv", output_5)
-        words_len6("databases/370k_Word_File.csv", output_6)
-        merge_files(output_4, output_5, output_6)  # Outputs in all_words.txt
-        print("Files merged; all_words.txt created :)")
+graph = Graph(wp.all_words)
+graph.load_adj_list()  # Sets graph.adj_list; if adj_list has not been created it does so automatically
 
-    # Initialising all_words.txt
-    all_words_filepath = "databases/all_words.txt"
-    all_words = load_words_from_file(all_words_filepath)
+# Flags
+generate_partitions = 1
+start_game = 1
+shortest_path_print = 1
 
-    # Adjaceny list creation
-    if create_adj_lists:
-        save_adj_list(all_words_filepath)
-        print("Adjecency lists created :)\n")
+# Create partitions
+if generate_partitions:
+    wp.all_words_to_partitions(graph.adj_list)  # Sets partitions
+    wp.prune_partitions()  # Sets pruned_partitions
+    wp.filter_partitions()  # Sets filtered partitions
+    wp.write_partitions()  # Writes partitions
 
-    # Database creation
-    if create_database:
-        create_linked_database(all_words)
-        print("Database created :)\n")
+# Start game (class)
+if start_game:
+    mode = int(input("Which mode (4, 5, 6)? "))
+    game = Game(mode, graph.adj_list)
 
-    # Generate partitions
-    if generate_partitions:
-        adj_list = create_adj_list(all_words)
-        partitions = bfs_traversal(adj_list)
-        filtered_partitions = filter_partitions_by_word_length(partitions)
-        write_partition_to_file(filtered_partitions)
-        print("Partitions generated :)\n")
+    if shortest_path_print:
+        print(graph.a_pain_algorith(game.curr_word, game.end_word))
 
-    # Start game (class)
-    if start_game:
-        mode = int(input("Which mode (4, 5, 6)? "))
-        game = Game(mode)
+    steps = 0
+    while game.curr_word != game.end_word:
+        steps += 1
+        print("\ncurr", game.curr_word)
+        print("neighbours", game.curr_neighbours)
+        print("end", game.end_word)
+        user_input = input("Pick word from neighbours: ").strip().upper()
 
-        steps = 0
-        while game.curr_word != game.end_word:
-            steps += 1
-            print("\ncurr", game.curr_word)
-            print("neighbours", game.curr_neighbours)
-            print("end", game.end_word)
-            user_input = input("Pick word from neighbours: ").strip().upper()
+        move = game.make_move(user_input)
+        if move is False:
+            continue
+        if move is True:
+            print(f"Yippieee! You got to the end word in {steps} steps!")
+            break
 
-            move = game.make_move(user_input)
-            if move is False:
-                continue
-            if move is True:
-                print(f"Yippieee! You got to the end word in {steps} steps!")
-                break
-
-if __name__ == "__main__":
-    main()

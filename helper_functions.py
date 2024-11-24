@@ -19,25 +19,28 @@ def letter_difference(curr_word, neighbour):
             difference += 1
     return difference
 # ----------------------------------------------------------------------------------------------------------------------
-def load_words_from_file(words_filepath):
+def save_json(data, filepath):
     """
-    Converts the x-letter word databases into a format that can be used with the
-    create_adj_list function.
-
-    :param words_filepath: Filepath to file with ALL 4-, 5- and 6- letter words.
-    :type words_filepath: str
-
-    :return words: A list with all uppercase x-letter words and "\n" removed
-    :rtype words: lst
+    Saves the data into a json file
+    :param data:
+    :param filepath:
+    :return:
     """
-    words = set()
-
-    # writes the words in file to words (set)
-    with open(words_filepath, "r") as txt:
-        for word in txt:
-            word = word.replace("\n", "").upper()
-            words.add(word)
-    return words
+    with open(filepath, "w") as file:
+        json.dump(data, file)
+# ----------------------------------------------------------------------------------------------------------------------
+def load_json(filepath):
+    """
+    Loads the data from a json file
+    :param filepath:
+    :return:
+    """
+    try:
+        with open(filepath, "r") as file:
+            data = json.load(file)
+            return data
+    except FileNotFoundError:
+        raise FileNotFoundError
 # ----------------------------------------------------------------------------------------------------------------------
 def depth_selector(word_len):
     """
@@ -53,9 +56,9 @@ def depth_selector(word_len):
     }
 
     probabilities_dict = {
-        4: [0.3, 0.3, 0.2, 0.15, 0.05],
-        5: [0.3, 0.3, 0.2, 0.15, 0.05],
-        6: [0.3, 0.3, 0.2, 0.15, 0.05]
+        4: [0.25, 0.35, 0.25, 0.10, 0.05],
+        5: [0.25, 0.35, 0.25, 0.10, 0.05],
+        6: [0.25, 0.35, 0.25, 0.10, 0.05]
     }
 
     picked_word_length = depths_dict[word_len]
@@ -63,5 +66,4 @@ def depth_selector(word_len):
 
     chosen_depth = random.choices(picked_word_length, weights=picked_probabilities)
     return chosen_depth[0]
-# print(depth_selecter(4))
 # ----------------------------------------------------------------------------------------------------------------------
