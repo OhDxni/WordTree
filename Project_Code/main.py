@@ -1,6 +1,6 @@
-from graph import Graph
-from word_processing import WordProcessing
-from game_logic import Game
+from Project_Code.Backend.graph import Graph
+from Project_Code.Backend.word_processing import WordProcessing
+from Project_Code.Backend.game_logic import Game
 
 wp = WordProcessing()
 wp.load_all_words()  # Sets wp.all_words; if all_words has not been created it does so automatically

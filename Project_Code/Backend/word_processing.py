@@ -1,12 +1,15 @@
 from collections import deque
-from helper_functions import save_json, load_json
+from Project_Code.Backend.helper_functions import save_json, load_json
+from pathlib import Path
+
+project_root = str(Path(__file__).resolve().parents[2])
 
 class WordProcessing:
     def __init__(self):
-        self.origin_data_4 = "databases/4letterwords.txt"
-        self.origin_data_5 = "databases/370k_Word_File.csv"
-        self.origin_data_6 = "databases/370k_Word_File.csv"
-        self.output_directory = "databases"
+        self.origin_data_4 = f"{project_root}/databases/4letterwords.txt"
+        self.origin_data_5 = f"{project_root}/databases/370k_Word_File.csv"
+        self.origin_data_6 = f"{project_root}/databases/370k_Word_File.csv"
+        self.output_directory = f"{project_root}/databases"
         
         self.all_words = None
 
@@ -57,11 +60,11 @@ class WordProcessing:
         return self.all_words
 
     def save_all_words(self):
-        save_json(list(self.all_words), "databases/all_words.json")  # List, otherwise JSON gets upset
+        save_json(list(self.all_words), f"{project_root}/databases/all_words.json")  # List, otherwise JSON gets upset
 
     def load_all_words(self):
         try:
-            self.all_words = load_json("databases/all_words.json")
+            self.all_words = load_json(f"{project_root}/databases/all_words.json")
         except (AttributeError, FileNotFoundError):
             if self.all_words is None:
                 self.all_words = self.create_all_words()
@@ -158,7 +161,7 @@ class WordProcessing:
             raise ValueError("Filtered partitions is not present; run filter_partitions!")
 
         for length in [4, 5, 6]:  # loop through necessary word lengths
-            filename = f"databases/partitions_{length}.json"  # create a filename based on length
+            filename = f"{project_root}/databases/partitions_{length}.json"  # create a filename based on length
 
             for partition in self.filtered_partitions[length]:  # loop through partitions for x-letter words
                 save_json(list(partition), filename)
