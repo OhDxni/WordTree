@@ -31,7 +31,7 @@ def run_game_console():
     print(pygame.display.Info())
 
     # screen = pygame.display.set_mode((1920, 1080))
-    screen = pygame.display.set_mode((1220, 1080), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)    #keeps the game console in the fullscreen
     pygame.display.set_caption('Tree with Buttons')
 
     # pygame.bind('<Escape>', pygame.quit())
