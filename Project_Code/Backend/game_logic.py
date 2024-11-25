@@ -1,6 +1,9 @@
 import random
 from collections import deque
-from helper_functions import depth_selector, load_json
+from pathlib import Path
+from Project_Code.Backend.helper_functions import depth_selector, load_json
+
+project_root = str(Path(__file__).resolve().parents[2])
 
 class Game:
     def __init__(self, mode, adj_list):
@@ -93,7 +96,7 @@ class PathFinder():
         :rtype: lst
         """
         try:
-            words = load_json(f"databases/partitions_{word_len}.json")
+            words = load_json(f"{project_root}/databases/partitions_{word_len}.json")
         except FileNotFoundError:
             raise FileNotFoundError("Please turn on 'generate_partitions' in main.py")
 
