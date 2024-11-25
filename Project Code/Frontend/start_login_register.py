@@ -24,11 +24,11 @@ from users_database import *
 
 
 root = customtkinter.CTk()
-print(root.winfo_screenwidth())
-print(root.winfo_screenheight())
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
-logo_image = None
+
+
+logo_image = None    #initializing logo_image
 
 
 # Function to open the start page
@@ -40,20 +40,13 @@ def open_start_page():
     """
     global logo_image
     root.title("Game Enter Page")
-    root.geometry('1920x1080+0+0')
+    root.geometry('1920x1080+0+0')     #sets the size, the wondow has corners in the corners of the screen
 
     # Create a frame to organize the logo, welcome text, and the button
     frame = customtkinter.CTkFrame(master=root)
     frame.pack(pady=20, padx=20, fill="both", expand=True)
 
     # Load the logo image and retain it as a global variable
-    # logo_image = tk.PhotoImage(file="logo.png")  # Use `tk.PhotoImage` directly
-    # label_logo = customtkinter.CTkLabel(master=frame, image=logo_image, text="")
-    # label_logo.image = logo_image  # Explicitly attach image to label to prevent garbage collection
-    # label_logo.pack(pady=10)
-
-    # Load the logo image using tkinter's PhotoImage
-    # logo = PhotoImage(file="logo.png")  # Ensure the path to the image is correct
     logo_image = PhotoImage(file="logo.png")  # Ensure the path is correct
 
     # Create a label for the logo image
@@ -86,7 +79,7 @@ def open_login_window():
     login_root.geometry("500x500+575+100")
     login_root.title('Login to the game')
 
-    login_root.protocol("WM_DELETE_WINDOW", root.destroy)
+    login_root.protocol("WM_DELETE_WINDOW", root.destroy)    # binding
 
 
     # This is a frame for the login window
