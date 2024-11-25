@@ -19,6 +19,8 @@ import pygame
 import sys
 # import tkinter as tk
 import customtkinter as tk
+from tkinter import *
+from Project_Code.Backend.game_logic import *
 
 
 def run_game_console():
@@ -76,8 +78,11 @@ def run_game_console():
         word_root = tk.CTk()
         word_root.title(title)
         word_root.geometry("1920x1080+0+0")
-        # word_root.geometry("600x400+500+150")
         tk.set_default_color_theme("green")
+
+        scrollbar = Scrollbar(word_root)
+        scrollbar.pack(side=RIGHT, fill=Y, orient=tk.VERTICAL)
+
 
         word_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(word_root))
 
