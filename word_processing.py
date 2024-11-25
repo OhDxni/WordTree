@@ -144,7 +144,7 @@ class WordProcessing:
                 filtered_partitions[word_len].append(partition)  # append the partition to the correct key/word length
 
         self.filtered_partitions = filtered_partitions
-        return self.filtered_partitions, print("Filtered")
+        return self.filtered_partitions, print("Filtered!")
 
     def write_partitions(self):
         """
@@ -162,4 +162,4 @@ class WordProcessing:
 
             for partition in self.filtered_partitions[length]:  # loop through partitions for x-letter words
                 save_json(list(partition), filename)
-        print("Written")
+        print("Written!")
