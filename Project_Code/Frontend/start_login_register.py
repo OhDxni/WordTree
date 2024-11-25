@@ -7,12 +7,12 @@ Functions:
                      featuring the game logo, a welcome message, and a Start button.
 - open_login_window(): Creates and displays the login window for user authentication,
                        allowing users to input their credentials to access the game.
-- login(): Prototype function for handling user login, including user credential
-           verification and database interactions (currently a placeholder).
+- login(): Function for handling logging into the game, user authentification
+           and connection with the user database.
 - open_register_window(): Opens the registration window for new users to create an
                           account, allowing them to input their desired username and password.
-- register(): Prototype function for handling user registration, including validation
-              of inputs and storing new user credentials in the database (currently a placeholder).
+- register(): Function for handling user registration, including validation
+              of inputs and storing new user credentials in the database.
 """
 
 import customtkinter
@@ -28,7 +28,7 @@ customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
 
 
-logo_image = None    #initializing logo_image
+logo_image = None    # Initializing logo_image
 
 
 # Function to open the start page
@@ -40,14 +40,14 @@ def open_start_page():
     """
     global logo_image
     root.title("Game Enter Page")
-    root.geometry('1920x1080+0+0')     #sets the size, the wondow has corners in the corners of the screen
+    root.geometry('1920x1080+0+0')     # Setting the size, the window has corners in the corners of the screen
 
     # Create a frame to organize the logo, welcome text, and the button
     frame = customtkinter.CTkFrame(master=root)
     frame.pack(pady=20, padx=20, fill="both", expand=True)
 
     # Load the logo image and retain it as a global variable
-    logo_image = PhotoImage(file="logo.png")  # Ensure the path is correct
+    logo_image = PhotoImage(file="logo.png")
 
     # Create a label for the logo image
     label_logo = customtkinter.CTkLabel(master=frame, image=logo_image, text="")  # Show the image without text
@@ -72,17 +72,19 @@ def open_login_window():
 
     :return: None
     """
-    root.withdraw()  # Close the start window
+    root.withdraw()  # Closing the start window
+
     # Create a new root window for login
     global login_root
     login_root = customtkinter.CTkToplevel()
     login_root.geometry("500x500+575+100")
     login_root.title('Login to the game')
 
-    login_root.protocol("WM_DELETE_WINDOW", root.destroy)    # binding
+    # Binding the x in the top-right corner to halting the program
+    login_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
 
-    # This is a frame for the login window
+    # Setting a frame for the login window
     frame = customtkinter.CTkFrame(master=login_root)
     frame.pack(pady=20, padx=60, fill="both", expand=True)
 
@@ -98,14 +100,11 @@ def open_login_window():
     password_entry.pack(pady=12, padx=10)
 
     # Designing the login button
-    button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: login(username_entry.get(), password_entry.get()))  # lambda ensures that the function does not get executed when creating a button, get() get the actual imput of the fields
+    # lambda ensures that the function does not get executed when creating a button, get() get the actual input of the fields
+    button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: login(username_entry.get(), password_entry.get()))
     button.pack(pady=12, padx=10)
     login_root.bind("<Retur"
                     "n>", lambda event: login(username_entry.get(), password_entry.get())) # Makes enter trigger the login button
-
-    # # Designing the "Remember me" check box
-    # checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
-    # checkbox.pack(pady=12, padx=10)
 
     # label asking the user if they do not have an account yet
     label = customtkinter.CTkLabel(master=frame, text="Do you not have an account yet? Then register below:",
@@ -116,10 +115,8 @@ def open_login_window():
     button = customtkinter.CTkButton(master=frame, text="Register here", command=open_register_window)
     button.pack(pady=0, padx=10)
 
-
     # "Go Back" button to go back to the start page
     back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=lambda: [login_root.withdraw(), root.deiconify()])  # Executes two functions at once
-    # back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=go_back(login_root, open_start_page()))
     back_button.pack(pady=12, padx=10)
     login_root.deiconify()
 
@@ -127,28 +124,31 @@ def open_login_window():
 
 
 def login(username, password):
-    print("login prototype")
-    #open database
+    """
+    Checks the validity of user input (username and password)
+    and logs the user into the system.
+
+    :return: None
+    """
+
+    # Establishing connection with the users database
     conn = sqlite3.connect('../../databases/users_db.db')
     cursor = conn.cursor()
 
-    #check if the username is in the database
+    # Checking if the username is in the database
     cursor.execute("SELECT password FROM users WHERE username = ?", (username,))
     user_data = cursor.fetchone()    # fetches the tuple containing the encoded password of the user
     if user_data:
-        # if found, check if the hash of the typed password is the same as the hash saved
+        # if user information found in teh database, checking if the hash of the typed password is the same as the hash saved
         stored_password = user_data[0]
         if sha256(password.encode()).hexdigest() == stored_password:
-            print("Login successful!")
             login_root.withdraw()
-            # if everything correct, go to run_game_console
+            # if everything is correct, go to run_game_console
             run_game_console()
 
-            print("it executed")
         else:
-            # if not the same, give error "Wrong password"
+            # if the hash of the typed in password is not the same as the saved one, give error "Wrong password"
             messagebox.showerror("Error", "Wrong password")
-
 
     # if username not found, show an error with a message "Username not found"
     else:
@@ -165,8 +165,7 @@ def open_register_window():
 
     :return: None
     """
-    login_root.withdraw()
-    # root2.deiconify()
+    login_root.withdraw()    # makes the login window dissapear
     global register_root
     register_root = customtkinter.CTkToplevel()
     register_root.geometry("500x400+575+140")
@@ -213,33 +212,31 @@ def register(username, password, password_confirmation):
 
     :return: None
     """
-    # connecting data to the database
-    print("new user registered prototype")
+    # Connecting data to the database
     conn = sqlite3.connect('../../databases/users_db.db')    # opening a connection with the database
     cursor = conn.cursor()
 
-    #check if the username already exists
+    # Check if the username already exists
     cursor.execute('SELECT username FROM users WHERE username = ?;', (username,))
 
     if cursor.fetchone():
         #if yes give an error "Username already exists"
         messagebox.showerror("Error", "Username already exists")
 
-    # check if the input is correct for the username (not too short/long)
+    # Checking if the input is correct for the username (not too short/long)
     elif len(username) < 5 or len(username) > 15:
         messagebox.showerror("Register Error", "Username too short or too long")
 
-    # check if the passwords match
+    # Checking if the passwords match
     elif password != password_confirmation:
         messagebox.showerror("Error", "Passwords do not match")
 
     else:
-        # create a hash for the password
+        # Creating a hash for the password
         hashed_password = sha256(password.encode()).hexdigest()
-        #save the username and hash of password in the database
+        # Saving the username and hash of password in the database
         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
         conn.commit()
-        #go to run_game_console
         register_root.withdraw()
         run_game_console()
 
