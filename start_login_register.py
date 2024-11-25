@@ -69,7 +69,7 @@ def open_start_page():
     # Create a Start button that opens the login window
     start_button = customtkinter.CTkButton(master=frame, text="Start", font=("Roboto", 24), command=open_login_window)
     start_button.pack(pady=10)  # Padding for Start button
-
+    root.bind("<Return>", lambda event: open_login_window())
     # Start the main loop for the Start page
     root.mainloop()
 
@@ -108,7 +108,8 @@ def open_login_window():
     # Designing the login button
     button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: login(username_entry.get(), password_entry.get()))  # lambda ensures that the function does not get executed when creating a button, get() get the actual imput of the fields
     button.pack(pady=12, padx=10)
-    login_root.bind("<Return>", lambda event: login(username_entry.get(), password_entry.get())) # Makes enter trigger the login button
+    login_root.bind("<Retur"
+                    "n>", lambda event: login(username_entry.get(), password_entry.get())) # Makes enter trigger the login button
 
     # # Designing the "Remember me" check box
     # checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
