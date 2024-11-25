@@ -16,7 +16,6 @@ Functions:
                       the Start button on the main pag
 """
 import customtkinter
-import tkinter as tk
 from tkinter import PhotoImage
 from game_console import run_game_console
 from RegisterWindow import open_register_window, create_root2
