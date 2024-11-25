@@ -1,26 +1,46 @@
+"""
+Implementing GUI. It includes functionalities for the start page, login page,
+and registration page, allowing users to interact with the game.
+
+Functions:
+- open_start_page(): Initializes and displays the start page of the application,
+                     featuring the game logo, a welcome message, and a Start button.
+- open_login_window(): Creates and displays the login window for user authentication,
+                       allowing users to input their credentials to access the game.
+- login(): Prototype function for handling user login, including user credential
+           verification and database interactions (currently a placeholder).
+- open_register_window(): Opens the registration window for new users to create an
+                          account, allowing them to input their desired username and password.
+- register(): Prototype function for handling user registration, including validation
+              of inputs and storing new user credentials in the database (currently a placeholder).
+"""
+
 import customtkinter
-import tkinter as tk
 from tkinter import PhotoImage, messagebox
+# from testing_game_console import run_game_console
 from game_console import run_game_console
 from hashlib import sha256
 from users_database import *
 
 
 root = customtkinter.CTk()
-
+print(root.winfo_screenwidth())
+print(root.winfo_screenheight())
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")
-
-
 logo_image = None
+
 
 # Function to open the start page
 def open_start_page():
-    # Create the main window (Start page)
-    global logo_image
-    root.geometry('800x600')
-    root.title("Game Enter Page")
+    """
+    Creates and displays the start page of the application.
 
+    :return: None
+    """
+    global logo_image
+    root.title("Game Enter Page")
+    root.geometry('1920x1080+0+0')
 
     # Create a frame to organize the logo, welcome text, and the button
     frame = customtkinter.CTkFrame(master=root)
@@ -48,30 +68,25 @@ def open_start_page():
     # Create a Start button that opens the login window
     start_button = customtkinter.CTkButton(master=frame, text="Start", font=("Roboto", 24), command=open_login_window)
     start_button.pack(pady=10)  # Padding for Start button
-
+    root.bind("<Return>", lambda event: open_login_window())
     # Start the main loop for the Start page
     root.mainloop()
 
-# def quit_all_roots():
-#     try:
-#         root2.quit()
-#     except:
-#         pass
-#     login_root.quit()
-#     root.quit()
 
-
-# Function to open the login window
 def open_login_window():
+    """
+    Creates and displays the login window for user authentication.
+
+    :return: None
+    """
     root.withdraw()  # Close the start window
     # Create a new root window for login
     global login_root
     login_root = customtkinter.CTkToplevel()
-    # login_root = customtkinter.CTk()
-    login_root.geometry("500x500")
+    login_root.geometry("500x500+575+100")
     login_root.title('Login to the game')
 
-    # login_root.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    login_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
 
     # This is a frame for the login window
@@ -92,6 +107,8 @@ def open_login_window():
     # Designing the login button
     button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: login(username_entry.get(), password_entry.get()))  # lambda ensures that the function does not get executed when creating a button, get() get the actual imput of the fields
     button.pack(pady=12, padx=10)
+    login_root.bind("<Retur"
+                    "n>", lambda event: login(username_entry.get(), password_entry.get())) # Makes enter trigger the login button
 
     # # Designing the "Remember me" check box
     # checkbox = customtkinter.CTkCheckBox(master=frame, text="Remember me")
@@ -119,7 +136,7 @@ def open_login_window():
 def login(username, password):
     print("login prototype")
     #open database
-    conn = sqlite3.connect('users_db.db')
+    conn = sqlite3.connect('../../databases/users_db.db')
     cursor = conn.cursor()
 
     #check if the username is in the database
@@ -133,9 +150,12 @@ def login(username, password):
             login_root.withdraw()
             # if everything correct, go to run_game_console
             run_game_console()
+
+            print("it executed")
         else:
             # if not the same, give error "Wrong password"
             messagebox.showerror("Error", "Wrong password")
+
 
     # if username not found, show an error with a message "Username not found"
     else:
@@ -147,13 +167,18 @@ def login(username, password):
 
 
 def open_register_window():
+    """
+    Creates and displays the registration window for new users.
+
+    :return: None
+    """
     login_root.withdraw()
     # root2.deiconify()
     global register_root
     register_root = customtkinter.CTkToplevel()
-    register_root.geometry("500x400")
+    register_root.geometry("500x400+575+140")
 
-    # root2.protocol("WM_DELETE_WINDOW", quit_all_roots)
+    register_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
     # This is a frame for the login window, I can later change the size
     frame2 = customtkinter.CTkFrame(master=register_root)
@@ -190,9 +215,14 @@ def open_register_window():
     register_root.mainloop()
 
 def register(username, password, password_confirmation):
+    """
+    Handles user registration, including username and password checks.
+
+    :return: None
+    """
     # connecting data to the database
     print("new user registered prototype")
-    conn = sqlite3.connect('users_db.db')    # opening a connection with the database
+    conn = sqlite3.connect('../../databases/users_db.db')    # opening a connection with the database
     cursor = conn.cursor()
 
     #check if the username already exists
@@ -217,6 +247,7 @@ def register(username, password, password_confirmation):
         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
         conn.commit()
         #go to run_game_console
+        register_root.withdraw()
         run_game_console()
 
     # close the connection
@@ -224,5 +255,6 @@ def register(username, password, password_confirmation):
 
 
 open_start_page()
+
 
 

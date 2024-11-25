@@ -1,7 +1,6 @@
 from graph import Graph
 from word_processing import WordProcessing
 from game_logic import Game
-import time
 
 wp = WordProcessing()
 wp.load_all_words()  # Sets wp.all_words; if all_words has not been created it does so automatically

@@ -40,11 +40,11 @@ class Graph():
         return self.adj_list
 
     def save_adj_list(self):
-        save_json(self.adj_list, "databases/adj_list.json")
+        save_json(self.adj_list, "../../databases/adj_list.json")
 
     def load_adj_list(self):
         try:  # Tries to load it; without try it always triggers the if-case (because adj_list set to None)
-            self.adj_list = load_json("databases/adj_list.json")
+            self.adj_list = load_json("../../databases/adj_list.json")
         except (AttributeError, FileNotFoundError):
             if self.adj_list is None:
                 self.adj_list = self.create_adj_list()

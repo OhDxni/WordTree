@@ -9,7 +9,6 @@ Functions:
                      message, and a Start button that opens the login window.
 """
 import customtkinter
-import tkinter as tk
 from tkinter import PhotoImage
 from myloginWindow import open_login_window
 

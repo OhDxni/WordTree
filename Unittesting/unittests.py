@@ -1,8 +1,5 @@
 import unittest
-from unittest.mock import patch
 from database_management import all_possible_next_words
-from game_logic import choose_words
-from graph_traversal import find_neighbours
 
 """
 This file includes the unittests for our functions and code.
