@@ -20,7 +20,6 @@ import sys
 # import tkinter as tk
 import customtkinter as tk
 from tkinter import *
-from Project_Code.Backend.game_logic import *
 
 
 def run_game_console():

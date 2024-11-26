@@ -18,7 +18,7 @@ Functions:
 import customtkinter
 from tkinter import PhotoImage, messagebox
 # from testing_game_console import run_game_console
-from game_console import run_game_console
+from Project_Code.game_console import run_game_console
 from hashlib import sha256
 from users_database import *
 
@@ -47,7 +47,7 @@ def open_start_page():
     frame.pack(pady=20, padx=20, fill="both", expand=True)
 
     # Load the logo image and retain it as a global variable
-    logo_image = PhotoImage(file="logo.png")  # Ensure the path is correct
+    logo_image = PhotoImage(file="../databases/logo.png")  # Ensure the path is correct
 
     # Create a label for the logo image
     label_logo = customtkinter.CTkLabel(master=frame, image=logo_image, text="")  # Show the image without text

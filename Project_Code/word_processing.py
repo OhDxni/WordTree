@@ -1,5 +1,5 @@
 from collections import deque
-from Project_Code.Backend.helper_functions import save_json, load_json
+from Project_Code.helper_functions import save_json, load_json
 from pathlib import Path
 
 project_root = str(Path(__file__).resolve().parents[2])
