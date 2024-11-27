@@ -2,8 +2,7 @@
 Pygame Tree with Buttons Application
 
 This application creates a graphical interface using Pygame to display a tree scene with buttons.
-When buttons are clicked, demo of the game is presented, the game with different length of words plays,
-or the instructions window is opened.
+When buttons are clicked, it opens a Tkinter window showing instructions on how to play a word game.
 
 Function:
 - run_game_console: Initializes and runs the Pygame application to display a tree with buttons
@@ -18,11 +17,9 @@ Nested Functions:
 
 import pygame
 import sys
+# import tkinter as tk
 import customtkinter as tk
 from tkinter import *
-from Project_Code.Backend.graph import Graph
-from Project_Code.Backend.word_processing import WordProcessing
-from Project_Code.Backend.game_logic import Game
 
 
 def run_game_console():
@@ -32,9 +29,13 @@ def run_game_console():
     """
     pygame.init()
 
+    print(pygame.display.Info())
+
+    # screen = pygame.display.set_mode((1920, 1080))
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)    #keeps the game console in the fullscreen
     pygame.display.set_caption('Tree with Buttons')
 
+    # pygame.bind('<Escape>', pygame.quit())
 
     # Define colors
     WHITE = (255, 255, 255)
@@ -67,34 +68,24 @@ def run_game_console():
         """
         window.destroy()
         try:
-            pygame.quit()
+            pygame.quit()    # uncomment if we want to keep the game console in the background
         except pygame.error:
             pass
 
-    def open_word_grid(word_length, title):
+    def open_word_grid(word_list, title):
 
         word_root = tk.CTk()
         word_root.title(title)
         word_root.geometry("1920x1080+0+0")
         tk.set_default_color_theme("green")
 
-        # Adding a scrollbar to the window
         scrollbar = Scrollbar(word_root)
-        scrollbar.pack(side=RIGHT, fill=Y)
+        scrollbar.pack(side=RIGHT, fill=Y, orient=tk.VERTICAL)
 
-        # Binding the x in the top-right corner of the screen with halting the program
+
         word_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(word_root))
 
-        wp = WordProcessing()
-        wp.load_all_words()
-        graph = Graph(wp.all_words)
-        graph.load_adj_list()
-
-
-
-
-
-        def create_word_grid(root, word_length, rows, columns):
+        def create_word_grid(root, word_list, rows, columns):
 
             frame = tk.CTkFrame(word_root)
             frame.pack(pady=10)
@@ -102,53 +93,21 @@ def run_game_console():
             grid_frame = tk.CTkFrame(frame)
             grid_frame.pack()
 
-
-            game = Game(word_length, graph.adj_list)
-
-            start_word = game.curr_word
-            print("\ncurr", game.curr_word)
-
-            # start = tk.CTkButton(grid_frame, text=start_word, width=100, height=40,
-            #                     font=("Roboto", 12))
-            label = tk.CTkLabel(master=frame, text=start_word, font=("Roboto", 14))
-            label.pack(pady=12, padx=10)
-
-            # steps = 0
-            # while game.curr_word != game.end_word:
-            #     steps += 1
-            #     print("\ncurr", game.curr_word)
-            #     start_word = game.curr_word
-            #     label = tk.CTkLabel(master=frame, text="start_word", font=("Roboto", 24))
-            #     label.pack(pady=12, padx=10)
-            #     create_word_grid(word_root, word_length, rows=2, columns=4)
-
-                # print("neighbours", game.curr_neighbours)
-                # print("end", game.end_word)
-                # user_input = input("Pick word from neighbours: ").strip().upper()
-
-                # move = game.make_move(user_input)
-                # if move is False:
-                #     continue
-                # if move is True:
-                #     print(f"Yippieee! You got to the end word in {steps} steps!")
-                # break
-
-
-            #grid_words = [word_list[i:i + columns] for i in range(0, len(word_list), columns)]
+            grid_words = [word_list[i:i + columns] for i in range(0, len(word_list), columns)]
 
             def on_button_click(word):
                 print(f"You clicked: {word}")
 
-        #     for r, row_words in enumerate(grid_words):
-        #         for c, word in enumerate(row_words):
-        #             button = tk.CTkButton(
-        #                 grid_frame, text=word, width=100, height=40,
-        #                 font=("Roboto", 12),
-        #                 command=lambda w=word: on_button_click(w)
-        #             )
-        #             button.grid(row=r, column=c, padx=5, pady=5)
-        #
-        create_word_grid(word_root, word_length, rows=2, columns=4)
+            for r, row_words in enumerate(grid_words):
+                for c, word in enumerate(row_words):
+                    button = tk.CTkButton(
+                        grid_frame, text=word, width=100, height=40,
+                        font=("Roboto", 12),
+                        command=lambda w=word: on_button_click(w)
+                    )
+                    button.grid(row=r, column=c, padx=5, pady=5)
+
+        create_word_grid(word_root, word_list, rows=2, columns=4)
 
         def go_back():
             word_root.destroy()
@@ -190,6 +149,7 @@ def run_game_console():
 
         for frame in (frame1, frame2, frame3):
             frame.grid(row=0, column=0, sticky='nsew')
+            # frame.pack(expand=True)
 
         # first page of the instructions
         label1 = tk.CTkLabel(frame1, text="Here is how to play:\n\n"
@@ -377,18 +337,19 @@ def run_game_console():
                         open_instructions_window()
                     elif button.text == "4-WORDS":
                         pygame.quit()
-                        open_word_grid(int(4), "4-Letter Words")
+                        open_word_grid(words_4, "4-Letter Words")
                     elif button.text == "5-WORDS":
                         pygame.quit()
-                        open_word_grid(int(5), "5-Letter Words")
+                        open_word_grid(words_5, "5-Letter Words")
                     elif button.text == "6-WORDS":
                         pygame.quit()
-                        open_word_grid(int(6), "6-Letter Words")
+                        open_word_grid(words_6, "6-Letter Words")
                     else:
                         print(f"{button.text} clicked!")
 
 
         pygame.display.update()
+
 
     pygame.quit()
     sys.exit()

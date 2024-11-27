@@ -1,0 +1,6 @@
+pip~=23.2.1
+packaging~=24.2
+setuptools~=65.5.0
+pygame~=2.6.1
+darkdetect~=0.8.0
+customtkinter~=5.2.2

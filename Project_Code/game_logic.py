@@ -1,7 +1,7 @@
 import random
 from collections import deque
 from pathlib import Path
-from Project_Code.Backend.helper_functions import depth_selector, load_json
+from Project_Code.helper_functions import depth_selector, load_json
 
 project_root = str(Path(__file__).resolve().parents[2])
 
