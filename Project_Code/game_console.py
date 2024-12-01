@@ -68,7 +68,7 @@ def run_game_console():
         """
         window.destroy()
         try:
-            pygame.quit()    # uncomment if we want to keep the game console in the background
+            pygame.quit()
         except pygame.error:
             pass
 
