@@ -56,6 +56,7 @@ class Game:
         else:
             self.curr_neighbours = self.adj_list[self.curr_word]
 
+
 class PathFinder():
     def __init__(self, game):
         self.game = game

@@ -12,12 +12,20 @@ def letter_difference(curr_word, neighbour):
     :return difference: The amount of different letters.
     :rtype words: int
     """
+    if (len(curr_word) == 0) or (len(neighbour) == 0):
+        raise ValueError("Please insert a word!")
+
+    if len(curr_word) != len(neighbour):                             # having this to ensure correct functionality of code during testing
+        raise ValueError("Words must have the same length!")
+
     difference = 0
 
     for x, y in zip(curr_word, neighbour):
         if x != y:
             difference += 1
     return difference
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 def save_json(data, filepath):
     """
@@ -26,8 +34,12 @@ def save_json(data, filepath):
     :param filepath:
     :return:
     """
-    with open(filepath, "w") as file:
-        json.dump(data, file)
+    try:
+        with open(filepath, "w") as file:
+            json.dump(data, file)
+    except FileNotFoundError:
+        raise FileNotFoundError
+
 # ----------------------------------------------------------------------------------------------------------------------
 def load_json(filepath):
     """
@@ -41,6 +53,7 @@ def load_json(filepath):
             return data
     except FileNotFoundError:
         raise FileNotFoundError
+
 # ----------------------------------------------------------------------------------------------------------------------
 def depth_selector(word_len):
     """
@@ -54,6 +67,9 @@ def depth_selector(word_len):
         5: [5, 6, 7, 8, 9],
         6: [6, 7, 8, 9, 10]
     }
+
+    if word_len not in depths_dict:                             # for test cases neccessary to have
+        raise ValueError("This word length is not accepted!")
 
     probabilities_dict = {
         4: [0.25, 0.35, 0.25, 0.10, 0.05],
