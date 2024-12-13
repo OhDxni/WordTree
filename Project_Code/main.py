@@ -1,7 +1,8 @@
 from Project_Code.graph import Graph
 from Project_Code.word_processing import WordProcessing
 from Project_Code.game_logic import Game
-
+import customtkinter as tk
+from tkinter import *
 wp = WordProcessing()
 wp.load_all_words()  # Sets wp.all_words; if all_words has not been created it does so automatically
 
@@ -20,12 +21,18 @@ if generate_partitions:
     wp.filter_partitions()  # Sets filtered partitions
     wp.write_partitions()  # Writes partitions
 
+def button_clicked():
+    button_text = button.cget("text")
+    print(button_text)
+def quit_game(window):
+    window.destroy()
+
 # Start game (class)
 if start_game:
     # window when start game
-    ctk.set_appearance_mode("system")
-    ctk.set_default_color_theme("green")
-    root = ctk.CTk()
+    tk.set_appearance_mode("system")
+    tk.set_default_color_theme("green")
+    root = tk.CTk()
     root.geometry("470x900")
     root.protocol("WM_DELETE_WINDOW", lambda: quit_game(root))
 
@@ -44,14 +51,14 @@ if start_game:
     while game.curr_word != game.end_word:
         steps += 1
         print("\ncurr", game.curr_word)
-        label = ctk.CTkLabel(root, text=str(game.curr_word), font=("Roboto", 20))
+        label = tk.CTkLabel(root, text=str(game.curr_word), font=("Roboto", 20))
         label.pack(pady=20)
 
         # print("neighbours", game.curr_neighbours)
 
         for neighbour in game.curr_neighbours:
             print(neighbour)
-            button = ctk.CTkButton(master=root,
+            button = tk.CTkButton(master=root,
                                text=f"{neighbour}",
                                command=button_clicked,
                                font=("Arial", 12),
@@ -63,7 +70,7 @@ if start_game:
 
         # user_input = input("Pick word from neighbours: ").strip().upper()
 
-        label = ctk.CTkLabel(root, text=str(game.end_word), font=("Roboto", 20))
+        label = tk.CTkLabel(root, text=str(game.end_word), font=("Roboto", 20))
         label.pack(pady=20)
 
         #this part lowkey doesnt work
