@@ -21,11 +21,15 @@ if generate_partitions:
     wp.filter_partitions()  # Sets filtered partitions
     wp.write_partitions()  # Writes partitions
 
+
 def button_clicked():
     button_text = button.cget("text")
     print(button_text)
+
+
 def quit_game(window):
     window.destroy()
+
 
 # Start game (class)
 if start_game:

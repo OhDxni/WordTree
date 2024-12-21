@@ -13,7 +13,7 @@ class Game:
         :param mode: the chosen word length; either 4, 5 or 6
         :type mode: int
         """
-        self.mode = mode
+        self.mode = mode                    # chosen mode eiher 4,5,6 leter words
         self.adj_list = adj_list
         self.path_finder = PathFinder(self)
 
@@ -106,3 +106,7 @@ class PathFinder():
         end_word = self.end_word_selector(start_word, chosen_depth)
 
         return start_word, end_word
+
+
+
+
