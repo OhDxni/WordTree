@@ -3,7 +3,7 @@ from collections import deque
 from pathlib import Path
 from Project_Code.helper_functions import depth_selector, load_json
 
-project_root = str(Path(__file__).resolve().parents[2])
+project_root = (Path(__file__).resolve().parents[1]).as_posix()
 
 class Game:
     def __init__(self, mode, adj_list):
@@ -13,7 +13,7 @@ class Game:
         :param mode: the chosen word length; either 4, 5 or 6
         :type mode: int
         """
-        self.mode = mode
+        self.mode = mode                    # chosen mode eiher 4,5,6 leter words
         self.adj_list = adj_list
         self.path_finder = PathFinder(self)
 
@@ -106,3 +106,7 @@ class PathFinder():
         end_word = self.end_word_selector(start_word, chosen_depth)
 
         return start_word, end_word
+
+
+
+
