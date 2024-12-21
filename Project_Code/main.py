@@ -21,7 +21,6 @@ if generate_partitions:
     wp.filter_partitions()  # Sets filtered partitions
     wp.write_partitions()  # Writes partitions
 
-
 def button_clicked():
     button_text = button.cget("text")
     print(button_text)
