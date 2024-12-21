@@ -20,7 +20,10 @@ from tkinter import PhotoImage, messagebox
 # from testing_game_console import run_game_console
 from Project_Code.game_console import run_game_console
 from hashlib import sha256
+
+from Project_Code.game_logic import project_root
 from users_database import *
+from pathlib import Path
 
 
 root = customtkinter.CTk()
@@ -131,7 +134,8 @@ def login(username, password):
     :return: None
     """
     # opens the connection with the user database
-    conn = sqlite3.connect('../../databases/users_db.db')
+    # conn = sqlite3.connect('../../databases/users_db.db')
+    conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
     cursor = conn.cursor()
 
     #checks if the username is in the database
@@ -215,7 +219,9 @@ def register(username, password, password_confirmation):
     :param password_confirmation: confirmation of the password input
     :return: None
     """
-    conn = sqlite3.connect('../../databases/users_db.db')    # opening a connection with the database
+    # conn = sqlite3.connect('../../databases/users_db.db')    # opening a connection with the database
+    conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
+
     cursor = conn.cursor()
 
     #checks if the username already exists

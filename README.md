@@ -54,9 +54,11 @@ Every project is different, so consider which of these sections apply to yours. 
 
 ## Name
 Choose a self-explaining name for your project.
+<br/>Word Tree
 
 ## Description
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+<br/>This project is a word game in which the player has to get from the staring word to the end word only by changing one letter in the word at the time. The neighbouring words are suggested and the player needs to click on the word of choice to continue onto the next iteration. The game is designed with a user-friendly interface that allows for an easy navigation from the start, through login, to the game console and the game itself. Player can also select the difficulty of the game by choosing the length of the words (4, 5, or 6 letter words). The user is informed about the game rules before starting to play. Moreover, in case of any uncertainties the user can also watch a demo play.
 
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
@@ -66,12 +68,16 @@ Depending on what you are making, it can be a good idea to include screenshots o
 
 ## Installation
 Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+<br/>Run the project in any Python editor. Install given packages to ensure that the project runs:
+<br/>pip install tkinter
+<br/>pip install customtkinter
 
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+<br/>In case of any problems or questions feel free to contact any of our group members via umail.
 
 ## Roadmap
 If you have ideas for releases in the future, it is a good idea to list them in the README.
@@ -85,6 +91,12 @@ You can also document commands to lint the code or run tests. These steps help t
 
 ## Authors and acknowledgment
 Show your appreciation to those who have contributed to the project.
+<br/>Ewelina Kowalczyk; e.a.kowalczyk@umail.leidenuniv.nl
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 ## License
 For open source projects, say how it is licensed.
