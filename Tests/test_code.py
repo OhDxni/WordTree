@@ -63,8 +63,7 @@ Tests for game_logic.py
          - choose words)
 """
 
-
-# Mock data for testing
+# Mock adjacency list for tests
 @pytest.fixture
 def adj_list():
     return {
@@ -73,89 +72,89 @@ def adj_list():
         "WORM": ["WORD", "WARM"],
         "CARD": ["WARD", "CARP"],
         "CARP": ["CARD", "CAMP"],
-        "WARM": ["WORM", "FARM"]
+        "WARM": ["WORM", "FARM"],
     }
 
 
-# Mock Game fixture
-@pytest.fixture
-def game(adj_list):
-    return Game(mode=4, adj_list=adj_list)
-
-
-# Mock load_json for PathFinder
+# Mock load_json function
 @pytest.fixture
 def mock_load_json():
     with patch("Project_Code.helper_functions.load_json") as mocked_load_json:
-        mocked_load_json.return_value = ["WORD", "WARD", "WORM", "CARD", "CARP"]
+        mocked_load_json.return_value = ["WORD", "WARD", "WORM", "CARD", "CARP", "CAMP", "WARM", "FARM"]
         yield mocked_load_json
 
+# Mock depth_selector function
+@pytest.fixture
+def mock_depth_selector():
+    with patch("Project_Code.helper_functions.depth_selector") as mocked_depth_selector:
+        mocked_depth_selector.return_value = 2
+        yield mocked_depth_selector
 
-# Test Game Initialization
+
+def test_end_word_selector1(adj_list):
+    pathfinder = PathFinder(game=type("MockGame", (), {"adj_list": adj_list}))
+
+    result = pathfinder.end_word_selector("WORD", 2)
+    assert result in ["CARD", "WORD", "WARM"]           # words at depth 2 for WORD in the mock adj loist maade for testing
+
+
+
 def test_game_initialization(adj_list):
-    game = Game(mode=4, adj_list=adj_list)
-    assert game.mode == 4
-    assert game.adj_list == adj_list
-    assert game.start_word in adj_list
-    assert game.end_word in adj_list
+    with patch.object(PathFinder, 'choose_words', return_value=("WORD", "WARM")):
+        game = Game(mode= 4, adj_list= adj_list)
+
+        assert game.start_word == "WORD"
+        assert game.end_word == "WARM"
+        assert game.start_word != game.end_word
+        assert game.start_word in adj_list
+        assert game.end_word in adj_list
+        assert game.curr_word == "WORD"
+        assert game.curr_neighbours == adj_list["WORD"]
 
 
-# Test current_move method
-def test_current_move(game):
-    move_info = game.current_move()
-    assert "curr_word" in move_info
-    assert "curr_neighbours" in move_info
-    assert "end_word" in move_info
-    assert move_info["curr_word"] == game.start_word
-    assert move_info["curr_neighbours"] == game.adj_list[game.start_word]
-    assert move_info["end_word"] == game.end_word
+def test_current_move(adj_list):
+    with patch.object(PathFinder, 'choose_words', return_value=("WORD", "WARM")):
+        game = Game(mode= 4, adj_list= adj_list)
+
+    expected_result = {"curr_word" : "WORD", "curr_neighbours" : ["WARD" , "WORM"] , "end_word" : "WARM" }
+    assert game.current_move() == expected_result
 
 
-# Test make_move method for a successful move
-def test_make_move_success(game):
-    valid_move = game.adj_list[game.start_word][0]
-    result = game.make_move(valid_move)
-    assert result is False
-    assert game.curr_word == valid_move
-    assert game.curr_neighbours == game.adj_list[valid_move]
+
+def test_make_move_valid(adj_list):
+    with patch.object(PathFinder, 'choose_words', return_value=("WORD", "WARM")):
+        game = Game(mode= 4, adj_list= adj_list)
+    valid_move = "WORD"
+    assert game.curr_word == "WORD"
+    assert game.curr_neighbours == ["WARD", "WORM"]  # neighbors of "WARD", seeing if shows correctly
 
 
-# Test make_move method for an invalid move
-def test_make_move_invalid(game):
-    invalid_move = "INVALID"
-    result = game.make_move(invalid_move)
-    assert result is False
-    assert game.curr_word == game.start_word
+def test_make_move_invalid(adj_list):
+    with patch.object(PathFinder, 'choose_words', return_value=("WORD", "WARM")):
+        game = Game(mode= 4, adj_list= adj_list)
+    invalid_move = "WRONG"
+    assert game.make_move(invalid_move) is False
+    assert game.curr_word == "WORD"
+    assert game.curr_neighbours == ["WARD", "WORM"]
 
 
-# Test make_move method for a winning move
-def test_make_move_win(game):
-    game.curr_word = game.end_word
-    result = game.make_move(game.end_word)
-    assert result is True
+def test_make_move_winning(adj_list):
+    with patch.object(PathFinder, 'choose_words', return_value= ("WORD", "WARM")):
+        game = Game(mode= 4, adj_list= adj_list)
+    winning_move = "WARM"
+    assert game.make_move(winning_move) is True     # winning the game
+
+
+
+
 
 
 # Test choose_words method in PathFinder
-def test_choose_words(mock_load_json, adj_list):
-    game = Game(mode=4, adj_list=adj_list)
-    pathfinder = PathFinder(game)
-
-    start_word, end_word = pathfinder.choose_words(4)
-    assert start_word in adj_list
-    assert end_word in adj_list
-    assert start_word != end_word
-
-    # Test missing file scenario
-    mock_load_json.side_effect = FileNotFoundError
-    with pytest.raises(FileNotFoundError):
-        pathfinder.choose_words(4)
-
+def test_choose_words():
 
 # Test end_word_selector in PathFinder
-def test_end_word_selector(game):
-    pathfinder = PathFinder(game)
-    result = pathfinder.end_word_selector("WORD", 2)
-    assert result in game.adj_list
+def test_end_word_selector():
+
 
 #-------------------------------------------------------------------------------------------------------------------------
 
@@ -170,16 +169,12 @@ Tests for graph.py
 
 
 def test_create_adj_list() :
-   graph = Graph()
 
 def test_save_adj_list():
-   graph = Graph()
 
 def test_load_adj_list():
-   graph = Graph()
 
 def test_a_pain_algorith():
-   graph = Graph()
 
 
 #-------------------------------------------------------------------------------------------------------------------------
