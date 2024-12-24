@@ -1,9 +1,5 @@
-import random
-from collections import deque
-from helper_functions import depth_selector, load_json
-
 class Game:
-    def __init__(self, mode, adj_list):
+    def __init__(self, mode, adj_list, start_word, end_word):
         """
         Initialises all variables; changes after each step in the game
 
@@ -12,9 +8,9 @@ class Game:
         """
         self.mode = mode
         self.adj_list = adj_list
-        self.path_finder = PathFinder(self)
 
-        self.start_word, self.end_word = self.path_finder.choose_words(mode)
+        self.start_word = start_word
+        self.end_word = end_word
         self.curr_word = self.start_word
         self.curr_neighbours = self.adj_list[self.curr_word]
 
@@ -43,7 +39,7 @@ class Game:
 
         # REDUNDANT FOR FRONT END
         if user_input not in self.curr_neighbours:
-            print("!!!!! Neighbour not in adj_list !!!!!")
+            print("\033[31mYou made a typo; please try again! :)\033[0m")
             return False
 
         self.curr_word = user_input
@@ -52,53 +48,3 @@ class Game:
             return True
         else:
             self.curr_neighbours = self.adj_list[self.curr_word]
-
-class PathFinder():
-    def __init__(self, game):
-        self.game = game
-
-    def end_word_selector(self, start_word, depth):
-        """
-        xxx
-
-        :param start_word:
-        :param depth:
-        :return:
-        """
-        adj_list = self.game.adj_list
-
-        curr_depth = 0
-        queue = deque([(start_word, curr_depth)])
-        visited = set()
-
-        while queue:
-            curr_word, curr_depth = queue.popleft()
-            # print(curr_word, curr_depth)
-
-            if curr_depth == depth:
-                return curr_word
-
-            for neighbour in adj_list[curr_word]:
-                if neighbour not in visited:
-                    visited.add(neighbour)
-                    queue.append((neighbour, curr_depth + 1))
-
-    def choose_words(self, word_len):
-        """
-        This function chooses 2 words from a partitioning depending on word length chosen
-        and makes sure the words are different enough, meaning at maximum 1 similar letter in the word
-        :param word_len: the chosen word length; either 4, 5 or 6
-        :type word_len: int
-        :return: list of 2 words that will be used as start and end of the game
-        :rtype: lst
-        """
-        try:
-            words = load_json(f"databases/partitions_{word_len}.json")
-        except FileNotFoundError:
-            raise FileNotFoundError("Please turn on 'generate_partitions' in main.py")
-
-        chosen_depth = depth_selector(word_len)
-        start_word = random.choice(words)  # choose a random word for start
-        end_word = self.end_word_selector(start_word, chosen_depth)
-
-        return start_word, end_word
