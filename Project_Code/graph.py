@@ -67,6 +67,9 @@ class Graph():
         end word, including both the start and end words themselves
         :rtype path: lst
         """
+        if len(start_word) != len(end_word):
+            raise KeyError("Wrong word lengths")
+
         expected_cost = 0 + letter_difference(start_word, end_word)
         start_cost = 0
         path = [start_word]
