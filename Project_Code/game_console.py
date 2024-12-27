@@ -416,6 +416,25 @@ def run_game_console():
             if event.type == pygame.QUIT:
                 running = False
 
+            # for button in buttons:
+            #     if button.is_clicked(event):
+            #         if button.text == "INSTRUCTIONS":
+            #             pygame.quit()
+            #             open_instructions_window()
+            #         elif button.text == "4-WORDS":
+            #             pygame.quit()
+            #             open_word_grid(words_4, "4-Letter Words")
+            #         elif button.text == "5-WORDS":
+            #             pygame.quit()
+            #             open_word_grid(words_5, "5-Letter Words")
+            #         elif button.text == "6-WORDS":
+            #             pygame.quit()
+            #             open_word_grid(words_6, "6-Letter Words")
+            #         else:
+            #             print(f"{button.text} clicked!")
+
+
+          ##And that would also have to change for the new version
             for button in buttons:
                 if button.is_clicked(event):
                     if button.text == "INSTRUCTIONS":
@@ -423,35 +442,16 @@ def run_game_console():
                         open_instructions_window()
                     elif button.text == "4-WORDS":
                         pygame.quit()
-                        open_word_grid(words_4, "4-Letter Words")
+                        open_word_grid(int(4), "4-Letter Words")
                     elif button.text == "5-WORDS":
                         pygame.quit()
-                        open_word_grid(words_5, "5-Letter Words")
+                        open_word_grid(int(5), "5-Letter Words")
                     elif button.text == "6-WORDS":
                         pygame.quit()
-                        open_word_grid(words_6, "6-Letter Words")
+                        open_word_grid(int(6), "6-Letter Words")
                     else:
                         print(f"{button.text} clicked!")
 
-        """
-          And that would also have to change for the new version
-              for button in buttons:
-                  if button.is_clicked(event):
-                      if button.text == "INSTRUCTIONS":
-                          pygame.quit()
-                          open_instructions_window()
-                      elif button.text == "4-WORDS":
-                          pygame.quit()
-                          open_word_grid(int(4), "4-Letter Words")
-                      elif button.text == "5-WORDS":
-                          pygame.quit()
-                          open_word_grid(int(5), "5-Letter Words")
-                      elif button.text == "6-WORDS":
-                          pygame.quit()
-                          open_word_grid(int(6), "6-Letter Words")
-                      else:
-                          print(f"{button.text} clicked!")
-          """
         pygame.display.update()
 
 
