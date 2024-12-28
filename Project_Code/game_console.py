@@ -159,9 +159,7 @@ def run_game_console():
     #     back_button.pack(pady=20)
     #     word_root.mainloop()
 
-    def button_clicked():
-        button_text = button.cget("text")
-        print(button_text)
+
 
     def open_word_grid(mode, title):
 
@@ -181,60 +179,130 @@ def run_game_console():
         graph = Graph(wp.all_words)
         graph.load_adj_list()
 
+        # Flags
+        generate_partitions = 1
+        start_game = 1
+        shortest_path_print = 1
 
-        frame = tk.CTkFrame(word_root)
+        # Create partitions
+        if generate_partitions:
+            wp.all_words_to_partitions(graph.adj_list)  # Sets partitions
+            wp.prune_partitions()  # Sets pruned_partitions
+            wp.filter_partitions()  # Sets filtered partitions
+            wp.write_partitions()  # Writes partitions
 
-        frame.pack(pady=10)
+        def button_clicked():
+            # button_text = button.text
+            button_text = button.cget("text")
+            # print(button_text)
 
-        grid_frame = tk.CTkFrame(frame)
-        grid_frame.pack()
 
-        game = Game(mode, graph.adj_list)
+        # Start game (class)
+        if start_game:
+        # window when start game
 
-        start_word = game.curr_word
-        start = tk.CTkButton(grid_frame, text=start_word, width=100, height=40, font=("Roboto", 12))
-        label = tk.CTkLabel(master=frame, text=start_word, font=("Roboto", 14))
-        label.pack(pady=12, padx=10)
+            # frame = tk.CTkFrame(word_root)
+            # frame.pack(pady=10)
 
-        # graph = Graph(wp.all_words)
-        # graph.load_adj_list()  # Sets graph.adj_list; if adj_list has not been created it does so automatically
+            grid_frame = tk.CTkFrame(word_root)
+            grid_frame.pack()
 
-        # game = Game(mode, graph.adj_list)
+            game = Game(mode, graph.adj_list)
+
+            # # start = tk.CTkButton(grid_frame, text=start_word, width=100, height=40, font=("Roboto", 12))
+            # # label = tk.CTkLabel(master=frame, text=start_word, font=("Roboto", 14))
+            # # label.pack(pady=12, padx=10)
+            # label = tk.CTkLabel(word_root, text=str(start_word), font=("Roboto", 20))
+            # label.pack(pady=20)
+            # # graph = Graph(wp.all_words)
+            # # graph.load_adj_list()  # Sets graph.adj_list; if adj_list has not been created it does so automatically
+
+            # game = Game(mode, graph.adj_list)
 
         # if shortest_path_print:
         #     print(graph.a_pain_algorith(game.curr_word, game.end_word))
         # i=0
-        # steps = 0
-        # while game.curr_word != game.end_word and i<3:
-        #     steps += 1
-        #     print("\ncurr", game.curr_word)
-        #     label = tk.CTkLabel(word_root, text=str(game.curr_word), font=("Roboto", 20))
-        #     label.pack(pady=20)
-        #
-        #     # print("neighbours", game.curr_neighbours)
-        #
-        #     for neighbour in game.curr_neighbours:
-        #         # print(neighbour)
-        #         button = tk.CTkButton(master=word_root,
-        #                               text=f"{neighbour}",
-        #                               command=button_clicked,
-        #                               font=("Arial", 12),
-        #                               )
-        #         button.pack(pady=10, padx=10)
-        #
-        #     # replace end word with button
-        #     # print("end", game.end_word)
-        #
-        #     # user_input = input("Pick word from neighbours: ").strip().upper()
-        #
-        #     label = tk.CTkLabel(word_root, text=str(game.end_word), font=("Roboto", 20))
-        #     label.pack(pady=20)
-        #     # # user_choice = game.curr_word
+
+            def clear_all_inside_frame(frame):
+                # Iterate through every widget inside the frame
+                for widget in frame.winfo_children():
+                    widget.destroy()  # deleting widget
+
+            def options():
+                start_word = game.curr_word
+                start_label = tk.CTkLabel(grid_frame, text=str(start_word), font=("Roboto", 20))
+                start_label.pack(pady=20)
+                end_word = game.end_word
+                end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
+                end_label.pack(pady=20, side=BOTTOM)
+
+                for neighbour in game.curr_neighbours:
+                    next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(neighbour), font=("Arial", 12))
+                    next_word.pack(pady=10, padx=10)
+
+                def word_chosen(name):
+                    user_choice = name
+                    print(user_choice)
+                    move = game.make_move(user_choice)
+                    if move is False:
+                        clear_all_inside_frame(grid_frame)
+                        options()
+                    elif move is True:
+                        # print(f"Yippieee! You got to the end word in {steps} steps!")
+                        print("Yippieee!")
+
+            options()
+
+
+
+            # steps = 0
+            # while game.curr_word != game.end_word:
+            #     steps += 1
+            #     print("\ncurr", game.curr_word)
+            #     label = tk.CTkLabel(word_root, text=str(game.curr_word), font=("Roboto", 20))
+            #     label.pack(pady=20)
+            #
+            #     for neighbour in game.curr_neighbours:
+            #         next_word = tk.CTkButton(master=word_root, text=f"{neighbour}", command=lambda: word_chosen(neighbour), font=("Arial", 12))
+            #         next_word.pack(pady=10, padx=10)
+
+
+        #         for neighbour in game.curr_neighbours:
+        #             # print(neighbour)
+        #             button = tk.CTkButton(master=word_root,
+        #                                   text=f"{neighbour}",
+        #                                   command=button_clicked,
+        #                                   font=("Arial", 12),
+        #                                   )
+        #             button.pack(pady=10, padx=10)
+        # #
+        # #     # replace end word with button
+        # #     # print("end", game.end_word)
+        # #
+        # #     # user_input = input("Pick word from neighbours: ").strip().upper()
+        # #
+        # #     label = tk.CTkLabel(word_root, text=str(game.end_word), font=("Roboto", 20))
+        # #     label.pack(pady=20)
+        #         user_choice = game.curr_neighbours[0]
+        #         print(f"machine_choice is {user_choice}")
         #     # # this part lowkey doesnt work
-        #     # if button_clicked():
-        #     #     user_choice = button.cget("text")
-        #     #     print("im here")
-        #     i+=1
+        #
+        #         for button in buttons:
+        #         if button_clicked():
+        #             user_choice = button.cget("text")
+        #             # user_choice = button.text
+        #             # print("im here")
+        #             print(f"user_choice is {user_choice}")
+        #         # move = game.make_move(user_choice)
+        #         # print(move)
+        #         # break
+        #         move = game.make_move(user_choice)
+        #         if move is False:
+        #             continue
+        #         if move is True:
+        #             print(f"Yippieee! You got to the end word in {steps} steps!")
+        #             break
+        # #     i+=1
 
 
         # def create_word_grid(root, word_list, rows, columns):
@@ -524,4 +592,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-# run_game_console()
+run_game_console()
