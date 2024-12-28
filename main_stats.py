@@ -7,15 +7,14 @@ with open("databases/adj_list.json", "r") as file:
 
 # Start game
 word_set = {
-            "WOOF": "WOOT",
-            "COOF": "COAL",
-            # "WOOF": "BAFF",  # diff = 4
+            "WOOF": "BAFF",  # diff = 4
             "SAND": "GRIT",  # diff = 4
             "SORT": "KIND",  # diff = 5
             "YELL": "ROAR",  # diff = 5
             "DUNK": "ITCH",  # diff = 7
             "AMID": "ISLE",  # diff = 8
             }
+name = input("What is your name? ")
 
 for round, (start_word, end_word) in enumerate(word_set.items()):
     game = Game(4, adj_list, start_word, end_word)
@@ -56,6 +55,6 @@ for round, (start_word, end_word) in enumerate(word_set.items()):
             print(f"Yippieee! You got to the end word in {steps} steps!")
             break
 
-    with open("databases/user_answers.txt", "a") as file:
+    with open(f"databases/user_answers_{name}.txt", "a") as file:
         file.write(f"{user_answers}\n")
         file.write(f"{steps}\n")
