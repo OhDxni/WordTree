@@ -3,7 +3,7 @@ import heapq
 from pathlib import Path
 from Project_Code.helper_functions import save_json, load_json, letter_difference
 
-project_root = str(Path(__file__).resolve().parents[2])
+project_root = (Path(__file__).resolve().parents[1]).as_posix()
 
 class Graph():
     def __init__(self, all_words):
@@ -67,6 +67,9 @@ class Graph():
         end word, including both the start and end words themselves
         :rtype path: lst
         """
+        if len(start_word) != len(end_word):
+            raise KeyError("Wrong word lengths")
+
         expected_cost = 0 + letter_difference(start_word, end_word)
         start_cost = 0
         path = [start_word]

@@ -24,8 +24,11 @@ if generate_partitions:
 def button_clicked():
     button_text = button.cget("text")
     print(button_text)
+
+
 def quit_game(window):
     window.destroy()
+
 
 # Start game (class)
 if start_game:

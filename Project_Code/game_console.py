@@ -21,7 +21,6 @@ import sys
 import customtkinter as tk
 from tkinter import *
 
-
 def run_game_console():
     """
     Initializes and runs the Pygame application to display a tree with buttons

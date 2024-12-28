@@ -7,7 +7,6 @@ using the CustomTkinter library. It consists of the following key functions:
 """
 import customtkinter as tk
 
-
 tk.set_appearance_mode("dark")
 tk.set_default_color_theme("green")
 tk.set_widget_scaling(1.2)
