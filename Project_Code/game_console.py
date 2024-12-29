@@ -24,6 +24,7 @@ from Project_Code.graph import Graph
 from Project_Code.word_processing import WordProcessing
 from Project_Code.game_logic import Game
 
+steps = 0
 
 def run_game_console():
     """
@@ -231,15 +232,32 @@ def run_game_console():
                 for widget in frame.winfo_children():
                     widget.destroy()  # deleting widget
 
+
             def options():
+                global steps  # Declare steps as a global variable to modify its value
+                steps += 1
+                # start_word = game.curr_word
+                # start_label = tk.CTkLabel(grid_frame, text=str(start_word), font=("Roboto", 20))
+                # start_label.pack(pady=20)
+                # end_word = game.end_word
+                # end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
+                # end_label.pack(pady=20, side=BOTTOM)
+                # scrollbar = Scrollbar(grid_frame)
+                # scrollbar.pack(side=RIGHT, fill=Y)  # , orient=tk.VERTICAL)
                 start_word = game.curr_word
                 start_label = tk.CTkLabel(grid_frame, text=str(start_word), font=("Roboto", 20))
-                start_label.pack(pady=20)
-                end_word = game.end_word
-                end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
-                end_label.pack(pady=20, side=BOTTOM)
-                scrollbar = Scrollbar(grid_frame)
-                scrollbar.pack(side=RIGHT, fill=Y)  # , orient=tk.VERTICAL)
+                start_label.grid(row=0, column=3, pady=(20, 10))  # Place in row 0, spanning 2 columns
+                # start_label.grid(row=0, column=3, columnspan=2, pady=(20, 10))  # Place in row 0, spanning 2 columns
+
+                # end_word = game.end_word
+                # end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
+                # end_label.grid(row=1, column=0, columnspan=2, pady=(10, 20))  # Place in row 1, spanning 2 columns
+
+                # Add the scrollbar to the right side
+                # scrollbar = Scrollbar(grid_frame, orient="vertical")
+                # scrollbar.grid(row=0, column=2, rowspan=2, sticky="ns")  # Place in column 2, spanning rows 0 and 1
+
+                # Ensure other widgets (e.g., buttons) are placed in rows starting from 2
 
                 # for neighbour in game.curr_neighbours:
                 #     next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(next_word), font=("Arial", 12))
@@ -254,11 +272,24 @@ def run_game_console():
                 for word in game.curr_neighbours:  # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
                     files.append(word)
 
+                columns = 7  # Adjust this value as needed
+
                 for i in range(len(files)):  # this says for *counter* in *however many elements there are in the list files*
                     # the below line creates a button and stores it in an array we can call later, it will print the value of it's own text by referencing itself from the list that the buttons are stored in
                     # btn.append(Button(grid_frame, text=files[i], command=lambda c=i: print(btn[c].cget("text"))))
                     btn.append(tk.CTkButton(grid_frame, text=files[i], command=lambda c=i: word_chosen(btn[c].cget("text"))))
-                    btn[i].pack(pady=5, padx=10, side=LEFT)  # this packs the buttons
+                    # btn[i].pack(pady=5, padx=10)  # this packs the buttons
+                    # Calculate row and column positions
+                    row = 1 + i // columns
+                    column = i % columns
+
+                    # Place the button in the grid
+                    btn[i].grid(row=row, column=column, padx=10, pady=10)
+
+                end_word = game.end_word
+                end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
+                end_label.grid(row=2+len(files), column=3, pady=(10, 20))  # Place in row 1, spanning 2 columns
+                # end_label.grid(row=2+len(files), column=3, columnspan=2, pady=(10, 20))  # Place in row 1, spanning 2 columns
 
             def word_chosen(name):
 
@@ -274,8 +305,8 @@ def run_game_console():
                     clear_all_inside_frame(grid_frame)
                     options()
                 elif move is True:
-                    # print(f"Yippieee! You got to the end word in {steps} steps!")
-                    print("Yippieee!")
+                    print(f"Yippieee! You got to the end word in {steps} steps!")
+                    # print("Yippieee!")
 
                 # def word_chosen(button_clicked):
                 #
