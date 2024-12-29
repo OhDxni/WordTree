@@ -17,13 +17,9 @@ Functions:
 
 import customtkinter
 from tkinter import PhotoImage, messagebox
-# from testing_game_console import run_game_console
 from Project_Code.game_console import run_game_console
 from hashlib import sha256
-
-from Project_Code.game_logic import project_root
 from users_database import *
-from pathlib import Path
 
 
 root = customtkinter.CTk()
@@ -145,7 +141,7 @@ def login(username, password):
         if sha256(password.encode()).hexdigest() == stored_password:
             login_root.withdraw()
             # if everything correct, go to run_game_console
-            run_game_console(username, stored_password)
+            run_game_console(username)
 
         else:
             # if password not the same, give error "Wrong password"
@@ -245,7 +241,7 @@ def register(username, password, password_confirmation):
         conn.commit()
         #gos to run_game_console
         register_root.withdraw()
-        run_game_console(username, hashed_password)
+        run_game_console(username)
 
     # closes the connection
     conn.close()
