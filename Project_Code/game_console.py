@@ -258,7 +258,7 @@ def run_game_console():
                     # the below line creates a button and stores it in an array we can call later, it will print the value of it's own text by referencing itself from the list that the buttons are stored in
                     # btn.append(Button(grid_frame, text=files[i], command=lambda c=i: print(btn[c].cget("text"))))
                     btn.append(tk.CTkButton(grid_frame, text=files[i], command=lambda c=i: word_chosen(btn[c].cget("text"))))
-                    btn[i].pack(pady=5, padx=10)  # this packs the buttons
+                    btn[i].pack(pady=5, padx=10, side=LEFT)  # this packs the buttons
 
             def word_chosen(name):
 
