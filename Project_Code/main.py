@@ -75,12 +75,12 @@ if start_game:
 
         label = tk.CTkLabel(root, text=str(game.end_word), font=("Roboto", 20))
         label.pack(pady=20)
-
+        # user_choice = game.curr_word
         #this part lowkey doesnt work
-        # if button_clicked():
-        #     user_choice = button.cget("text")
-        #     print("im here")
-        #
+        if button_clicked():
+            user_choice = button.cget("text")
+            print("im here")
+
         # move = game.make_move(user_choice)
         # if move is False:
         #     continue

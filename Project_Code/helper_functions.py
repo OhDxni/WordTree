@@ -7,7 +7,7 @@ def letter_difference(curr_word, neighbour):
 
     :param curr_word: Current word you want to compare.
     :type curr_word: str
-    :param neighbour: Neighbouring word you want to campare
+    :param neighbour: Neighbouring word you want to compare
     :type neighbour: str
     :return difference: The amount of different letters.
     :rtype words: int
