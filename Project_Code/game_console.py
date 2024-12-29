@@ -10,6 +10,7 @@ Function:
 
 Nested Functions:
 - quit_game: Closes all windows and halts the program.
+- reset_steps: Resets the number of steps.
 - congratulations: Shows a congratulation message after finished game.
 - open_word_grid(mode, title): Opens and manages the game.
 - clear_all_inside_frame(frame): Deletes all widgets from the given frame.
@@ -78,6 +79,15 @@ def run_game_console():
         except pygame.error:
             pass
 
+    def reset_steps():
+        """
+        Resets the number of steps user made in the game to zero.
+
+        :return: None
+        """
+        global steps  # Sets steps (initialized in the beginning of the file) as a global variable
+        steps = 0
+
     def congratulations():
         """
         Shows a congratulation message after finished game and allows for further navigation through the app.
@@ -99,7 +109,7 @@ def run_game_console():
 
         # button going back to the game console
         back = tk.CTkButton(congrats_frame, text="<-Back to the tree", font=('Roboto', 12),
-                            command=lambda: [congrats_root.withdraw(), run_game_console()])
+                            command=lambda: [congrats_root.withdraw(), reset_steps(), run_game_console()])
         back.pack(pady=15, padx=10)
 
         congrats_root.mainloop()
@@ -187,7 +197,7 @@ def run_game_console():
                 # Creates other widgets for the window
                 start_label = tk.CTkLabel(grid_frame, text=str(game.curr_word), font=("Roboto", 20))
                 end_label = tk.CTkLabel(grid_frame, text=str(game.end_word), font=("Roboto", 20))
-                back = tk.CTkButton(grid_frame, text="<-Back to the tree", font=('Roboto', 12), command=lambda: [word_root.withdraw(), run_game_console()])
+                back = tk.CTkButton(grid_frame, text="<-Back to the tree", font=('Roboto', 12), command=lambda: [word_root.withdraw(), reset_steps(), run_game_console()])
 
                 # Places other widgets on the screen in the middle, differently depending on number of options
 
