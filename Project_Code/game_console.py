@@ -9,6 +9,12 @@ Function:
   and manage user interactions through a graphical interface.
 
 Nested Functions:
+- quit_game: Closes all windows and halts the program.
+- congratulations: Shows a congratulation message after finished game.
+- open_word_grid(mode, title): Opens and manages the game.
+- clear_all_inside_frame(frame): Deletes all widgets from the given frame.
+- options: Populates the window of the game with all the correct and necessary widgets.
+- word_chosen(name): Executes the move in the game.
 - open_instructions_window: Opens a Tkinter window that displays game instructions.
 - draw_tree: Draws a stylized tree on the given Pygame surface.
 - draw_clouds: Draws clouds on the given Pygame surface.
@@ -17,14 +23,12 @@ Nested Functions:
 
 import pygame
 import sys
-# import tkinter as tk
 import customtkinter as tk
-from tkinter import *
 from Project_Code.graph import Graph
 from Project_Code.word_processing import WordProcessing
 from Project_Code.game_logic import Game
 
-steps = 0
+steps = 0    # Initializes steps outside any function to keep it as global variable
 
 def run_game_console():
     """
@@ -62,13 +66,11 @@ def run_game_console():
     font_small = pygame.font.SysFont('Arial', 24)
     font_default = pygame.font.SysFont('Arial', 28)
 
-    words_4 = ["tree", "love", "bird", "blue", "ship", "fire", "rock", "snow"]
-    words_5 = ["apple", "grape", "peach", "lemon", "plumb", "berry", "melon", "olive"]
-    words_6 = ["banana", "cherry", "orange", "apricot", "guava", "papaya", "quince", "figtree"]
-
     def quit_game(window):
         """
-        Closes all windows and halts the program when X is clicked
+        Closes all windows and halts the program when X is clicked.
+
+        :return: None
         """
         window.destroy()
         try:
@@ -76,102 +78,45 @@ def run_game_console():
         except pygame.error:
             pass
 
+    def congratulations():
+        """
+        Shows a congratulation message after finished game and allows for further navigation through the app.
 
+        :return: None
+        """
+        congrats_root = tk.CTkToplevel()
+        congrats_root.title("Congratulations!")
+        congrats_root.geometry("470x320+600+170")
+        tk.set_default_color_theme("green")
 
-     
-    # def open_word_grid(word_length, title):
-    #
-    #     word_root = tk.CTk()
-    #     word_root.title(title)
-    #     word_root.geometry("1920x1080+0+0")
-    #     tk.set_default_color_theme("green")
-    #
-    #     # Adding a scrollbar to the window
-    #     scrollbar = Scrollbar(word_root)
-    #     scrollbar.pack(side=RIGHT, fill=Y)
-    #
-    #     # Binding the x in the top-right corner of the screen with halting the program
-    #     word_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(word_root))
-    #
-    #     wp = WordProcessing()
-    #     wp.load_all_words()
-    #     graph = Graph(wp.all_words)
-    #     graph.load_adj_list()
-    #
-    #     def create_word_grid(root, word_length, rows, columns):
-    #         frame = tk.CTkFrame(word_root)
-    #         frame.pack(pady=10)
-    #
-    #         grid_frame = tk.CTkFrame(frame)
-    #         grid_frame.pack()
-    #
-    #         game = Game(word_length, graph.adj_list)
-    #
-    #         start_word = game.curr_word
-    #         print("\ncurr", game.curr_word)
-    #
-    #         # start = tk.CTkButton(grid_frame, text=start_word, width=100, height=40,
-    #         #                     font=("Roboto", 12))
-    #         label = tk.CTkLabel(master=frame, text=start_word, font=("Roboto", 14))
-    #         label.pack(pady=12, padx=10)
-    #
-    #         # steps = 0
-    #         # while game.curr_word != game.end_word:
-    #         #     steps += 1
-    #         #     print("\ncurr", game.curr_word)
-    #         #     start_word = game.curr_word
-    #         #     label = tk.CTkLabel(master=frame, text="start_word", font=("Roboto", 24))
-    #         #     label.pack(pady=12, padx=10)
-    #         #     create_word_grid(word_root, word_length, rows=2, columns=4)
-    #
-    #         # print("neighbours", game.curr_neighbours)
-    #         # print("end", game.end_word)
-    #         # user_input = input("Pick word from neighbours: ").strip().upper()
-    #
-    #         # move = game.make_move(user_input)
-    #         # if move is False:
-    #         #     continue
-    #         # if move is True:
-    #         #     print(f"Yippieee! You got to the end word in {steps} steps!")
-    #         # break
-    #
-    #         # grid_words = [word_list[i:i + columns] for i in range(0, len(word_list), columns)]
-    #
-    #         def on_button_click(word):
-    #             print(f"You clicked: {word}")
-    #
-    #     #     for r, row_words in enumerate(grid_words):
-    #     #         for c, word in enumerate(row_words):
-    #     #             button = tk.CTkButton(
-    #     #                 grid_frame, text=word, width=100, height=40,
-    #     #                 font=("Roboto", 12),
-    #     #                 command=lambda w=word: on_button_click(w)
-    #     #             )
-    #     #             button.grid(row=r, column=c, padx=5, pady=5)
-    #     #
-    #     create_word_grid(word_root, word_length, rows=2, columns=4)
-    #
-    #     def go_back():
-    #         word_root.destroy()
-    #         run_game_console()
-    #
-    #     back_button = tk.CTkButton(word_root, text="← Go Back", width=100, height=40,
-    #                                font=("Roboto", 12), command=go_back)
-    #     back_button.pack(pady=20)
-    #     word_root.mainloop()
+        congrats_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(congrats_root))
 
+        congrats_frame = tk.CTkFrame(congrats_root)
+        congrats_frame.pack(expand=True)    # the frame should occupy any empty space
 
+        congrats_message = tk.CTkLabel(master=congrats_frame, text=f"Congratulations! You reached the end word in {steps} steps.", font=("Roboto", 12))
+        congrats_message.pack(pady=15, padx=10)
+
+        # button going back to the game console
+        back = tk.CTkButton(congrats_frame, text="<-Back to the tree", font=('Roboto', 12),
+                            command=lambda: [congrats_root.withdraw(), run_game_console()])
+        back.pack(pady=15, padx=10)
+
+        congrats_root.mainloop()
 
     def open_word_grid(mode, title):
+        """
+        Opens and manages the game itself.
 
-        word_root = tk.CTk()
+        :param mode: length of the words
+        :param title: title of the window based on the length of words
+        :return: None
+        """
+
+        word_root = tk.CTkToplevel()    # Creates a top level root
         word_root.title(title)
         word_root.geometry("1920x1080+0+0")
         tk.set_default_color_theme("green")
-
-        # scrollbar = Scrollbar(word_root)
-        # scrollbar.pack(side=RIGHT, fill=Y)   #, orient=tk.VERTICAL)
-
 
         word_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(word_root))
 
@@ -183,7 +128,7 @@ def run_game_console():
         # Flags
         generate_partitions = 1
         start_game = 1
-        shortest_path_print = 1
+        # shortest_path_print = 1
 
         # Create partitions
         if generate_partitions:
@@ -192,224 +137,102 @@ def run_game_console():
             wp.filter_partitions()  # Sets filtered partitions
             wp.write_partitions()  # Writes partitions
 
-
-        buttons_text = []
-        def button_clicked():
-            # button_text = button.text
-            button_text = button.cget("text")
-            buttons_text.append(button_text)
-            # print(button_text)
-
-
-        # Start game (class)
         if start_game:
-        # window when start game
-
-            # frame = tk.CTkFrame(word_root)
-            # frame.pack(pady=10)
 
             grid_frame = tk.CTkFrame(word_root)
             grid_frame.pack()
-
-            game = Game(mode, graph.adj_list)
-
-            # # start = tk.CTkButton(grid_frame, text=start_word, width=100, height=40, font=("Roboto", 12))
-            # # label = tk.CTkLabel(master=frame, text=start_word, font=("Roboto", 14))
-            # # label.pack(pady=12, padx=10)
-            # label = tk.CTkLabel(word_root, text=str(start_word), font=("Roboto", 20))
-            # label.pack(pady=20)
-            # # graph = Graph(wp.all_words)
-            # # graph.load_adj_list()  # Sets graph.adj_list; if adj_list has not been created it does so automatically
-
-            # game = Game(mode, graph.adj_list)
-
-        # if shortest_path_print:
-        #     print(graph.a_pain_algorith(game.curr_word, game.end_word))
-        # i=0
+            game = Game(mode, graph.adj_list)   # Initializes the game
 
             def clear_all_inside_frame(frame):
-                # Iterate through every widget inside the frame
-                for widget in frame.winfo_children():
-                    widget.destroy()  # deleting widget
+                """
+                Deletes all widgets from the given frame.
 
+                :param frame: the frame that is supposed to be cleared of all widgets
+                :return: None
+                """
+                for widget in frame.winfo_children():    # Iterates through every widget inside the frame
+                    widget.destroy()    # Deletes the widget
+                options()
 
             def options():
-                global steps  # Declare steps as a global variable to modify its value
-                steps += 1
-                # start_word = game.curr_word
-                # start_label = tk.CTkLabel(grid_frame, text=str(start_word), font=("Roboto", 20))
-                # start_label.pack(pady=20)
-                # end_word = game.end_word
-                # end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
-                # end_label.pack(pady=20, side=BOTTOM)
-                # scrollbar = Scrollbar(grid_frame)
-                # scrollbar.pack(side=RIGHT, fill=Y)  # , orient=tk.VERTICAL)
-                start_word = game.curr_word
-                start_label = tk.CTkLabel(grid_frame, text=str(start_word), font=("Roboto", 20))
-                start_label.grid(row=0, column=3, pady=(20, 10))  # Place in row 0, spanning 2 columns
-                # start_label.grid(row=0, column=3, columnspan=2, pady=(20, 10))  # Place in row 0, spanning 2 columns
+                """
+                Populates the window of the game with correct widgets every time it is called.
+                Current word appears at the top, below there are buttons representing neighbouring
+                words that can be chosen, at the bottom there is the end word and a back button
+                taking user to the game console.
 
-                # end_word = game.end_word
-                # end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
-                # end_label.grid(row=1, column=0, columnspan=2, pady=(10, 20))  # Place in row 1, spanning 2 columns
+                :return: None
+                """
+                global steps    # Sets steps (initialized in the beginning of the file) as a global variable
+                steps += 1      # Increases the steps every time new options show up, so keeps count of the steps
 
-                # Add the scrollbar to the right side
-                # scrollbar = Scrollbar(grid_frame, orient="vertical")
-                # scrollbar.grid(row=0, column=2, rowspan=2, sticky="ns")  # Place in column 2, spanning rows 0 and 1
+                # Next steps are necessary to allow for creation of different number of buttons and to ensure
+                # that when clicked they trigger response of that specific button
+                neighbours_words = []      # Creates list that will store neighbours (as words)
+                btn_storage = []           # Creates list that will store buttons of neighbours
 
-                # Ensure other widgets (e.g., buttons) are placed in rows starting from 2
+                for word in game.curr_neighbours:  # Populates neighbour_words with the neighbours
+                    neighbours_words.append(word)
 
-                # for neighbour in game.curr_neighbours:
-                #     next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(next_word), font=("Arial", 12))
-                #     # next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(neighbour), font=("Arial", 12))
-                #     next_word.pack(pady=10, padx=10)
+                columns = 7  # Sets the maximum number of columns in the grid
 
-                files = []  # creates list to replace your actual inputs for troubleshooting purposes
-                btn = []  # creates list to store the buttons ins
+                for i in range(len(neighbours_words)):    # Iterates over the number of neighbours
+                    # Creates a button for every neighbour and stores it in an array, so we can call it later
+                    btn_storage.append(tk.CTkButton(grid_frame, text=neighbours_words[i], command=lambda c=i: word_chosen(btn_storage[c].cget("text"))))
 
-                # for i, word in zip(range(len(game.curr_neighbours), game.curr_neighbours)):  # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
-                #     files.append()
-                for word in game.curr_neighbours:  # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
-                    files.append(word)
+                    row = 1 + (i // columns)    # Allocates the row in the grid(+1 because the start word is in row 0
+                    column = i % columns        # Allocates the column in the grid
+                    btn_storage[i].grid(row=row, column=column, padx=10, pady=10)   # Puts the button in the right place
 
-                columns = 7  # Adjust this value as needed
+                # Creates other widgets for the window
+                start_label = tk.CTkLabel(grid_frame, text=str(game.curr_word), font=("Roboto", 20))
+                end_label = tk.CTkLabel(grid_frame, text=str(game.end_word), font=("Roboto", 20))
+                back = tk.CTkButton(grid_frame, text="<-Back to the tree", font=('Roboto', 12), command=lambda: [word_root.withdraw(), run_game_console()])
 
-                for i in range(len(files)):  # this says for *counter* in *however many elements there are in the list files*
-                    # the below line creates a button and stores it in an array we can call later, it will print the value of it's own text by referencing itself from the list that the buttons are stored in
-                    # btn.append(Button(grid_frame, text=files[i], command=lambda c=i: print(btn[c].cget("text"))))
-                    btn.append(tk.CTkButton(grid_frame, text=files[i], command=lambda c=i: word_chosen(btn[c].cget("text"))))
-                    # btn[i].pack(pady=5, padx=10)  # this packs the buttons
-                    # Calculate row and column positions
-                    row = 1 + i // columns
-                    column = i % columns
+                # Places other widgets on the screen in the middle, differently depending on number of options
 
-                    # Place the button in the grid
-                    btn[i].grid(row=row, column=column, padx=10, pady=10)
+                # less than seven neighbours and even number
+                if len(neighbours_words) < 7 and (len(neighbours_words) % 2) == 0:
+                    middle_column = len(neighbours_words) // 2
+                    # Places start word in row 0, spanning 2 columns (because even number of buttons)
+                    start_label.grid(row=0, column=middle_column-1, columnspan=2, pady=(20, 10))
+                    # Places end word in the row after the last button row, spanning 2 columns
+                    end_label.grid(row=2 + len(neighbours_words), column=middle_column-1, columnspan=2, pady=(10, 20))
+                    # Places back button at the bottom, spanning two columns
+                    back.grid(row=3 + len(neighbours_words), column=middle_column-1, columnspan=2, pady=(10, 20))
 
-                end_word = game.end_word
-                end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
-                end_label.grid(row=2+len(files), column=3, pady=(10, 20))  # Place in row 1, spanning 2 columns
-                # end_label.grid(row=2+len(files), column=3, columnspan=2, pady=(10, 20))  # Place in row 1, spanning 2 columns
+                else:
+                    middle_column = 3    # otherwise
+
+                    # less than seven neighbours and odd number
+                    if len(neighbours_words) < 7 and (len(neighbours_words) % 2) == 1:
+                        middle_column = (len(neighbours_words)-1)//2    # Gets the column of middle button
+
+                    start_label.grid(row=0, column=middle_column, pady=(20, 10))
+                    end_label.grid(row=2 + len(neighbours_words), column=middle_column, pady=(10, 20))
+                    back.grid(row=3 + len(neighbours_words), column=middle_column, pady=(10, 20))
 
             def word_chosen(name):
+                """
+                Executes the move based on which button the user clicked and decides
+                if the game continues or if the user reached the end word.
 
-                # user_choice = None
-                # for button_text in buttons_text:
-                #     if button_clicked.cget("text") == button_text:
-                #        user_choice = button_text
-
-                user_choice = name
-                print(user_choice)
-                move = game.make_move(user_choice)
-                if move is False:
-                    clear_all_inside_frame(grid_frame)
-                    options()
-                elif move is True:
+                :param name: the text of the button that user clicked
+                :return: None
+                """
+                user_choice = name                      # Sets the user choice to the text on button clicked
+                move = game.make_move(user_choice)      # Executes the move (returns True or False)
+                if move is False:                       # If end word not reached
+                    clear_all_inside_frame(grid_frame)  # Deletes all widgets from the frame
+                    # options()                           # Populates the frame with the new current word,
+                                                        # neighbour buttons, end word and back button
+                elif move is True:                      # If end reached
                     print(f"Yippieee! You got to the end word in {steps} steps!")
-                    # print("Yippieee!")
+                    word_root.withdraw()                # Hides the window with the game
+                    congratulations()                   # Calls congratulations window
 
-                # def word_chosen(button_clicked):
-                #
-                #     user_choice = None
-                #     for button_text in buttons_text:
-                #         if button_clicked.cget("text") == button_text:
-                #            user_choice = button_text
-                #
-                #     # user_choice = name
-                #     print(user_choice)
-                #     move = game.make_move(user_choice)
-                #     if move is False:
-                #         clear_all_inside_frame(grid_frame)
-                #         options()
-                #     elif move is True:
-                #         # print(f"Yippieee! You got to the end word in {steps} steps!")
-                #         print("Yippieee!")
+            options()    # Runs options for the first time
 
-            options()
-
-
-
-            # steps = 0
-            # while game.curr_word != game.end_word:
-            #     steps += 1
-            #     print("\ncurr", game.curr_word)
-            #     label = tk.CTkLabel(word_root, text=str(game.curr_word), font=("Roboto", 20))
-            #     label.pack(pady=20)
-            #
-            #     for neighbour in game.curr_neighbours:
-            #         next_word = tk.CTkButton(master=word_root, text=f"{neighbour}", command=lambda: word_chosen(neighbour), font=("Arial", 12))
-            #         next_word.pack(pady=10, padx=10)
-
-
-        #         for neighbour in game.curr_neighbours:
-        #             # print(neighbour)
-        #             button = tk.CTkButton(master=word_root,
-        #                                   text=f"{neighbour}",
-        #                                   command=button_clicked,
-        #                                   font=("Arial", 12),
-        #                                   )
-        #             button.pack(pady=10, padx=10)
-        # #
-        # #     # replace end word with button
-        # #     # print("end", game.end_word)
-        # #
-        # #     # user_input = input("Pick word from neighbours: ").strip().upper()
-        # #
-        # #     label = tk.CTkLabel(word_root, text=str(game.end_word), font=("Roboto", 20))
-        # #     label.pack(pady=20)
-        #         user_choice = game.curr_neighbours[0]
-        #         print(f"machine_choice is {user_choice}")
-        #     # # this part lowkey doesnt work
-        #
-        #         for button in buttons:
-        #         if button_clicked():
-        #             user_choice = button.cget("text")
-        #             # user_choice = button.text
-        #             # print("im here")
-        #             print(f"user_choice is {user_choice}")
-        #         # move = game.make_move(user_choice)
-        #         # print(move)
-        #         # break
-        #         move = game.make_move(user_choice)
-        #         if move is False:
-        #             continue
-        #         if move is True:
-        #             print(f"Yippieee! You got to the end word in {steps} steps!")
-        #             break
-        # #     i+=1
-
-
-        # def create_word_grid(root, word_list, rows, columns):
-        #
-        #     frame = tk.CTkFrame(word_root)
-        #     frame.pack(pady=10)
-        #
-        #     grid_frame = tk.CTkFrame(frame)
-        #     grid_frame.pack()
-        #
-        #     grid_words = [word_list[i:i + columns] for i in range(0, len(word_list), columns)]
-        #
-        #     def on_button_click(word):
-        #         print(f"You clicked: {word}")
-        #
-        #     for r, row_words in enumerate(grid_words):
-        #         for c, word in enumerate(row_words):
-        #             button = tk.CTkButton(
-        #                 grid_frame, text=word, width=100, height=40,
-        #                 font=("Roboto", 12),
-        #                 command=lambda w=word: on_button_click(w)
-        #             )
-        #             button.grid(row=r, column=c, padx=5, pady=5)
-        #
-        # create_word_grid(word_root, word_list, rows=2, columns=4)
-        #
-        # def go_back():
-        #     word_root.destroy()
-        #     run_game_console()
-        #
-        # back_button = tk.CTkButton(word_root, text="← Go Back", width=100, height=40,
-        #                            font=("Roboto", 12), command=go_back)
-        # back_button.pack(pady=20)
         word_root.mainloop()
 
     def open_instructions_window():
@@ -417,7 +240,6 @@ def run_game_console():
         Opens a Tkinter window that displays game instructions.
         The window has multiple frames to navigate through instructions.
         """
-
 
         tk.set_appearance_mode("system")
         tk.set_default_color_theme("green")
@@ -433,7 +255,6 @@ def run_game_console():
         first = tk.CTk()
         first.title("Instructions")
         first.geometry("470x320+600+170")
-
 
         first.protocol("WM_DELETE_WINDOW", lambda: quit_game(first))
 
@@ -547,7 +368,6 @@ def run_game_console():
                     return True
             return False
 
-
     # Function to draw the tree
     def draw_tree(screen):
         """
@@ -641,27 +461,7 @@ def run_game_console():
                     else:
                         print(f"{button.text} clicked!")
 
-
-          # ##And that would also have to change for the new version
-          #   for button in buttons:
-          #       if button.is_clicked(event):
-          #           if button.text == "INSTRUCTIONS":
-          #               pygame.quit()
-          #               open_instructions_window()
-          #           elif button.text == "4-WORDS":
-          #               pygame.quit()
-          #               open_word_grid(4, "4-Letter Words")
-          #           elif button.text == "5-WORDS":
-          #               pygame.quit()
-          #               open_word_grid(5, "5-Letter Words")
-          #           elif button.text == "6-WORDS":
-          #               pygame.quit()
-          #               open_word_grid(6, "6-Letter Words")
-          #           else:
-          #               print(f"{button.text} clicked!")
-
         pygame.display.update()
-
 
     pygame.quit()
     sys.exit()
