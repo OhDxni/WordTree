@@ -168,8 +168,8 @@ def run_game_console():
         word_root.geometry("1920x1080+0+0")
         tk.set_default_color_theme("green")
 
-        scrollbar = Scrollbar(word_root)
-        scrollbar.pack(side=RIGHT, fill=Y)   #, orient=tk.VERTICAL)
+        # scrollbar = Scrollbar(word_root)
+        # scrollbar.pack(side=RIGHT, fill=Y)   #, orient=tk.VERTICAL)
 
 
         word_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(word_root))
@@ -191,9 +191,12 @@ def run_game_console():
             wp.filter_partitions()  # Sets filtered partitions
             wp.write_partitions()  # Writes partitions
 
+
+        buttons_text = []
         def button_clicked():
             # button_text = button.text
             button_text = button.cget("text")
+            buttons_text.append(button_text)
             # print(button_text)
 
 
@@ -235,21 +238,61 @@ def run_game_console():
                 end_word = game.end_word
                 end_label = tk.CTkLabel(grid_frame, text=str(end_word), font=("Roboto", 20))
                 end_label.pack(pady=20, side=BOTTOM)
+                scrollbar = Scrollbar(grid_frame)
+                scrollbar.pack(side=RIGHT, fill=Y)  # , orient=tk.VERTICAL)
 
-                for neighbour in game.curr_neighbours:
-                    next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(neighbour), font=("Arial", 12))
-                    next_word.pack(pady=10, padx=10)
+                # for neighbour in game.curr_neighbours:
+                #     next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(next_word), font=("Arial", 12))
+                #     # next_word = tk.CTkButton(master=grid_frame, text=f"{neighbour}", command=lambda: word_chosen(neighbour), font=("Arial", 12))
+                #     next_word.pack(pady=10, padx=10)
 
-                def word_chosen(name):
-                    user_choice = name
-                    print(user_choice)
-                    move = game.make_move(user_choice)
-                    if move is False:
-                        clear_all_inside_frame(grid_frame)
-                        options()
-                    elif move is True:
-                        # print(f"Yippieee! You got to the end word in {steps} steps!")
-                        print("Yippieee!")
+                files = []  # creates list to replace your actual inputs for troubleshooting purposes
+                btn = []  # creates list to store the buttons ins
+
+                # for i, word in zip(range(len(game.curr_neighbours), game.curr_neighbours)):  # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
+                #     files.append()
+                for word in game.curr_neighbours:  # this just popultes a list as a replacement for your actual inputs for troubleshooting purposes
+                    files.append(word)
+
+                for i in range(len(files)):  # this says for *counter* in *however many elements there are in the list files*
+                    # the below line creates a button and stores it in an array we can call later, it will print the value of it's own text by referencing itself from the list that the buttons are stored in
+                    # btn.append(Button(grid_frame, text=files[i], command=lambda c=i: print(btn[c].cget("text"))))
+                    btn.append(tk.CTkButton(grid_frame, text=files[i], command=lambda c=i: word_chosen(btn[c].cget("text"))))
+                    btn[i].pack(pady=5, padx=10)  # this packs the buttons
+
+            def word_chosen(name):
+
+                # user_choice = None
+                # for button_text in buttons_text:
+                #     if button_clicked.cget("text") == button_text:
+                #        user_choice = button_text
+
+                user_choice = name
+                print(user_choice)
+                move = game.make_move(user_choice)
+                if move is False:
+                    clear_all_inside_frame(grid_frame)
+                    options()
+                elif move is True:
+                    # print(f"Yippieee! You got to the end word in {steps} steps!")
+                    print("Yippieee!")
+
+                # def word_chosen(button_clicked):
+                #
+                #     user_choice = None
+                #     for button_text in buttons_text:
+                #         if button_clicked.cget("text") == button_text:
+                #            user_choice = button_text
+                #
+                #     # user_choice = name
+                #     print(user_choice)
+                #     move = game.make_move(user_choice)
+                #     if move is False:
+                #         clear_all_inside_frame(grid_frame)
+                #         options()
+                #     elif move is True:
+                #         # print(f"Yippieee! You got to the end word in {steps} steps!")
+                #         print("Yippieee!")
 
             options()
 
@@ -592,4 +635,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-run_game_console()
+# run_game_console()
