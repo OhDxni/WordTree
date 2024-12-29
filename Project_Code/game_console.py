@@ -433,6 +433,10 @@ def run_game_console():
         Button(730, 750, 80, "5-WORDS", font_default),
         Button(1190, 750, 80, "6-WORDS", font_default)
     ]
+    def demo():
+
+
+
 
     # Main loop
     running = True
@@ -476,4 +480,4 @@ def run_game_console():
     pygame.quit()
     sys.exit()
 
-# run_game_console()
+#run_game_console()
