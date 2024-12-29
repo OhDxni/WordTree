@@ -77,14 +77,14 @@ if start_game:
         label.pack(pady=20)
 
         #this part lowkey doesnt work
-        if button_clicked():
-            user_choice = button.cget("text")
-            print("im here")
-
-        move = game.make_move(user_choice)
-        if move is False:
-            continue
-        if move is True:
-            print(f"Yippieee! You got to the end word in {steps} steps!")
-            break
+        # if button_clicked():
+        #     user_choice = button.cget("text")
+        #     print("im here")
+        #
+        # move = game.make_move(user_choice)
+        # if move is False:
+        #     continue
+        # if move is True:
+        #     print(f"Yippieee! You got to the end word in {steps} steps!")
+        #     break
 
