@@ -13,7 +13,7 @@ Nested Functions:
 - reset_steps: Resets the number of steps.
 - congratulations: Shows a congratulation message after finished game.
 - open_word_grid(mode, title): Opens and manages the game.
-- clear_all_inside_frame(frame): Deletes all widgets from the given frame.
+- clear_all_inside_frame: Deletes all widgets from the grid_frame.
 - options: Populates the window of the game with all the correct and necessary widgets.
 - word_chosen(name): Executes the move in the game.
 - open_instructions_window: Opens a Tkinter window that displays game instructions.
@@ -153,16 +153,14 @@ def run_game_console():
             grid_frame.pack()
             game = Game(mode, graph.adj_list)   # Initializes the game
 
-            def clear_all_inside_frame(frame):
+            def clear_all_inside_frame():
                 """
-                Deletes all widgets from the given frame.
+                Deletes all widgets from the grid_frame.
 
-                :param frame: the frame that is supposed to be cleared of all widgets
                 :return: None
                 """
-                for widget in frame.winfo_children():    # Iterates through every widget inside the frame
+                for widget in grid_frame.winfo_children():    # Iterates through every widget inside the frame
                     widget.destroy()    # Deletes the widget
-                options()
 
             def options():
                 """
@@ -231,15 +229,15 @@ def run_game_console():
                 :return: None
                 """
                 user_choice = name                      # Sets the user choice to the text on button clicked
-                move = game.make_move(user_choice)      # Executes the move (returns True or False)
-                if move is False:                       # If end word not reached
-                    clear_all_inside_frame(grid_frame)  # Deletes all widgets from the frame
-                    # options()                           # Populates the frame with the new current word,
-                                                        # neighbour buttons, end word and back button
-                elif move is True:                      # If end reached
+                move = game.make_move(user_choice)      # Executes the move (returns True if end mord is reached)
+
+                if move is True:                        # If end reached
                     print(f"Yippieee! You got to the end word in {steps} steps!")
                     word_root.withdraw()                # Hides the window with the game
                     congratulations()                   # Calls congratulations window
+                else:                                   # If end word not reached
+                    clear_all_inside_frame()            # Deletes all widgets from the frame
+                    options()  # Populates the frame with new current word, neighbour buttons, end word and back button
 
             options()    # Runs options for the first time
 
