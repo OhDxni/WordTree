@@ -28,20 +28,36 @@ import customtkinter as tk
 from Project_Code.graph import Graph
 from Project_Code.word_processing import WordProcessing
 from Project_Code.game_logic import Game
+from users_database import *
+
 
 steps = 0    # Initializes steps outside any function to keep it as global variable
 
-def run_game_console():
+
+def run_game_console(user_name, user_password):
     """
     Initializes and runs the Pygame application to display a tree with buttons
     and manage user interactions through a graphical interface.
     """
+
+    username = user_name
+    password = user_password
+
+    def fetch_user_data(user):
+
+        connection = sqlite3.connect(f"{project_root}/databases/users_db.db")     # Opens the connection with the user database
+        db_cursor = connection.cursor()
+        db_cursor.execute("SELECT best_4, second_4, third_4, best_5, second_5, third_5, best_6, second_6, third_6 FROM users WHERE username = ?", (user,))
+        user_data = db_cursor.fetchone()
+        connection.close()
+        return user_data
+
     pygame.init()
 
     # print(pygame.display.Info())
 
     # screen = pygame.display.set_mode((1920, 1080))
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)    #keeps the game console in the fullscreen
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)    # keeps the game console in the fullscreen
     pygame.display.set_caption('Tree with Buttons')
 
     # pygame.bind('<Escape>', pygame.quit())
@@ -88,7 +104,7 @@ def run_game_console():
         global steps  # Sets steps (initialized in the beginning of the file) as a global variable
         steps = 0
 
-    def congratulations():
+    def congratulations(mode):
         """
         Shows a congratulation message after finished game and allows for further navigation through the app.
 
@@ -109,9 +125,24 @@ def run_game_console():
 
         # button going back to the game console
         back = tk.CTkButton(congrats_frame, text="<-Back to the tree", font=('Roboto', 12),
-                            command=lambda: [congrats_root.withdraw(), reset_steps(), run_game_console()])
+                            command=lambda: [congrats_root.withdraw(), reset_steps(), run_game_console(username, password)])
         back.pack(pady=15, padx=10)
 
+        user_stats = fetch_user_data(username)
+        connection1 = sqlite3.connect(f"{project_root}/databases/users_db.db")  # Opens the connection with the user database
+        cursor1 = connection1.cursor()
+        if mode == 4:
+            if user_stats[0] is None:
+                cursor1.execute("""
+                    UPDATE users 
+                    SET best_4 = ?
+                    WHERE username = ?
+                """, (steps, username))
+                connection1.commit()
+            cursor1.execute("SELECT * FROM users WHERE username = ?", (username,))
+            new_data = cursor1.fetchone()
+            print(new_data)
+            connection1.close()
         congrats_root.mainloop()
 
     def open_word_grid(mode, title):
@@ -195,7 +226,7 @@ def run_game_console():
                 # Creates other widgets for the window
                 start_label = tk.CTkLabel(grid_frame, text=str(game.curr_word), font=("Roboto", 20))
                 end_label = tk.CTkLabel(grid_frame, text=str(game.end_word), font=("Roboto", 20))
-                back = tk.CTkButton(grid_frame, text="<-Back to the tree", font=('Roboto', 12), command=lambda: [word_root.withdraw(), reset_steps(), run_game_console()])
+                back = tk.CTkButton(grid_frame, text="<-Back to the tree", font=('Roboto', 12), command=lambda: [word_root.withdraw(), reset_steps(), run_game_console(username, password)])
 
                 # Places other widgets on the screen in the middle, differently depending on number of options
 
@@ -234,7 +265,7 @@ def run_game_console():
                 if move is True:                        # If end reached
                     print(f"Yippieee! You got to the end word in {steps} steps!")
                     word_root.withdraw()                # Hides the window with the game
-                    congratulations()                   # Calls congratulations window
+                    congratulations(mode)               # Calls congratulations window
                 else:                                   # If end word not reached
                     clear_all_inside_frame()            # Deletes all widgets from the frame
                     options()  # Populates the frame with new current word, neighbour buttons, end word and back button
@@ -287,7 +318,7 @@ def run_game_console():
         nextbutton1.pack(side=tk.RIGHT, padx=50, pady=20)
 
         backbutton1 = tk.CTkButton(frame1, text="<- Back", font=('Roboto', 12),
-                                   command=lambda: [first.destroy(), run_game_console()])
+                                   command=lambda: [first.destroy(), run_game_console(username, password)])
         backbutton1.pack(side=tk.LEFT, padx=50, pady=20)
 
         # second page
@@ -312,7 +343,7 @@ def run_game_console():
         see_example = tk.CTkButton(frame3, text="See an Example", font=('Roboto', 12))
         see_example.pack(side=tk.LEFT, padx=50, pady=20)
 
-        get_started = tk.CTkButton(frame3, text="Get Started", font=('Roboto', 12), command=lambda: [first.withdraw(), run_game_console()])   #goes back to game console
+        get_started = tk.CTkButton(frame3, text="Get Started", font=('Roboto', 12), command=lambda: [first.withdraw(), run_game_console(username, password)])   #goes back to game console
         get_started.pack(side=tk.RIGHT, padx=50, pady=20)
 
         switchframe(frame1)

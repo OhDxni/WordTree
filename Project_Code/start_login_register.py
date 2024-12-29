@@ -133,7 +133,6 @@ def login(username, password):
     :return: None
     """
     # opens the connection with the user database
-    # conn = sqlite3.connect('../../databases/users_db.db')
     conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
     cursor = conn.cursor()
 
@@ -146,7 +145,7 @@ def login(username, password):
         if sha256(password.encode()).hexdigest() == stored_password:
             login_root.withdraw()
             # if everything correct, go to run_game_console
-            run_game_console()
+            run_game_console(username, stored_password)
 
         else:
             # if password not the same, give error "Wrong password"
@@ -246,7 +245,7 @@ def register(username, password, password_confirmation):
         conn.commit()
         #gos to run_game_console
         register_root.withdraw()
-        run_game_console()
+        run_game_console(username, hashed_password)
 
     # closes the connection
     conn.close()
