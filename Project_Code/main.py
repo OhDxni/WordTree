@@ -6,6 +6,9 @@ from tkinter import *
 wp = WordProcessing()
 wp.load_all_words()  # Sets wp.all_words; if all_words has not been created it does so automatically
 
+# simple edit to test work flow and see if it gets triggered
+
+
 graph = Graph(wp.all_words)
 graph.load_adj_list()  # Sets graph.adj_list; if adj_list has not been created it does so automatically
 
