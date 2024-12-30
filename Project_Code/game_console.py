@@ -301,6 +301,149 @@ def run_game_console(user_name):
 
         word_root.mainloop()
 
+    def demo():
+        def open_demo_page():
+            """Gets rid of the disclaimer frame and starts the demo."""
+            first_frame.destroy()
+            show_page_1()
+
+        def show_page_1():
+            """shows the first page of the demo"""
+
+            def go_to_page_2():
+                """destroys page one and shows page 2"""
+                demo_frame_1.destroy()
+                show_page_2()
+            # create first frame
+            demo_frame_1 = tk.CTkFrame(demo_root, width=800, height=600)
+            demo_frame_1.pack(pady=10, fill="both", expand=True)
+
+            # start word label
+            tk.CTkLabel(demo_frame_1, text="Pot", font=("Roboto", 20)).pack(pady=10)
+
+            button_frame = tk.CTkFrame(demo_frame_1)
+            button_frame.pack(pady=10)
+
+            # create buttons for each option
+            tk.CTkButton(button_frame, text="Dot", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pop", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pet", font=("Roboto", 18), command=go_to_page_2).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pit", font=("Roboto", 18)).pack(side="left", padx=5)
+
+            # goal word label and instructions method
+            tk.CTkLabel(demo_frame_1, text="Ten", font=("Roboto", 20)).pack(pady=10)
+            tk.CTkLabel(demo_frame_1, text="With the start word being \"pot\" and the goal word being \"ten\", "
+                                           "\n the best option here would be \"pet\". Please select this option to continue! ",
+                        font=("Roboto", 16)).pack(pady=10)
+
+        def show_page_2():
+            """shows the second page of the demo."""
+
+            def go_to_page_3():
+                """destroys page two and goes to page three"""
+                demo_frame_2.destroy()
+                show_page_3()
+
+            # create page two
+            demo_frame_2 = tk.CTkFrame(demo_root, width=800, height=600)
+            demo_frame_2.pack(pady=10, fill="both", expand=True)
+
+            # create start word label
+            tk.CTkLabel(demo_frame_2, text="Pet", font=("Roboto", 20)).pack(pady=10)
+
+            button_frame = tk.CTkFrame(demo_frame_2)
+            button_frame.pack(pady=10)
+
+            # create buttons for each option
+            tk.CTkButton(button_frame, text="Put", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pen", font=("Roboto", 18), command=go_to_page_3).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pep", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pat", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Peg", font=("Roboto", 18)).pack(side="left", padx=5)
+
+            # end word label and instruction method
+            tk.CTkLabel(demo_frame_2, text="Ten", font=("Roboto", 20)).pack(pady=10)
+            tk.CTkLabel(demo_frame_2,
+                        text="In this case, the best option would be \"pen\" because it is one letter away from the goal."
+                             "\n Please select this option to continue!", font=("Roboto", 16)).pack(pady=10)
+
+        def show_page_3():
+            """shows page three of the demo."""
+
+            def show_congratulations():
+                """destroys page three of demo and shows congrats message"""
+                demo_frame_3.destroy()
+                show_congratulations_page()
+
+            # create frame three
+            demo_frame_3 = tk.CTkFrame(demo_root, width=800, height=600)
+            demo_frame_3.pack(pady=10, fill="both", expand=True)
+
+            # create start word label
+            tk.CTkLabel(demo_frame_3, text="Pen", font=("Roboto", 20)).pack(pady=10)
+
+            button_frame = tk.CTkFrame(demo_frame_3)
+            button_frame.pack(pady=10)
+
+            # create buttons for options
+            tk.CTkButton(button_frame, text="Ten", font=("Roboto", 18), command=show_congratulations).pack(side="left",
+                                                                                                           padx=5)
+            tk.CTkButton(button_frame, text="Pet", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Tea", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Men", font=("Roboto", 18)).pack(side="left", padx=5)
+            tk.CTkButton(button_frame, text="Pin", font=("Roboto", 18)).pack(side="left", padx=5)
+
+            # end word label and instruction message
+            tk.CTkLabel(demo_frame_3, text="Ten", font=("Roboto", 20)).pack(pady=10)
+            tk.CTkLabel(demo_frame_3, text="In this case, the best option is ten as it is the goal word"
+                                           "\nplease select this option to complete the game!",
+                        font=("Roboto", 16)).pack(pady=10)
+
+        def show_congratulations_page():
+            """Displays the congratulations screen."""
+            congrats_frame = tk.CTkFrame(demo_root, width=800, height=600)
+            congrats_frame.pack(pady=10, fill="both", expand=True)
+
+            # congrats label
+            tk.CTkLabel(congrats_frame, text="Demo Completed!", font=("Roboto", 30)).pack(pady=20)
+            # option to do demo again
+            tk.CTkButton(congrats_frame, text="Play Again", font=("Roboto", 20),
+                         command=lambda: [congrats_frame.destroy(), show_page_1()]).pack(pady=10)
+            # return to tree page button
+            tk.CTkButton(congrats_frame, text="Back to tree", font=("Roboto", 20),
+                         command=lambda: [demo_root.destroy(), run_game_console(username)]).pack(pady=10)
+
+        # Root setup
+        demo_root = tk.CTk()
+        demo_root.title("Game Demo")
+        demo_root.geometry("800x600")
+        tk.set_default_color_theme("green")
+
+        # Disclaimer frame
+        first_frame = tk.CTkFrame(demo_root, width=800, height=600)
+        first_frame.pack(pady=10, fill="both", expand=True)
+
+        # message to explain the demo
+        disclaimer_label = tk.CTkLabel(
+            first_frame,
+            text="Please note this demo contains a simplified version of the game for the sake of time and clarity.",
+            font=("Roboto", 12),
+            wraplength=700,
+            justify="center"
+        )
+        disclaimer_label.pack(pady=20)
+
+        # button to display the demo
+        continue_button = tk.CTkButton(
+            first_frame,
+            text="Continue to Demo",
+            command=open_demo_page
+        )
+        continue_button.pack(pady=20)
+
+        demo_root.mainloop()
+
+
     def open_instructions_window():
         """
         Opens a Tkinter window that displays game instructions.
@@ -334,9 +477,10 @@ def run_game_console(user_name):
 
         # first page of the instructions
         label1 = tk.CTkLabel(frame1, text="Here is how to play:\n\n"
-                                          "You are given a starting word of four five or six letters\n\n" "depending on your choice\n\n"
+                                          "You are given a starting word of four, five, or"
+                                          "\n six letters, depending on your choice\n\n."
     
-                                          "you are also given a goal word\n\n""of equal length",
+                                          "You are also given a goal word\n""of equal length.",
                              font=('Roboto', 14), wraplength=500)
         label1.pack(pady=50)
 
@@ -350,7 +494,7 @@ def run_game_console(user_name):
 
         # second page
         label2 = tk.CTkLabel(frame2,
-                             text="You will be given options to choose from \n\n" "which alter exactly one letter \n\n" "in the given word.\n\n" "For example, a valid choice given\n\n"
+                             text="You will be given options to choose from \n" "which alter exactly one letter \n" "in the given word.\n\n" "For example, a valid choice given\n"
                                   "the word 'dog' would be 'bog'.",
                              font=('Roboto', 14), wraplength=500)
         label2.pack(pady=50)
