@@ -1,4 +1,7 @@
 import pytest
+import tempfile
+import os
+import json
 from Project_Code.helper_functions import letter_difference, depth_selector, load_json, save_json
 from Project_Code.game_logic import Game, PathFinder
 from Project_Code.word_processing import WordProcessing
@@ -27,19 +30,66 @@ def test_letter_difference():
    with pytest.raises(ValueError, match= "Please insert a word!"):
       letter_difference("", "word")
 
+def test_save_json_success():
+    """
+    Test that the function successfully writes valid JSON data
+    to a file without throwing an error.
+    """
+    test_data = {"key": "value", "nested": [1, 2, 3]}
+
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        filepath = tmp_file.name
+
+    save_json(test_data, filepath) # Call save_json
+
+    with open(filepath, "r") as file: # Read the file to check contents
+        content = json.load(file)
+
+    os.remove(filepath) # Clean up temporary file
+
+    assert content == test_data # Check if the data matches up
 
 
-def test_save_json():
+def test_save_json_file_not_found():
+    """
+    Test that the function raises FileNotFoundError if the file path is invalid.
+    """
+    # Provide an invalid filepath to force FileNotFoundError
+    invalid_filepath = "/non_existent_dir/some_file.json"
+
+    # Check for FileNotFoundError
     with pytest.raises(FileNotFoundError):
-      save_json("Some data", "unexisting/File/Path")
-    raise KeyError("not complete")
+        save_json({"test": "data"}, invalid_filepath)
 
-def test_load_json():
+def test_load_json_success():
+    """
+    Test that the function successfully loads valid JSON data from a
+    file without throwing an error
+    """
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file: # Create a temporary file to check if load_json works
+        filepath = tmp_file.name
+
+    test_data = "test string" # Small test data
+
+    with open(filepath, "w") as file: # Write the test data to the temp file
+        json.dump(test_data, file)
+
+    loaded_data = load_json(filepath) # Call load_json and store the results in loaded_data
+
+    os.remove(filepath) # Remove temp file
+
+    assert test_data == loaded_data # Check if the data matches up as it should
+
+def test_load_json_file_not_found():
+    """
+    Test that the function raises FileNotFoundError if the file path is invalid.
+    """
+    # Provide an invalid filepath to force FileNotFoundError
+    invalid_filepath = "/non_existent_dir/some_file.json"
+
+    # Check for FileNotFoundError
     with pytest.raises(FileNotFoundError):
-      load_json("Unexisting/File/Path")
-    raise KeyError("not complete")
-
-
+        load_json(invalid_filepath)
 
 # tests for depth selector
 def test_depth_selector_valid():
