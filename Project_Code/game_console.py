@@ -415,6 +415,7 @@ def run_game_console(user_name):
 
         # Root setup
         demo_root = tk.CTk()
+        tk.set_appearance_mode("system")
         demo_root.title("Game Demo")
         demo_root.geometry("800x600")
         tk.set_default_color_theme("green")
@@ -511,7 +512,7 @@ def run_game_console(user_name):
                              font=('Roboto', 14), wraplength=500)
         label3.pack(pady=50)
 
-        see_example = tk.CTkButton(frame3, text="See an Example", font=('Roboto', 12))
+        see_example = tk.CTkButton(frame3, text="See an Example", font=('Roboto', 12), command=lambda: [first.withdraw(), demo()])
         see_example.pack(side=tk.LEFT, padx=50, pady=20)
 
         get_started = tk.CTkButton(frame3, text="Get Started", font=('Roboto', 12), command=lambda: [first.withdraw(), run_game_console(username)])   #goes back to game console
