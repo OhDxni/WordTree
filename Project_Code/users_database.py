@@ -12,7 +12,10 @@ cursor = conn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     username TEXT PRIMARY KEY,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    best_4 INT,
+    best_5 INT,
+    best_6 INT
     )""")
 
 conn.close()
