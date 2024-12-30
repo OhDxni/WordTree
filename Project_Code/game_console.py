@@ -26,6 +26,7 @@ import pygame
 import sys
 import customtkinter as tk
 from Project_Code.graph import Graph
+# from Project_Code.main import game
 from Project_Code.word_processing import WordProcessing
 from Project_Code.game_logic import Game
 
@@ -320,6 +321,12 @@ def run_game_console():
         switchframe(frame1)
         first.mainloop()
 
+
+
+
+
+
+
     # Button class to handle drawing and interaction
     class Button:
         """
@@ -433,7 +440,7 @@ def run_game_console():
         Button(730, 750, 80, "5-WORDS", font_default),
         Button(1190, 750, 80, "6-WORDS", font_default)
     ]
-    def demo():
+
 
 
 
@@ -472,6 +479,9 @@ def run_game_console():
                     elif button.text == "6-WORDS":
                         pygame.quit()
                         open_word_grid(6, "6-Letter Words")
+                    elif button.text == "DEMO":
+                        pygame.quit()
+                        demo()
                     else:
                         print(f"{button.text} clicked!")
 
