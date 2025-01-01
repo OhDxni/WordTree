@@ -12,7 +12,8 @@ Nested Functions:
 - fetch_user_data(user): Fetches the best scores from user database.
 - quit_game: Closes all windows and halts the program.
 - reset_steps: Resets the number of steps.
-- congratulations(mode): Shows a congratulation message after finished game.
+-display_leaderboard_and_personal_best(congrats_frame, username, mode): shows the leaderboard and personal best.
+- congratulations(mode,game): Shows a congratulation message and shortest path possible after finished game.
 - open_word_grid(mode, title): Opens and manages the game.
 - clear_all_inside_frame: Deletes all widgets from the grid_frame.
 - options: Populates the window of the game with all the correct and necessary widgets.
@@ -106,7 +107,58 @@ def run_game_console(user_name):
         global steps  # Sets steps (initialized in the beginning of the file) as a global variable
         steps = 0
 
-    def congratulations(mode):
+    def display_leaderboard_and_personal_best(congrats_frame, username, mode):
+        """
+        Fetches and displays the leaderboard and user's personal best scores for the given mode.
+
+
+
+
+        """
+
+        # Connecting to the database
+        connection = sqlite3.connect(f"{project_root}/databases/users_db.db")
+        cursor = connection.cursor()
+
+        # Fetch leaderboard data for the current mode
+        column = f"best_{mode}"
+        query = f"SELECT username, {column} FROM users WHERE {column} IS NOT NULL ORDER BY {column} ASC LIMIT 3"
+        cursor.execute(query)
+        leaderboard = cursor.fetchall()
+
+        # Fetch the personal best for the current user
+        cursor.execute(f"SELECT {column} FROM users WHERE username = ?", (username,))
+        personal_best = cursor.fetchone()
+        personal_best = personal_best[0] if personal_best else "N/A"
+
+        connection.close()
+
+        # Create a label for the leaderboard
+        leaderboard_label = tk.CTkLabel(
+            congrats_frame,
+            text=f"Top 3 Scores for {mode}-Letter Words:",
+            font=("Roboto", 14),
+        )
+        leaderboard_label.pack(pady=5)
+
+        # Display leaderboard
+        for rank, (user, score) in enumerate(leaderboard, start=1):
+            tk.CTkLabel(
+                congrats_frame,
+                text=f"{rank}. {user}: {score} steps",
+                font=("Roboto", 12)
+            ).pack(pady=2)
+
+        # Display personal best
+        personal_best_label = tk.CTkLabel(
+            congrats_frame,
+            text=f"Your Personal Best: {personal_best} steps",
+            font=("Roboto", 12),
+            fg_color="green"
+        )
+        personal_best_label.pack(pady=5)
+
+    def congratulations(mode,game):
         """
         Shows a congratulation message after finished game and allows for further navigation through the app.
 
@@ -124,6 +176,26 @@ def run_game_console(user_name):
 
         congrats_message = tk.CTkLabel(master=congrats_frame, text=f"Congratulations! You reached the end word in {steps} steps.", font=("Roboto", 12))
         congrats_message.pack(pady=15, padx=10)
+
+        graph = Graph([])  # Initialize with empty; adj_list will be loaded
+        graph.load_adj_list()  # Load adjacency list
+
+        try:
+            shortest_path, shortest_steps = graph.a_pain_algorith(game.start_word, game.end_word)
+            shortest_path_message = (f"Shortest Path: {', '.join(shortest_path)}\n"
+                                     f"Steps: {shortest_steps}")
+        except Exception as e:
+            shortest_path_message = "Could not calculate the shortest path."
+
+        shortest_path_label = tk.CTkLabel(
+            master=congrats_frame,
+            text=shortest_path_message,
+            font=("Roboto", 12),
+            wraplength=400
+        )
+        shortest_path_label.pack(pady=10, padx=10)
+
+        display_leaderboard_and_personal_best(congrats_frame, username, mode)  # running the leaderboard on the
 
         # button going back to the game console
         back = tk.CTkButton(congrats_frame, text="<-Back to the tree", font=('Roboto', 12),
@@ -292,7 +364,7 @@ def run_game_console(user_name):
                 if move is True:                        # If end reached
                     print(f"Yippieee! You got to the end word in {steps} steps!")
                     word_root.withdraw()                # Hides the window with the game
-                    congratulations(mode)               # Calls congratulations window
+                    congratulations(mode,game)               # Calls congratulations window
                 else:                                   # If end word not reached
                     clear_all_inside_frame()            # Deletes all widgets from the frame
                     options()  # Populates the frame with new current word, neighbour buttons, end word and back button
