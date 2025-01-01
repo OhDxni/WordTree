@@ -14,7 +14,7 @@ Functions:
 - register(): Function for handling user registration, including validation
               of inputs and storing new user credentials in the database.
 """
-
+import tkinter as tk
 import customtkinter
 from tkinter import PhotoImage, messagebox
 from Project_Code.game_console import run_game_console
@@ -192,6 +192,13 @@ def open_register_window():
                                     show="*")  # Encoding the password so it doesn't show it, instead star symbols
     password_confirm.pack(pady=12, padx=10)
 
+    # designing the checkbox for the user to agree to processing their data
+    check_var = tk.BooleanVar()
+    checkbox = customtkinter.CTkCheckBox(master=frame2,
+                                         text="By registering I agree to sharing my username \nand game statistics "
+                                              "with other users", variable=check_var)
+    checkbox.pack(pady=12, padx=10)
+
     # designing the login button
     button = customtkinter.CTkButton(master=frame2, text="Register",
                                      command=lambda: register(username_entry.get(), password_entry.get(), password_confirm.get()))
@@ -232,6 +239,9 @@ def register(username, password, password_confirmation):
     # checks if the passwords match
     elif password != password_confirmation:
         messagebox.showerror("Error", "Passwords do not match")
+
+    elif not checkbox_var:
+        messagebox.showerror("Agreement error", "Mark the checkbox to agree to sharing your data")
 
     else:
         # creates a hash for the password
