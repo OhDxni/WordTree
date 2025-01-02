@@ -4,23 +4,24 @@ from pathlib import Path
 
 project_root = (Path(__file__).resolve().parents[1]).as_posix()
 
+
 class WordProcessing:
     def __init__(self):
         self.origin_data_4 = f"{project_root}/databases/4letterwords.txt"
         self.origin_data_5 = f"{project_root}/databases/370k_Word_File.csv"
         self.origin_data_6 = f"{project_root}/databases/370k_Word_File.csv"
         self.output_directory = f"{project_root}/databases"
-        
+
         self.all_words = None
 
         self.partitions = None
         self.pruned_partitions = None
         self.filtered_partitions = None
 
-    def _process_words(self, input_file, word_length):
+    def process_words(self, input_file, word_length):
         """
         This function reads words from an input file containing ONLY 4-letter words
-        and writes them to a new file where one word on every line, also making them lower case.
+        and writes them to a new file where one word on every line, also making them uppercase
 
         :param input_file: input file containing words
         :type input_file: str
@@ -47,9 +48,9 @@ class WordProcessing:
         :type six: str
         :return: None
         """
-        words_4 = self._process_words(self.origin_data_4, word_length=4)
-        words_5 = self._process_words(self.origin_data_5, word_length=5)
-        words_6 = self._process_words(self.origin_data_6, word_length=6)
+        words_4 = self.process_words(self.origin_data_4, word_length=4)
+        words_5 = self.process_words(self.origin_data_5, word_length=5)
+        words_6 = self.process_words(self.origin_data_6, word_length=6)
 
         all_words = set()
         for file in (words_4, words_5, words_6):
@@ -70,7 +71,7 @@ class WordProcessing:
                 self.all_words = self.create_all_words()
                 self.save_all_words()
 
-    def all_words_to_partitions(self, adj_list): # Previously bfs_traversal
+    def all_words_to_partitions(self, adj_list):  # Previously bfs_traversal
         """
         Uses BFS traversal to find all the different partitions in an adjacency list
         :param adj: adjacency list of which partitions will be found
@@ -149,7 +150,7 @@ class WordProcessing:
         self.filtered_partitions = filtered_partitions
         return self.filtered_partitions, print("Filtered!")
 
-    def write_partitions(self):
+    def write_partitions(self, filenames=None):
         """
         This function writes the partitions to separate files for 4, 5, and 6-letter words.
 
@@ -160,9 +161,14 @@ class WordProcessing:
         if self.filtered_partitions is None:
             raise ValueError("Filtered partitions is not present; run filter_partitions!")
 
-        for length in [4, 5, 6]:  # loop through necessary word lengths
-            filename = f"{project_root}/databases/partitions_{length}.json"  # create a filename based on length
+        if filenames is None:
+            filenames = []  # Adds unused word lengths to make the indexing match with the partition_length
+            for length in [4, 5, 6]:
+                filenames.append(f"{project_root}/databases/partitions_{length}.json")
 
+        for length in [4, 5, 6]:  # loop through necessary word lengths
+            filename = filenames[length - 4]  # Use a filename based on length minus 4 to adjust for indexing
             for partition in self.filtered_partitions[length]:  # loop through partitions for x-letter words
                 save_json(list(partition), filename)
+
         print("Written!")

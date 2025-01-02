@@ -14,7 +14,7 @@ Functions:
 - register(): Function for handling user registration, including validation
               of inputs and storing new user credentials in the database.
 """
-
+import tkinter as tk
 import customtkinter
 from tkinter import PhotoImage, messagebox
 from Project_Code.game_console import run_game_console
@@ -33,8 +33,6 @@ logo_image = None    #initializing logo_image
 def open_start_page():
     """
     Creates and displays the start page of the application.
-
-    :return: None
     """
     global logo_image
     root.title("Game Enter Page")
@@ -67,8 +65,6 @@ def open_start_page():
 def open_login_window():
     """
     Creates and displays the login window for user authentication.
-
-    :return: None
     """
     root.withdraw()  # Close the start window
     # Create a new root window for login
@@ -78,7 +74,6 @@ def open_login_window():
     login_root.title('Login to the game')
 
     login_root.protocol("WM_DELETE_WINDOW", root.destroy)    # binding the x in the top-right corner of the window to halting of the program
-
 
     # This is a frame for the login window
     frame = customtkinter.CTkFrame(master=login_root)
@@ -110,7 +105,6 @@ def open_login_window():
     button = customtkinter.CTkButton(master=frame, text="Register here", command=open_register_window)
     button.pack(pady=0, padx=10)
 
-
     # "Go Back" button to go back to the start page
     back_button = customtkinter.CTkButton(master=frame, text="Go Back", command=lambda: [login_root.withdraw(), root.deiconify()])  # Executes two functions at once
     back_button.pack(pady=12, padx=10)
@@ -125,14 +119,15 @@ def login(username, password):
     and logs the user into the system.
 
     :param username: username input
+    :type username: str
     :param password: password input
-    :return: None
+    :type password: str
     """
     # opens the connection with the user database
     conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
     cursor = conn.cursor()
 
-    #checks if the username is in the database
+    # checks if the username is in the database
     cursor.execute("SELECT password FROM users WHERE username = ?", (username,))
     user_data = cursor.fetchone()    # fetches the tuple containing the encoded password of the user
     if user_data:
@@ -147,7 +142,6 @@ def login(username, password):
             # if password not the same, give error "Wrong password"
             messagebox.showerror("Error", "Wrong password")
 
-
     # if username not found, show an error with a message "Username not found"
     else:
         messagebox.showerror("Error", "Username not found")
@@ -156,17 +150,14 @@ def login(username, password):
     conn.close()
 
 
-
 def open_register_window():
     """
     Creates and displays the registration window for new users.
-
-    :return: None
     """
     login_root.withdraw()
     global register_root
     register_root = customtkinter.CTkToplevel()
-    register_root.geometry("500x400+575+140")
+    register_root.geometry("500x450+575+140")
 
     register_root.protocol("WM_DELETE_WINDOW", root.destroy)
 
@@ -192,9 +183,16 @@ def open_register_window():
                                     show="*")  # Encoding the password so it doesn't show it, instead star symbols
     password_confirm.pack(pady=12, padx=10)
 
+    # designing the checkbox for the user to agree to processing their data
+    check_var = tk.BooleanVar()
+    checkbox = customtkinter.CTkCheckBox(master=frame2,
+                                         text="By registering I agree to sharing my username \nand game statistics "
+                                              "with other users", variable=check_var)
+    checkbox.pack(pady=12, padx=10)
+
     # designing the login button
     button = customtkinter.CTkButton(master=frame2, text="Register",
-                                     command=lambda: register(username_entry.get(), password_entry.get(), password_confirm.get()))
+                                     command=lambda: register(username_entry.get(), password_entry.get(), password_confirm.get(), check_var.get()))
     button.pack(pady=12, padx=10)
 
     # "Go Back" button to go back to the login page
@@ -204,25 +202,29 @@ def open_register_window():
 
     register_root.mainloop()
 
-def register(username, password, password_confirmation):
+
+def register(username, password, password_confirmation, checkbox_var):
     """
     Handles user registration, including username and password checks.
 
     :param username: username input
+    :type username: str
     :param password: password input
+    :type password: str
     :param password_confirmation: confirmation of the password input
-    :return: None
+    :type password_confirmation: str
+    :param checkbox_var: variable signifying if the agreement checkbox has been marked or not
+    :type checkbox_var: bool
     """
     # conn = sqlite3.connect('../../databases/users_db.db')    # opening a connection with the database
     conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
-
     cursor = conn.cursor()
 
-    #checks if the username already exists
+    # checks if the username already exists
     cursor.execute('SELECT username FROM users WHERE username = ?;', (username,))
 
     if cursor.fetchone():
-        #if yes give an error "Username already exists"
+        # if yes give an error "Username already exists"
         messagebox.showerror("Error", "Username already exists")
 
     # checks if the input is correct for the username (not too short/long)
@@ -233,13 +235,16 @@ def register(username, password, password_confirmation):
     elif password != password_confirmation:
         messagebox.showerror("Error", "Passwords do not match")
 
+    elif not checkbox_var:
+        messagebox.showerror("Agreement error", "Mark the checkbox to agree to sharing your data")
+
     else:
         # creates a hash for the password
         hashed_password = sha256(password.encode()).hexdigest()
-        #saves the username and hash of password in the database
+        # saves the username and hash of password in the database
         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
         conn.commit()
-        #gos to run_game_console
+        # goes to run_game_console
         register_root.withdraw()
         run_game_console(username)
 
@@ -247,7 +252,7 @@ def register(username, password, password_confirmation):
     conn.close()
 
 
-open_start_page()
+# open_start_page()
 
 
 

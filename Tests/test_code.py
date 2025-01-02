@@ -233,19 +233,6 @@ def test_create_adj_list() :
     assert graph.create_adj_list() == expected_result
 
 
-def test_save_adj_list():
-    word_list = ["WORD", "WARD", "WORM", "CARD", "CARP", "WARM", "WRONG"]
-    graph = Graph(word_list)
-    raise KeyError("not complete")
-
-
-def test_load_adj_list():
-    word_list = ["WORD", "WARD", "WORM", "CARD", "CARP", "CAMP", "WARM", "FARM", "WRONG"]
-    graph = Graph(word_list)
-    raise KeyError("not complete")
-
-
-
 def test_a_pain_algorith():
     word_list = ["WORD", "WARD", "WORM", "CARD", "CARP", "CAMP", "WARM", "FARM", "WRONG"]
     graph = Graph(word_list)
@@ -273,41 +260,88 @@ Tests for word_processing.py
          - filter_partitions
          - write_partitions)
 """
-#
-# def test_process_words():
-#    word = WordProcessing()
-#
-#
-# def test_create_all_words():
-#    word = WordProcessing()
-#
-#
-# def test_all_words_to_partitions():
-#    word = WordProcessing()
-#
-#
-# def test_prune_partitions():
-#    word = WordProcessing()
-#
-# def test_filter_partitions():
-#    word = WordProcessing
-#
-# def test_write_partitions():
-#    word = WordProcessing
-#
+
+def test_process_words():
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:  # Create a temporary file to check if load_json works
+        filepath = tmp_file.name
+
+    word = WordProcessing()
+    test_data = ["CaRD", "WARM", "WORM", ""]
+
+    with open(filepath, "w") as file:
+        # Join the non-empty, stripped words with a space in between.
+        file.write(" ".join(word.strip() for word in test_data if word.strip()))
+
+    output = word.process_words(filepath, 4)
+    expected_output = ["CARD", "WARM", "WORM"]
+    assert output == expected_output # See if output removes empty strings and has only uppercase chars
+
+
+def test_create_all_words():
+    word = WordProcessing()
+    all_words = word.create_all_words()
+
+    for word in all_words:
+        if not word.isupper(): # Check if all words are uppercase
+            raise ValueError(f"Expected an uppercase string, got: {word}")
+        if len(word) < 3 or len(word) > 6: # Check if words are correct length
+            raise ValueError(f"Expected string between length 3 and 6, got: {word}")
 
 
 
+def test_all_words_to_partitions():
+    word = WordProcessing()
+    adj_list = {"CARD" : [], "WARM": ["WORM"], "WORM":["WARM"] }
+    actual_partitions = word.all_words_to_partitions(adj_list)
+    expected_partitions = [{"CARD"}, {"WARM", "WORM"}]
+    assert actual_partitions == expected_partitions # Check if actual partitions aligns with expected result
 
 
+def test_prune_partitions_type():
+   word = WordProcessing()
+   partition = {"HELLO" : []}
+   partitions = word.all_words_to_partitions(partition)
+   word.prune_partitions()
+
+   for partition in partitions:
+       if not isinstance(partition, set): # Checks if the partitions are correctly sets
+           raise ValueError(f"got {type(partition)} instead of a dict")
 
 
+def test_filter_partitions():
+    word = WordProcessing()
+    word.pruned_partitions = [{"HELO"}, {"HELLO"}, {"HELLOO"}]
+    filtered_partitions = word.filter_partitions()
+    if None not in filtered_partitions: # Checks if every length of partition gets properly filled
+        raise ValueError(f"The partitions are not correctly filtered in lenghts of 4,5,6")
 
 
+def test_write_partitions():
+    word = WordProcessing()
+    # Create a temporary file with length 4
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file_4:
+        filepath_4 = tmp_file_4.name
 
+    # Create a temporary file with length 5
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file_5:
+        filepath_5 = tmp_file_5.name
 
+    # Create a temporary file with length 6
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file_6:
+        filepath_6 = tmp_file_6.name
 
+    filepaths = [filepath_4, filepath_5, filepath_6]
+    filtered_partition = {4: [{'HELO'}], 5: [{'HELLO'}], 6: [{'HELLOO'}]}
+    word.filtered_partitions = filtered_partition
+    word.write_partitions(filepaths)
 
+    # Storing filepath results in variables according to length
+    word_4 = load_json(filepath_4)
+    word_5 = load_json(filepath_5)
+    word_6 = load_json(filepath_6)
 
-
-
+    os.remove(filepath_4)
+    os.remove(filepath_5)
+    os.remove(filepath_6)
+    # Check to see if the words are correctly written
+    assert word_4 == ['HELO'] and word_5 == ['HELLO'] and word_6 == ['HELLOO']
