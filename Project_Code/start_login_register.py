@@ -119,7 +119,9 @@ def login(username, password):
     and logs the user into the system.
 
     :param username: username input
+    :type username: str
     :param password: password input
+    :type password: str
     """
     # opens the connection with the user database
     conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
@@ -190,7 +192,7 @@ def open_register_window():
 
     # designing the login button
     button = customtkinter.CTkButton(master=frame2, text="Register",
-                                     command=lambda: register(username_entry.get(), password_entry.get(), password_confirm.get()))
+                                     command=lambda: register(username_entry.get(), password_entry.get(), password_confirm.get(), check_var.get()))
     button.pack(pady=12, padx=10)
 
     # "Go Back" button to go back to the login page
@@ -201,13 +203,18 @@ def open_register_window():
     register_root.mainloop()
 
 
-def register(username, password, password_confirmation):
+def register(username, password, password_confirmation, checkbox_var):
     """
     Handles user registration, including username and password checks.
 
     :param username: username input
+    :type username: str
     :param password: password input
+    :type password: str
     :param password_confirmation: confirmation of the password input
+    :type password_confirmation: str
+    :param checkbox_var: variable signifying if the agreement checkbox has been marked or not
+    :type checkbox_var: bool
     """
     # conn = sqlite3.connect('../../databases/users_db.db')    # opening a connection with the database
     conn = sqlite3.connect(f"{project_root}/databases/users_db.db")
