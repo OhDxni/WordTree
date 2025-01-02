@@ -252,7 +252,7 @@ def register(username, password, password_confirmation, checkbox_var):
     conn.close()
 
 
-open_start_page()
+# open_start_page()
 
 
 

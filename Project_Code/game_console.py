@@ -18,25 +18,20 @@ Nested Functions:
 - clear_all_inside_frame: Deletes all widgets from the grid_frame.
 - options: Populates the window of the game with all the correct and necessary widgets.
 - word_chosen(name): Executes the move in the game.
+- demo(): Give the users a simplified version of the final game with three-letter words and text to guide them
+        to the correct end
+- open_demo_page(): Gets rid of the disclaimer frame and starts the demo.
+- show_page_1(): Shows the first page of the demo.
+- go_to_page_2(): Destroys page one and shows page 2.
+- show_page_2(): Shows the second page of the demo.
+- go_to_page_3(): Destroys page two and goes to page three.
+- show_page_3(): Shows page three of the demo.
+- show_congratulations(): Destroys page three of demo and shows congrats message.
+- show_congratulations_page(): Displays the congratulations screen.
 - open_instructions_window: Opens a Tkinter window that displays game instructions.
 - draw_tree: Draws a stylized tree on the given Pygame surface.
 - draw_clouds: Draws clouds on the given Pygame surface.
 - Button (Class): Represents a clickable button in the game, handling drawing, hovering, and clicking functionality.
--demo(): Give the users a simplified version of the final game with three-letter words and text to guide them
-        to the correct end
--open_demo_page(): Gets rid of the disclaimer frame and starts the demo.
--show_page_1(): Shows the first page of the demo.
--go_to_page_2(): Destroys page one and shows page 2.
--show_page_2(): Shows the second page of the demo.
--go_to_page_3(): Destroys page two and goes to page three.
--show_page_3(): Shows page three of the demo.
--show_congratulations(): Destroys page three of demo and shows congrats message.
--show_congratulations_page(): Displays the congratulations screen.
-
-
-
-
-
 """
 
 import pygame
@@ -57,6 +52,7 @@ def run_game_console(user_name):
     and manage user interactions through a graphical interface.
 
     :param user_name: username of the user playing the game
+    :type user_name: str
     """
 
     username = user_name
@@ -66,7 +62,9 @@ def run_game_console(user_name):
         Fetches the best scores from user database.
 
         :param user: the user whose data is being fetched
+        :type user: str
         :return: tuple containing best scores
+        :rtype: tuple
         """
         connection = sqlite3.connect(f"{project_root}/databases/users_db.db")     # Opens the connection with the user database
         db_cursor = connection.cursor()
@@ -107,6 +105,7 @@ def run_game_console(user_name):
         Closes all windows and halts the program when X is clicked.
 
         :param window: the window that is currently opened and needs to be closed
+        :type window: tk.CTkToplevel
         """
         window.destroy()
         try:
@@ -126,8 +125,11 @@ def run_game_console(user_name):
         Fetches and displays the leaderboard and user's personal best scores for the given mode.
 
         :param congrats_frame: frame on which the leaderboard appears
+        :type congrats_frame: tk.CTkFrame
         :param username: the username of the user playing
+        :type username: str
         :param mode: the length of the words in the game
+        :type mode: int
         """
 
         # Connecting to the database
@@ -177,7 +179,9 @@ def run_game_console(user_name):
         Shows a congratulation message after finished game and allows for further navigation through the app.
 
         :param mode: the length of the word in the game
+        :type mode: int
         :param game: instance of the game being played
+        :type game: Game
         """
         congrats_root = tk.CTkToplevel()
         congrats_root.title("Congratulations!")
@@ -260,7 +264,9 @@ def run_game_console(user_name):
         Opens and manages the game itself.
 
         :param mode: length of the words
+        :type mode: int
         :param title: title of the window based on the length of words
+        :type title: str
         """
 
         word_root = tk.CTkToplevel()    # Creates a top level root
@@ -361,6 +367,7 @@ def run_game_console(user_name):
                 if the game continues or if the user reached the end word.
 
                 :param name: the text of the button that user clicked
+                :type name: str
                 """
                 user_choice = name                      # Sets the user choice to the text on button clicked
                 move = game.make_move(user_choice)      # Executes the move (returns True if end mord is reached)
@@ -536,6 +543,7 @@ def run_game_console(user_name):
             Raises the given frame to the top, making it visible.
 
             :param frame: The frame to be raised.
+            :type frame: tk.CTkFrame
             """
             frame.tkraise()
 
