@@ -22,6 +22,21 @@ Nested Functions:
 - draw_tree: Draws a stylized tree on the given Pygame surface.
 - draw_clouds: Draws clouds on the given Pygame surface.
 - Button (Class): Represents a clickable button in the game, handling drawing, hovering, and clicking functionality.
+-demo(): Give the users a simplified version of the final game with three-letter words and text to guide them
+        to the correct end
+-open_demo_page(): Gets rid of the disclaimer frame and starts the demo.
+-show_page_1(): Shows the first page of the demo.
+-go_to_page_2(): Destroys page one and shows page 2.
+-show_page_2(): Shows the second page of the demo.
+-go_to_page_3(): Destroys page two and goes to page three.
+-show_page_3(): Shows page three of the demo.
+-show_congratulations(): Destroys page three of demo and shows congrats message.
+-show_congratulations_page(): Displays the congratulations screen.
+
+
+
+
+
 """
 
 import pygame
@@ -363,6 +378,8 @@ def run_game_console(user_name):
         word_root.mainloop()
 
     def demo():
+        """Give the users a simplified version of the final game with three-letter words and text to guide them
+        to the correct end"""
         def open_demo_page():
             """Gets rid of the disclaimer frame and starts the demo."""
             first_frame.destroy()
@@ -475,10 +492,10 @@ def run_game_console(user_name):
                          command=lambda: [demo_root.destroy(), run_game_console(username)]).pack(pady=10)
 
         # Root setup
-        demo_root = tk.CTk()
+        demo_root = tk.CTkToplevel()
         tk.set_appearance_mode("system")
         demo_root.title("Game Demo")
-        demo_root.geometry("800x600")
+        demo_root.geometry("600x600+575+100")
         tk.set_default_color_theme("green")
 
         # Disclaimer frame
