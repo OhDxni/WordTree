@@ -502,7 +502,7 @@ def run_game_console(user_name):
         demo_root = tk.CTkToplevel()
         tk.set_appearance_mode("system")
         demo_root.title("Game Demo")
-        demo_root.geometry("600x600+575+100")
+        demo_root.geometry("750x500+575+100")
         tk.set_default_color_theme("green")
 
         # Disclaimer frame
