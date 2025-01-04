@@ -25,26 +25,16 @@ build-job:
   stage: build
   script:
     - echo "Setting up environment..."
-      - python -m venv venv
-      - |
-      if [ "$CI_OS" == "windows" ]; then
-      .\venv\Scripts\activate  # Windows activation
-      else
-      source venv/bin/activate  # macOS/Linux activation
-      fi
-      - pip install -r requirements.txt
-      - pip install -r dev-requirements.txt
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+    - pip install -r dev-requirements.txt
 
 unit-test-job:
   stage: test
   script:
     - echo "Running unit tests..."
-    - |
-      if [ "$CI_OS" == "windows" ]; then
-        .\venv\Scripts\activate  # Windows activation
-      else
-        source venv/bin/activate  # macOS/Linux activation
-      fi
+    - source venv/bin/activate
     - pytest --maxfail=1 --disable-warnings --verbose --junitxml=pytest-report.xml
   artifacts:
     paths:
