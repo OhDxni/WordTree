@@ -40,13 +40,8 @@ class WordProcessing:
         """
         This function merges 4-, 5-, and 6-letter words from different files into a single file.
 
-        :param four: file containing 4-letter words
-        :type four: str
-        :param five: file containing 5-letter words
-        :type five: str
-        :param six: file containing 6-letter words
-        :type six: str
-        :return: None
+        :return: A set containing all 4-, 5- and 6-letter words.
+        :rtype: set
         """
         words_4 = self.process_words(self.origin_data_4, word_length=4)
         words_5 = self.process_words(self.origin_data_5, word_length=5)
@@ -74,10 +69,11 @@ class WordProcessing:
     def all_words_to_partitions(self, adj_list):  # Previously bfs_traversal
         """
         Uses BFS traversal to find all the different partitions in an adjacency list
-        :param adj: adjacency list of which partitions will be found
-        :type adj: dictionary
+
+        :param adj_list: adjacency list of which partitions will be found
+        :type adj_list: dictionary
         :return: partitions: set of partitions
-        :rtype: partitions: set
+        :rtype: set
         """
         if adj_list is None:
             raise ValueError("Adjacency list is not present!")
@@ -107,8 +103,7 @@ class WordProcessing:
         """
         This function loads partitions from partition.txt to a list of sets,
         that have a length of over 40 words in a partition.
-        :param filename: file containing partitions
-        :type filename: str
+
         :return: list of sets, each set contains words in a partition
         :rtype: list[set[str]]
         """
@@ -128,8 +123,6 @@ class WordProcessing:
         This function filters the partition sets of already over len 40 into a dictionary
         depending on the word_lengths it has
 
-        :param partitions: list of partition sets containing words
-        :type partitions: list[set[str]]
         :return: Dictionary with keys 4, 5, and 6 for word lengths, each containing a list of partitions
         :rtype: dict[int, list[set[str]]]
         """
@@ -154,8 +147,8 @@ class WordProcessing:
         """
         This function writes the partitions to separate files for 4, 5, and 6-letter words.
 
-        :param filtered_partitions: dictionary containing partitions for word lengths 4, 5, and 6
-        :type filtered_partitions: dict[int, list[set[str]]]
+        :param filenames: list of file names to write to.
+        :type filenames: list[str]
         :return: None
         """
         if self.filtered_partitions is None:
