@@ -63,10 +63,13 @@ class PathFinder():
 
     def end_word_selector(self, start_word, depth):
         """
-        xxx
+        This function finds and returns a word at a specified depth from the starting word; the adjacency
+        list is on which a BFS-type traversal is used to find said (end-)word.
 
-        :param start_word:
-        :param depth:
+        :param start_word: The word where the search for the end word should start.
+        :type start_word: str
+        :param depth: The desired depth of where the end word should be found
+        :type depth: int
         :return:
         """
         adj_list = self.game.adj_list
@@ -91,6 +94,7 @@ class PathFinder():
         """
         This function chooses 2 words from a partitioning depending on word length chosen
         and makes sure the words are different enough, meaning at maximum 1 similar letter in the word
+
         :param word_len: the chosen word length; either 4, 5 or 6
         :type word_len: int
         :return: list of 2 words that will be used as start and end of the game

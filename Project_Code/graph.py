@@ -12,12 +12,9 @@ class Graph():
 
     def create_adj_list(self):
         """
-        Create adjacency list where all words with a single changed charachter are connected.
+        Create adjacency list where all words with a single changed character are connected.
 
-        :param words: a list with all 4-, 5- and 6-letter words.
-        :type words: lst
-
-        :return adj_list: returns adajceny list of all connected words in the form of a dictionary.
+        :return adj_list: returns adjacency list of all connected words in the form of a dictionary.
         :rtype adj_list: dict
         """
         adj_list = {}
@@ -42,9 +39,15 @@ class Graph():
         return self.adj_list
 
     def save_adj_list(self):
+        """
+        A function to quickly save the adjacency list from the json file.
+        """
         save_json(self.adj_list, f"{project_root}/databases/adj_list.json")
 
     def load_adj_list(self):
+        """
+        A function to quickly load the adjacency list from the json file.
+        """
         try:  # Tries to load it; without try it always triggers the if-case (because adj_list set to None)
             self.adj_list = load_json(f"{project_root}/databases/adj_list.json")
         except (AttributeError, FileNotFoundError):
