@@ -1,22 +1,14 @@
-
 stages:
   - test
 
 test-job:
   stage: test
-  image: python:3.10
-
-  before_script:
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
-    - pip install -r dev-requirements.txt
-
   script:
-    - pytest --maxfail=1 --disable-warnings --verbose --junitxml=pytest-report.xml  # Run tests and generate JUnit report
-
+    - pip install -r requirements.txt
+    - pytest --maxfail=1 --disable-warnings --verbose --junitxml=pytest-report.xml
   artifacts:
     paths:
       - pytest-report.xml
     expire_in: 1 week
-  test_reports:
+  reports:
     junit: pytest-report.xml
