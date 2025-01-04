@@ -15,8 +15,8 @@ The game is designed with a user-friendly interface that allows for an easy navi
 ## Visuals
 Below there are two screenshots displaying some parts of the user interface from our game. The first one shows the game console, while the second one is a moment from playing the game for 4-letter words.
 
-![tree](https://i.imgur.com/wtv3ByL.jpeg)
-![words](https://i.imgur.com/5elELTL.jpeg)
+<img src="https://i.imgur.com/wtv3ByL.jpeg" alt="tree" width="450"/>
+<img src="https://i.imgur.com/5elELTL.jpeg" alt="tree" width="450"/>
 
 
 ## Installation and requirements
