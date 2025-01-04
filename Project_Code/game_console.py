@@ -185,7 +185,7 @@ def run_game_console(user_name):
         """
         congrats_root = tk.CTkToplevel()
         congrats_root.title("Congratulations!")
-        congrats_root.geometry("470x320+600+170")
+        congrats_root.geometry("470x370+600+170")
         tk.set_default_color_theme("green")
 
         congrats_root.protocol("WM_DELETE_WINDOW", lambda: quit_game(congrats_root))
@@ -502,7 +502,7 @@ def run_game_console(user_name):
         demo_root = tk.CTkToplevel()
         tk.set_appearance_mode("system")
         demo_root.title("Game Demo")
-        demo_root.geometry("600x600+575+100")
+        demo_root.geometry("750x500+575+100")
         tk.set_default_color_theme("green")
 
         # Disclaimer frame
@@ -564,7 +564,7 @@ def run_game_console(user_name):
         # first page of the instructions
         label1 = tk.CTkLabel(frame1, text="Here is how to play:\n\n"
                                           "You are given a starting word of four, five, or"
-                                          "\n six letters, depending on your choice\n\n."
+                                          "\n six letters, depending on your choice.\n\n"
     
                                           "You are also given a goal word\n""of equal length.",
                              font=('Roboto', 14), wraplength=500)
@@ -580,7 +580,8 @@ def run_game_console(user_name):
 
         # second page
         label2 = tk.CTkLabel(frame2,
-                             text="You will be given options to choose from \n" "which alter exactly one letter \n" "in the given word.\n\n" "For example, a valid choice given\n"
+                             text="You will be given options to choose from \n" "which alter exactly one letter \n" 
+                                  "in the given word. \n\n" "For example, a valid choice given\n"
                                   "the word 'dog' would be 'bog'.",
                              font=('Roboto', 14), wraplength=500)
         label2.pack(pady=50)
