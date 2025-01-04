@@ -36,6 +36,8 @@ unit-test-job:
     - echo "Running unit tests..."
     - source venv/bin/activate
     - pytest --maxfail=1 --disable-warnings --verbose --junitxml=pytest-report.xml
+  only:
+    - main
   artifacts:
     paths:
       - pytest-report.xml
