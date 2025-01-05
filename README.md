@@ -1,6 +1,5 @@
-## WordTree
+## WordTree [![Tests](https://github.com/OhDxni/WordTree/actions/workflows/tests.yml/badge.svg)](https://github.com/OhDxni/WordTree/actions/workflows/tests.yml)
 ---
-
 ## Table of Contents
 1. [Description](#description)  
 2. [How It Works](#how-it-works)  
