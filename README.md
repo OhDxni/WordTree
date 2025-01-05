@@ -51,7 +51,7 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
 ### Option 1: Open the Project as a ZIP File
 1. **Download the ZIP File**
    - Visit the GitHub repository:   
-   - https://github.com/marielapl04/WordTree-Project.git 
+     `https://github.com/OhDxni/WordTree`
    - Click the **Code** button and select **Download ZIP**.
 
 2. **Extract the ZIP File**
@@ -80,13 +80,13 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
    - **PyCharm**:
      1. Go to **File > New Project > Get from Version Control**.
      2. Paste the repository URL:  
-        `https://github.com/marielapl04/WordTree-Project.git`
+     `https://github.com/OhDxni/WordTree`
      3. Click **Clone**.
    - **VSCode**:
      1. Go to **View > Command Palette** (`Ctrl+Shift+P`).
      2. Search for **Git: Clone**.
      3. Paste the repository URL:  
-     `https://github.com/marielapl04/WordTree-Project.git`
+     `https://github.com/OhDxni/WordTree`
 
      4. Select a folder to save the project.
 
