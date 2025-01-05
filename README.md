@@ -18,6 +18,12 @@
 The game is designed with a user-friendly interface that allows for an easy navigation from the start, through login, to the game console and the game itself. Player can also select the difficulty of the game by choosing the length of the words (4, 5, or 6 letter words).  
 The user can read the rules of the game before starting to play. Moreover, in case of any uncertainties the user can also go through a demo play. When the user gets to the end of the game, a leaderboard is displayed that shows statistics about the game and the shortest path they could have taken to win.
 
+### Key features include:
+- A user-friendly interface.
+- Difficulty selection based on word length (4, 5, or 6 letters).
+- Instructions and demo play for beginners.
+- A leaderboard showcasing player statistics.
+
 ---
 
 ## How It Works
