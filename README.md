@@ -60,7 +60,10 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
    - Open **PyCharm** or **VSCode**.
    - Use the **File > Open Folder** option and navigate to the extracted folder.
 
-4. **Install Dependencies**
+4. **Ensure repository directory is Content Root**
+   - Go to the settings of your interpreter, and make sure that- for the current project- the "WordTree" folder is the content root.
+
+5. **Install Dependencies**
    - Open the terminal in your IDE and run the following commands:
      ```bash
      pip install customtkinter
@@ -68,7 +71,7 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
      pip install -r dev-requirements.txt
      ```
 
-5. **Run the Game**
+6. **Run the Game**
    - Navigate to the `Project_Code` directory.
    - Open `main.py` and run the file using your IDE.
 
@@ -89,7 +92,10 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
 
      4. Select a folder to save the project.
 
-2. **Install Dependencies**
+2. **Ensure repository directory is Content Root**
+   - Go to the settings of your interpreter, and make sure that- for the current- project the "WordTree" folder is the content root.
+
+3. **Install Dependencies**
    - Open the terminal in your IDE and run the following commands:
      ```bash
      pip install customtkinter
@@ -97,13 +103,15 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
      pip install -r dev-requirements.txt
      ```
 
-3. **Run the Game**
+4. **Run the Game**
    - Navigate to the `Project_Code` directory.
    - Open `main.py` and run the file using your IDE.
 
 
 ### NB!
 If you encounter any issues, please ensure that all necessary dependencies are installed as mentioned in the installation steps above. Double-check the installation steps and confirm that your eniorment is set up correctly.
+
+Also, as described in the steps above, please make sure that the "WordTree" folder is set as the Content Root. Without marking the "WordTree" folder as the content root, main will not be able to find the files in the dedicated directories.
 
 ---
 
