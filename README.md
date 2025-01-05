@@ -45,7 +45,7 @@ Below are two screenshots displaying some different parts of the user interface 
 ---
 
 ## Installation and Requirements
-To run the project, you can use any Python editor of your choice, such as **VSCode** or **PyCharm**. Below are two options to run the game.
+To run the project, you can use any Python editor of your choice, such as **VSCode** or **PyCharm**. Below are two options to run the game. However, before you proceed, ensure that you are using Pyhton version 3.11 (or lower), as one of the modules can not be run on later versions.
 
 ### Option 1: Open the Project as a ZIP File
 1. **Download the ZIP File**
