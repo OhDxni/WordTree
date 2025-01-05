@@ -41,7 +41,7 @@ To run the project, you can use any Python editor of your choice, such as **VSCo
 
     Clone the project to your local machine using this command:
    ```bash
-   git clone https://git.liacs.nl/s3797457/medimatch.git
+   git clone https://github.com/OhDxni/WordTree.git
    
 2. **Install the required dependencies**
 
